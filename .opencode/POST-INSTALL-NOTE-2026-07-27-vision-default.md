@@ -126,3 +126,87 @@ provider config, agents, MCP servers, plugins, or skills.
 - This commit: PREVIOUSLY mentioned config.json — actually lives outside
   the repo in AppData (user-data, not tool-data). Documented here for
   traceability.
+
+---
+
+## Update — 2026-07-28 audit
+
+_The following session performed a fresh audit of this note against the live
+Gemini API state, the filesystem, and the git tree. Findings appended below
+for traceability. See `VISION-TOOL-MCP-DOCUMENTATION.md` §6.5 for the full
+live probe results table._
+
+### Model health (live API probe 2026-07-28)
+
+- Primary `gemini-3.5-flash-lite`: ✅ healthy, returns valid descriptions
+- Auto-fallback `gemini-3-flash-preview` (strategy list position #2): ✅ healthy
+- 3 alternate GA models verified working on this key: `gemini-3.1-flash-lite`,
+  `gemini-3.6-flash` (released 2026-07-21), `gemini-2.5-flash-lite`
+- 4 models in 24h cooldown (HTTP 429): `gemini-2.5-flash`, `gemini-2.0-flash`,
+  `gemini-2.0-flash-lite`, `gemini-2.5-pro`, `gemini-3-pro-preview`
+- 1 model hard-fail (HTTP 400): `gemini-3.5-flash` — likely paid-tier or
+  `thinking_level=high` config issue, not used in current setup
+
+### RPD claim verification
+
+- The "500 RPD" claim in row D22 of the main doc remains accurate for this
+  project — that was what AI Studio showed on 2026-07-27 for this specific
+  project.
+- Google's pricing page does NOT publish per-model per-tier RPD numbers —
+  AI Studio is the source of truth.
+- Third-party sources (aifreeapi.com) cite ~1,500 RPD for Flash-Lite class
+  theoretical max, but Google reduced free-tier quotas 50-80% in December 2025.
+- Practical rule: your project's exact quota is what AI Studio reports at
+  <https://aistudio.google.com/rate-limits>.
+
+### Deprecation timeline (since this note was written)
+
+| Model                             | Status                             | Date           | Source                     |
+| --------------------------------- | ---------------------------------- | -------------- | -------------------------- |
+| `gemini-2.0-flash`/`-lite`        | **Deprecated**                     | June 1, 2026   | Google pricing page        |
+| `gemini-3-pro-preview`            | **Discontinued**                   | March 26, 2026 | Databricks foundation docs |
+| All Pro models (free-tier access) | **Eliminated** — Pro now paid-only | April 2026     | Google policy update       |
+
+### What changed in the 2026-07-28 audit session
+
+- Branch renamed `feat/enable-vision-analysis` → `main` (no remote, no PRs, no CI — zero risk)
+- `VISION-TOOL-MCP-DOCUMENTATION.md` refreshed:
+  - Corrected §6.1 D1 from `input() at L286` to `sys.stdin.read(4096) at L247` (patched in commit `a566b05`)
+  - Fixed §2.1 architecture diagram: `backend_memory.json` shown in AppData cluster, not script-dir
+  - Fixed §2.2 component table: updated `backend_memory.json` row to note AppData path
+  - Fixed §9 file table: corrected `opencode-eyesight` plugin entry point from `dist/plugin.js` to `dist/index.js` (per `package.json` `"main"` field)
+  - Added §6.5 "Known model availability (July 2026 audit)" — live probe results table + free-tier RPD reference
+  - Added §4.4 "Fallback behavior & manual hot-swap runbook" — Option B approach (no vendored edits)
+  - Added 4 new rows to §7.2 Don'ts about deprecated/paid-only models and avoiding vendored source edits
+  - Added §10 audit re-verification row and updated existing rows
+  - Fixed §8.5: removed "restart needed" claim (load_config is called fresh on every analyze() call, so config.json edits take effect immediately)
+- Child project inheritance verified: `neodev-portal`, `smoke-test`, `website` all inherit vision-tool MCP via `OPENCODE_CONFIG` User env var. `neodev-portal` has its own MCP block but does NOT override vision-tool — it inherits parent's. All 3 children OK.
+
+### What was NOT changed (safety promises)
+
+- `vision_proxy.py` NOT touched — this is vendored source, lost on next upstream clone (YAGNI)
+- `vision_mcp_server.py` NOT touched — Phase 3 patch still in place and working
+- `opencode.json` NOT touched — MCP entry at L582-593 verified intact
+- `config.json` NOT touched — primary `gemini/gemini-3.5-flash-lite` remains, healthy
+- `opencode-auto-vision.json` NOT touched — line-ending-only modification (LF→CRLF), cosmetic
+- API keys, env vars, plugin configs — all untouched
+- No new commits to Python source, no test re-runs required (277/277 from prior session still valid)
+
+### Manual hot-swap runbook (for future reference)
+
+If primary AND auto-fallback (`gemini-3-flash-preview`) both fail:
+
+1. Edit `C:\Users\user\AppData\Roaming\vision-tool\config.json` in any text editor.
+2. Change `"DEFAULT_MODEL": "gemini/gemini-3.5-flash-lite"` to one of:
+   - `"gemini/gemini-3.1-flash-lite"` (same Flash-Lite tier, GA — recommended first)
+   - `"gemini/gemini-3.6-flash"` (newest, Flash tier, released 2026-07-21)
+   - `"gemini/gemini-2.5-flash-lite"` (older GA, retires Oct 2026)
+3. Save the file — **no restart needed**. Next pasted image uses the new model immediately.
+4. To revert: change back to `gemini/gemini-3.5-flash-lite`.
+
+### Future option noted
+
+- `vision_proxy.py` supports OpenRouter as a parallel fallback provider. If
+  Gemini free tier ever proves insufficient, get a free OpenRouter API key,
+  set `OPENROUTER_API_KEY` as a User env var, and use `openrouter/<model>`
+  as the `DEFAULT_MODEL` prefix for a second independent rate-limit pool.
