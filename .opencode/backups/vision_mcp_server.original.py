@@ -53,10 +53,13 @@ sys.path.insert(0, SCRIPT_DIR)
 
 # Lazy import — loaded on first use, not at module level
 _vp = None
+
+
 def _get_vp():
     global _vp
     if _vp is None:
         import vision_proxy
+
         _vp = vision_proxy
     return _vp
 
@@ -75,6 +78,7 @@ def _start_background_refresh():
         except Exception:
             pass
 
+
 TOOLS = {
     "analyze_image": {
         "name": "analyze_image",
@@ -82,9 +86,18 @@ TOOLS = {
         "inputSchema": {
             "type": "object",
             "properties": {
-                "path": {"type": "string", "description": "Path to the image (png, jpg, webp, bmp, gif). Can be absolute or relative."},
-                "prompt": {"type": "string", "description": "Optional custom prompt, e.g. 'Extract all text from this diagram' or 'Focus only on colours and typography'"},
-                "model": {"type": "string", "description": "Optional model name, e.g. 'ollama/llava:latest', 'openrouter/google/gemini-2.5-flash', 'openai/gpt-4o-mini', 'anthropic/claude-sonnet-4-5', or 'cohere/command-a-vision-07-2025'"},
+                "path": {
+                    "type": "string",
+                    "description": "Path to the image (png, jpg, webp, bmp, gif). Can be absolute or relative.",
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Optional custom prompt, e.g. 'Extract all text from this diagram' or 'Focus only on colours and typography'",
+                },
+                "model": {
+                    "type": "string",
+                    "description": "Optional model name, e.g. 'ollama/llava:latest', 'openrouter/google/gemini-2.5-flash', 'openai/gpt-4o-mini', 'anthropic/claude-sonnet-4-5', or 'cohere/command-a-vision-07-2025'",
+                },
             },
             "required": ["path"],
         },
@@ -95,9 +108,18 @@ TOOLS = {
         "inputSchema": {
             "type": "object",
             "properties": {
-                "path": {"type": "string", "description": "Path to the video (mp4, webm, mov, avi, mkv, flv, wmv, m4v). Can be absolute or relative."},
-                "prompt": {"type": "string", "description": "Optional custom prompt, e.g. 'Describe the UI flow step by step' or 'Focus only on text appearing on screen'"},
-                "model": {"type": "string", "description": "Optional model name, e.g. 'ollama/llava:latest', 'openrouter/google/gemini-2.5-flash', 'openai/gpt-4o-mini', 'anthropic/claude-sonnet-4-5', or 'cohere/command-a-vision-07-2025'"},
+                "path": {
+                    "type": "string",
+                    "description": "Path to the video (mp4, webm, mov, avi, mkv, flv, wmv, m4v). Can be absolute or relative.",
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Optional custom prompt, e.g. 'Describe the UI flow step by step' or 'Focus only on text appearing on screen'",
+                },
+                "model": {
+                    "type": "string",
+                    "description": "Optional model name, e.g. 'ollama/llava:latest', 'openrouter/google/gemini-2.5-flash', 'openai/gpt-4o-mini', 'anthropic/claude-sonnet-4-5', or 'cohere/command-a-vision-07-2025'",
+                },
             },
             "required": ["path"],
         },
@@ -132,7 +154,10 @@ def handle_tool_call(name, args):
     }
 
     if name not in tool_map:
-        return {"content": [{"type": "text", "text": f"Unknown tool: {name}"}], "isError": True}
+        return {
+            "content": [{"type": "text", "text": f"Unknown tool: {name}"}],
+            "isError": True,
+        }
 
     raw_path = args.get("path", "")
     path = _resolve_path(raw_path)
@@ -179,7 +204,11 @@ def process_message(msg):
         }
 
     if method == "tools/list":
-        return {"jsonrpc": "2.0", "id": msg_id, "result": {"tools": list(TOOLS.values())}}
+        return {
+            "jsonrpc": "2.0",
+            "id": msg_id,
+            "result": {"tools": list(TOOLS.values())},
+        }
 
     if method == "tools/call":
         tool_name = params.get("name", "")
@@ -191,7 +220,11 @@ def process_message(msg):
             return {
                 "jsonrpc": "2.0",
                 "id": msg_id,
-                "error": {"code": -32603, "message": str(e), "data": traceback.format_exc()},
+                "error": {
+                    "code": -32603,
+                    "message": str(e),
+                    "data": traceback.format_exc(),
+                },
             }
 
     if method == "notifications/initialized":
@@ -200,7 +233,11 @@ def process_message(msg):
     if msg_id is None:
         return None
 
-    return {"jsonrpc": "2.0", "id": msg_id, "error": {"code": -32601, "message": f"Unknown method: {method}"}}
+    return {
+        "jsonrpc": "2.0",
+        "id": msg_id,
+        "error": {"code": -32601, "message": f"Unknown method: {method}"},
+    }
 
 
 def handle_http_request(environ, start_response):
@@ -223,7 +260,9 @@ def handle_http_request(environ, start_response):
             start_response("400 Bad Request", [("Content-Type", "application/json")])
             return [b'{"error":"Invalid JSON"}']
         except Exception as e:
-            start_response("500 Internal Server Error", [("Content-Type", "application/json")])
+            start_response(
+                "500 Internal Server Error", [("Content-Type", "application/json")]
+            )
             return [json.dumps({"error": str(e)}).encode("utf-8")]
 
     if path == "/health":
@@ -244,7 +283,7 @@ def run_stdio():
     buf = ""
     while True:
         try:
-            chunk = sys.stdin.read(4096)
+            chunk = sys.stdin.readline()
             if not chunk:
                 break
             buf += chunk
@@ -263,12 +302,19 @@ def run_stdio():
         except (EOFError, KeyboardInterrupt):
             break
         except Exception as e:
-            send({"jsonrpc": "2.0", "id": None, "error": {"code": -32603, "message": str(e)}})
+            send(
+                {
+                    "jsonrpc": "2.0",
+                    "id": None,
+                    "error": {"code": -32603, "message": str(e)},
+                }
+            )
 
 
 def run_http(port=3789):
     """Run MCP server as HTTP server (for watchdog background mode)."""
     from wsgiref.simple_server import make_server
+
     httpd = make_server("127.0.0.1", port, handle_http_request)
     httpd.timeout = 0.5
     while True:
@@ -280,9 +326,16 @@ def run_http(port=3789):
 
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(description="vision-tool MCP server")
-    parser.add_argument("--http", type=int, nargs="?", const=3789, default=0,
-                        help="Run as HTTP server on given port (default: 3789). Omit for stdio mode.")
+    parser.add_argument(
+        "--http",
+        type=int,
+        nargs="?",
+        const=3789,
+        default=0,
+        help="Run as HTTP server on given port (default: 3789). Omit for stdio mode.",
+    )
     args = parser.parse_args()
     _start_background_refresh()
 
