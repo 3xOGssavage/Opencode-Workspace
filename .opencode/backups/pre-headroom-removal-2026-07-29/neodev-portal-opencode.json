@@ -1,0 +1,438 @@
+{
+    "$schema":  "https://opencode.ai/config.json",
+    "username":  "dev",
+    "model":  "ollama-cloud/minimax-m3",
+    "small_model":  "ollama-cloud/minimax-m3",
+    "default_agent":  "build",
+    "instructions":  [
+                         "../../AGENTS.md"
+                     ],
+    "share":  "disabled",
+    "autoupdate":  "notify",
+    "snapshot":  true,
+    "skills":  {
+                   "paths":  [
+                                 "../../.opencode/skills",
+                                 "../../.opencode/agent-skills/skills",
+                                 "../../.opencode/last30days-skill/skills",
+                                 "../../.opencode/vercel-agent-skills/skills",
+                                 "../../.opencode/anthropic-skills/skills",
+                                 "../../.agents/skills",
+                                 "C:\\Users\\user\\.agents\\skills",
+                                 "C:\\Users\\user\\.config\\opencode\\skills"
+                             ]
+               },
+    "permission":  {
+                       "edit":  {
+                                    "*":  "allow",
+                                    "F:\\CD\\Opencode\\opencode.json":  "deny",
+                                    "F:\\CD\\Opencode\\AGENTS.md":  "deny",
+                                    "F:\\CD\\Opencode\\.opencode\\memory.json":  "deny"
+                                },
+                       "bash":  {
+                                    "*":  "ask",
+                                    "git status *":  "allow",
+                                    "git diff *":  "allow",
+                                    "git log *":  "allow",
+                                    "git show *":  "allow",
+                                    "git branch *":  "allow",
+                                    "git remote *":  "allow",
+                                    "ls *":  "allow",
+                                    "dir *":  "allow",
+                                    "pwd":  "allow",
+                                    "cat *":  "allow",
+                                    "head *":  "allow",
+                                    "tail *":  "allow",
+                                    "echo *":  "allow",
+                                    "Test-Path *":  "allow",
+                                    "Get-ChildItem *":  "allow",
+                                    "Get-Item *":  "allow",
+                                    "Get-Content *":  "allow",
+                                    "Select-Object *":  "allow",
+                                    "Select-String *":  "allow",
+                                    "Where-Object *":  "allow",
+                                    "Get-Command *":  "allow",
+                                    "Get-Date *":  "allow",
+                                    "node --version":  "allow",
+                                    "npm --version":  "allow",
+                                    "python --version":  "allow",
+                                    "node -e *":  "allow",
+                                    "npx *":  "allow",
+                                    "npm install *":  "allow",
+                                    "npm run *":  "allow",
+                                    "npm test *":  "allow",
+                                    "npm exec *":  "allow",
+                                    "tsc *":  "allow",
+                                    "tsx *":  "allow",
+                                    "git add *":  "allow",
+                                    "git commit *":  "allow",
+                                    "git checkout *":  "allow",
+                                    "git switch *":  "allow",
+                                    "git merge *":  "allow",
+                                    "git rebase *":  "allow",
+                                    "git pull *":  "allow",
+                                    "git fetch *":  "allow",
+                                    "git stash *":  "allow",
+                                    "git worktree *":  "allow",
+                                    "git tag *":  "allow",
+                                    "git push":  "ask",
+                                    "git push *":  "ask",
+                                    "git reset --hard *":  "ask",
+                                    "git clean -fd *":  "ask",
+                                    "Remove-Item *":  "allow",
+                                    "New-Item *":  "allow",
+                                    "Copy-Item *":  "allow",
+                                    "Move-Item *":  "allow",
+                                    "Set-Content *":  "allow",
+                                    "Add-Content *":  "allow",
+                                    "Clear-Content *":  "allow",
+                                    "python *":  "allow",
+                                    "pip *":  "allow",
+                                    "pip3 *":  "allow",
+                                    "uv *":  "allow",
+                                    "uvx *":  "allow",
+                                    "cargo *":  "allow",
+                                    "rustc *":  "allow",
+                                    "go *":  "allow",
+                                    "dotnet *":  "allow",
+                                    "mvn *":  "allow",
+                                    "gradle *":  "allow",
+                                    "make *":  "allow",
+                                    "cmake *":  "allow",
+                                    "docker *":  "allow",
+                                    "docker-compose *":  "allow",
+                                    "kubectl *":  "allow",
+                                    "terraform *":  "allow",
+                                    "prettier *":  "allow",
+                                    "eslint *":  "allow",
+                                    "black *":  "allow",
+                                    "ruff *":  "allow",
+                                    "mypy *":  "allow",
+                                    "pyright *":  "allow",
+                                    "curl *":  "allow",
+                                    "wget *":  "allow",
+                                    "headroom *":  "allow"
+                                },
+                       "webfetch":  "allow",
+                       "external_directory":  {
+                                                  "F:\\CD\\**":  "allow",
+                                                  "*":  "ask"
+                                              }
+                   },
+    "agent":  {
+                  "build":  {
+                                "model":  "ollama-cloud/minimax-m3",
+                                "mode":  "primary"
+                            },
+                  "plan":  {
+                               "model":  "ollama-cloud/minimax-m3",
+                               "mode":  "primary"
+                           },
+                  "architect":  {
+                                    "model":  "hcnsec/Kimi-K2.6",
+                                    "mode":  "subagent",
+                                    "permission":  {
+                                                       "edit":  "deny",
+                                                       "bash":  "ask"
+                                                   }
+                                },
+                  "reviewer":  {
+                                   "model":  "hcnsec/Kimi-K2.6",
+                                   "mode":  "subagent",
+                                   "permission":  {
+                                                      "edit":  "deny",
+                                                      "bash":  "ask"
+                                                  }
+                               },
+                  "tester":  {
+                                 "model":  "hcnsec/Kimi-K2.6",
+                                 "mode":  "subagent",
+                                 "permission":  {
+                                                    "edit":  "deny",
+                                                    "bash":  "allow"
+                                                }
+                             },
+                  "explorer":  {
+                                   "model":  "hcnsec/Kimi-K2.6",
+                                   "mode":  "subagent",
+                                   "permission":  {
+                                                      "edit":  "deny",
+                                                      "bash":  "allow"
+                                                  }
+                               },
+                  "oracle":  {
+                                 "model":  "hcnsec/Kimi-K2.6",
+                                 "mode":  "subagent",
+                                 "permission":  {
+                                                    "edit":  "deny",
+                                                    "bash":  "ask"
+                                                }
+                             },
+                  "librarian":  {
+                                    "model":  "hcnsec/Kimi-K2.6",
+                                    "mode":  "subagent",
+                                    "permission":  {
+                                                       "edit":  "deny",
+                                                       "bash":  "ask"
+                                                   }
+                                },
+                  "fixer":  {
+                                "model":  "hcnsec/Kimi-K2.6",
+                                "mode":  "subagent",
+                                "permission":  {
+                                                   "edit":  "deny",
+                                                   "bash":  "ask"
+                                               }
+                            },
+                  "designer":  {
+                                   "model":  "hcnsec/Kimi-K2.6",
+                                   "mode":  "subagent",
+                                   "permission":  {
+                                                      "edit":  "deny",
+                                                      "bash":  "ask"
+                                                  }
+                               },
+                  "observer":  {
+                                   "model":  "hcnsec/Kimi-K2.6",
+                                   "mode":  "subagent",
+                                   "permission":  {
+                                                      "edit":  "deny",
+                                                      "bash":  "ask"
+                                                  }
+                               },
+                  "council":  {
+                                  "model":  "hcnsec/Kimi-K2.6",
+                                  "mode":  "subagent",
+                                  "permission":  {
+                                                     "edit":  "deny",
+                                                     "bash":  "ask"
+                                                 }
+                              },
+                  "orchestrator":  {
+                                       "model":  "hcnsec/Kimi-K2.6",
+                                       "mode":  "subagent",
+                                       "permission":  {
+                                                          "edit":  "deny",
+                                                          "bash":  "ask"
+                                                      }
+                                   },
+                  "addy-code-reviewer":  {
+                                             "model":  "hcnsec/Kimi-K2.6",
+                                             "mode":  "subagent",
+                                             "permission":  {
+                                                                "edit":  "deny",
+                                                                "bash":  "ask"
+                                                            }
+                                         },
+                  "addy-security-auditor":  {
+                                                "model":  "hcnsec/Kimi-K2.6",
+                                                "mode":  "subagent",
+                                                "permission":  {
+                                                                   "edit":  "deny",
+                                                                   "bash":  "ask"
+                                                               }
+                                            },
+                  "addy-test-engineer":  {
+                                             "model":  "hcnsec/Kimi-K2.6",
+                                             "mode":  "subagent",
+                                             "permission":  {
+                                                                "edit":  "deny",
+                                                                "bash":  "ask"
+                                                            }
+                                         },
+                  "addy-web-perf-auditor":  {
+                                                "model":  "hcnsec/Kimi-K2.6",
+                                                "mode":  "subagent",
+                                                "permission":  {
+                                                                   "edit":  "deny",
+                                                                   "bash":  "ask"
+                                                               }
+                                            }
+              },
+    "lsp":  {
+                "typescript-language-server":  {
+                                                   "command":  [
+                                                                   "typescript-language-server",
+                                                                   "--stdio"
+                                                               ],
+                                                   "extensions":  [
+                                                                      ".ts",
+                                                                      ".tsx",
+                                                                      ".js",
+                                                                      ".jsx"
+                                                                  ]
+                                               },
+                "pyright":  {
+                                "command":  [
+                                                "pyright-langserver",
+                                                "--stdio"
+                                            ],
+                                "extensions":  [
+                                                   ".py",
+                                                   ".pyi"
+                                               ]
+                            }
+            },
+    "formatter":  {
+                      "prettier":  {
+                                       "command":  [
+                                                       "prettier",
+                                                       "--write",
+                                                       "$FILE"
+                                                   ],
+                                       "extensions":  [
+                                                          ".js",
+                                                          ".jsx",
+                                                          ".ts",
+                                                          ".tsx",
+                                                          ".json",
+                                                          ".md",
+                                                          ".css",
+                                                          ".html",
+                                                          ".yml",
+                                                          ".yaml"
+                                                      ]
+                                   }
+                  },
+    "mcp":  {
+                "context7":  {
+                                 "type":  "local",
+                                 "command":  [
+                                                 "npx",
+                                                 "-y",
+                                                 "@upstash/context7-mcp"
+                                             ],
+                                 "enabled":  true
+                             },
+                "sequential-thinking":  {
+                                            "type":  "local",
+                                            "command":  [
+                                                            "npx",
+                                                            "-y",
+                                                            "@modelcontextprotocol/server-sequential-thinking"
+                                                        ],
+                                            "enabled":  true
+                                        },
+                "playwright":  {
+                                   "type":  "local",
+                                   "command":  [
+                                                   "npx",
+                                                   "-y",
+                                                   "@playwright/mcp"
+                                               ],
+                                   "enabled":  true,
+                                   "environment":  {
+                                                       "BROWSER":  "chromium"
+                                                   }
+                               },
+                "memory":  {
+                               "type":  "local",
+                               "command":  [
+                                               "F:\\CD\\Opencode\\.opencode\\memory-mcp-wrapper.bat"
+                                           ],
+                               "enabled":  true
+                           },
+                "tavily":  {
+                               "type":  "local",
+                               "command":  [
+                                               "npx",
+                                               "-y",
+                                               "tavily-mcp@latest"
+                                           ],
+                               "enabled":  true,
+                               "environment":  {
+                                                   "TAVILY_API_KEY":  "{env:TAVILY_API_KEY}"
+                                               }
+                           },
+                "fetch":  {
+                              "type":  "local",
+                              "command":  [
+                                              "uvx",
+                                              "mcp-server-fetch"
+                                          ],
+                              "enabled":  true,
+                              "environment":  {
+                                                  "PYTHONIOENCODING":  "utf-8"
+                                              }
+                          },
+                "filesystem":  {
+                                   "type":  "local",
+                                   "command":  [
+                                                   "npx",
+                                                   "-y",
+                                                   "@modelcontextprotocol/server-filesystem",
+                                                   "F:\\CD"
+                                               ],
+                                   "enabled":  true
+                               },
+                "chrome-devtools":  {
+                                        "type":  "local",
+                                        "command":  [
+                                                        "npx",
+                                                        "-y",
+                                                        "chrome-devtools-mcp@latest"
+                                                    ],
+                                        "enabled":  true
+                                    },
+                "headroom":  {
+                                 "type":  "local",
+                                 "command":  [
+                                                 "headroom",
+                                                 "mcp",
+                                                 "serve"
+                                             ],
+                                 "enabled":  true
+                             },
+                "sentry":  {
+                               "type":  "remote",
+                               "url":  "https://mcp.sentry.dev/mcp",
+                               "enabled":  true
+                           },
+                "composio":  {
+                                 "type":  "remote",
+                                 "url":  "https://connect.composio.dev/mcp",
+                                 "enabled":  true
+                             },
+                "supabase":  {
+                                 "type":  "remote",
+                                 "url":  "https://mcp.supabase.com/mcp?read_only=true",
+                                 "enabled":  true
+                             },
+                "grep":  {
+                             "type":  "remote",
+                             "url":  "https://mcp.grep.app",
+                             "enabled":  true
+                         },
+                "github":  {
+                               "type":  "local",
+                               "command":  [
+                                               "F:\\CD\\Opencode\\.opencode\\github-mcp-server\\github-mcp-server.exe",
+                                               "stdio",
+                                               "--toolsets",
+                                               "repos,issues,pull_requests,actions,code_security,gits"
+                                           ],
+                               "enabled":  true,
+                               "environment":  {
+                                                   "GITHUB_PERSONAL_ACCESS_TOKEN":  "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+                                               }
+                           },
+                "vercel":  {
+                               "type":  "remote",
+                               "url":  "https://mcp.vercel.com",
+                               "enabled":  true
+                           }
+            },
+    "plugin":  [
+                   "superpowers@git+https://github.com/obra/superpowers.git",
+                   "opencode-notify",
+                   "envsitter-guard"
+               ],
+    "tool_output":  {
+                        "max_lines":  200,
+                        "max_bytes":  8192
+                    },
+    "compaction":  {
+                       "auto":  false,
+                       "tail_turns":  15
+                   }
+}

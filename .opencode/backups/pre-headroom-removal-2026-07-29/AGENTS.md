@@ -5,7 +5,7 @@ Instructions for opencode sessions working from this workspace.
 ## Role
 
 You are a **senior developer** with a full engineering team at your disposal
-(17 agents, ~117 skills, 15 MCP servers, LSP, persistent memory, 7 plugins).
+(17 agents, ~117 skills, 16 MCP servers, LSP, persistent memory, 7 plugins).
 Operate autonomously — use the right tool without being told. Plan non-trivial
 tasks. Research when unsure. Verify before claiming success.
 
@@ -86,6 +86,7 @@ These remain in `auth.json` for active project use. The `opencode-zen` provider 
 | `tavily`              | local            | Web search, crawl, deep research                                                                                                                                                                             |
 | `fetch`               | local            | Generic HTTP fetch (uvx mcp-server-fetch)                                                                                                                                                                    |
 | `filesystem`          | local            | Read/write outside workspace (scoped to `F:\CD`)                                                                                                                                                             |
+| `headroom`            | local            | Compress large outputs to save context                                                                                                                                                                       |
 | `supabase`            | remote (OAuth)   | DB queries, schema, migrations, RLS                                                                                                                                                                          |
 | `sentry`              | remote (OAuth)   | Production error monitoring                                                                                                                                                                                  |
 | `composio`            | remote (OAuth)   | 500+ SaaS integrations                                                                                                                                                                                       |
@@ -149,6 +150,7 @@ the _what_ — these handle the _when_ and _why_.
   5. **bash** (flexible but risky)
   6. **Subagents** (for parallel work or specialized review)
 - **Save important decisions** to `memory` MCP without being asked.
+- **Compress large outputs** with `headroom_compress` when context is heavy.
 - **Dispatch subagents** from the decision framework when they apply.
 
 ### 4. When things go wrong
@@ -245,7 +247,7 @@ Practical implications:
 | Need Vercel project management            | `vercel` MCP (deploy, logs, domains, env vars)           |
 | Need to deploy to Vercel                  | `vercel` MCP (deploy_to_vercel) + `deploy` skill         |
 | Need GitHub stack workflow patterns       | `gh-stack` skill                                         |
-| Context getting heavy                     | `/context` command (built-in)                            |
+| Context getting heavy                     | `/context` command or `headroom_compress`                |
 | Important decision made                   | Save to `memory` MCP                                     |
 
 ## Quality standards — definition of done
@@ -274,6 +276,7 @@ If any step fails, fix it before declaring done. Never claim success without evi
 | `chrome-devtools`     | Debug web apps, inspect network/perf                  | MCP tool                     |
 | `memory`              | Important decision → save; session start → retrieve   | MCP tool                     |
 | `filesystem`          | Read/write files outside workspace                    | MCP tool                     |
+| `headroom`            | Compress large outputs (`headroom_compress`)          | MCP tool                     |
 | `sentry`              | Debug production errors                               | MCP tool                     |
 | `composio`            | Interact with SaaS apps (Gmail, Slack, etc.)          | MCP tool                     |
 | `supabase`            | Database queries, schema management                   | MCP tool                     |
@@ -351,7 +354,7 @@ When starting a new project under `F:\CD\Opencode\Projects\`:
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` — loads parent's full config (provider, mcp, permission, lsp, formatter, agent, plugin, skills.paths, tool_output, compaction) into every session at precedence layer 3 (between global and project walk-up). Per-project `opencode.json` overrides still win (layer 4, deep merge).
 - `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` — adds parent's `.opencode` directory to the scan list for agents, commands, modes, skills, plugins discovery. Loaded LAST, so parent's agents/commands override project's same-named ones (intended for enterprise uniformity).
 
-**Result:** HuanCheng (hcnsec) provider with 20 models becomes visible in every child project session; 15 MCP servers; 81 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, addy-\*) all available everywhere.
+**Result:** HuanCheng (hcnsec) provider with 20 models becomes visible in every child project session; 16 MCP servers; 82 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, addy-\*) all available everywhere.
 
 **Verifying:** Run `powershell -ExecutionPolicy Bypass -File .opencode\verify-inheritance.ps1` from any project root.
 
@@ -457,6 +460,8 @@ When starting a NEW project (no existing repo):
 - `GEMINI_API_KEY` (53 chars, `AQ.Ab8R...`) is set as a User env var — backs the `google` provider in `auth.json`, used by the `vision-tool` MCP (Gemini 3.5-flash-lite vision backend) and the `opencode-eyesight` fallback plugin.
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` and `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` are set as User env vars (see "Project inheritance" below) — these propagate the parent workspace's config into every child-project session.
 - `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `ANTHROPIC_API_KEY`, `OPENCODE_API_KEY` are **not** set as User env vars. Either set them per-project or add via `setx` if you want OpenAI / OpenRouter / Anthropic / opencode-cloud providers visible globally.
+- Headroom proxy starts on-demand when you run `opencode` (PowerShell profile
+  wrapper), stops when opencode exits.
 - Composio auth: run `opencode mcp auth composio` to connect SaaS apps.
 - Sentry: remote OAuth via `https://mcp.sentry.dev/mcp`.
 - Supabase: write-enabled (`read_only=false` is the current live URL in `opencode.json:mcp.supabase.url`). To re-enable read-only mode, set `read_only=true` in the MCP URL.

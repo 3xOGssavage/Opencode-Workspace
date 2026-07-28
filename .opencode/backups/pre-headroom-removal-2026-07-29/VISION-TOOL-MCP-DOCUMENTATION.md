@@ -455,23 +455,23 @@ python F:\CD\Opencode\.opencode\tools\vision-tool\aggressive_test.py
 
 ## 9. File reference
 
-| Path                                                                         | Purpose                                                                                                |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `F:\CD\Opencode\.opencode\tools\vision-tool\vision_mcp_server.py`            | MCP server entry. Patched with `_promote_user_env()` (L48-112)                                         |
-| `F:\CD\Opencode\.opencode\tools\vision-tool\vision_proxy.py`                 | Vision router. Strategy list L2213-2235. Timeouts L2502-2504                                           |
-| `F:\CD\Opencode\.opencode\tools\vision-tool\aggressive_test.py`              | 277-test self-check                                                                                    |
-| `F:\CD\Opencode\.opencode\tools\vision-tool\backend_memory.json`             | Cooldown tracker                                                                                       |
-| `F:\CD\Opencode\.opencode\backups\vision_mcp_server.original.py`             | Re-snapshotted patched file for diff/rollback                                                          |
-| `F:\CD\Opencode\.opencode\backups\config.original.json`                      | Empty `{}` rollback marker for AppData config                                                          |
-| `F:\CD\Opencode\.opencode\POST-INSTALL-NOTE-2026-07-27-vision-default.md`    | 129-line traceability doc for Phase 2                                                                  |
-| `F:\CD\Opencode\FINAL-VERIFICATION-REPORT-vision-tool-2026-07-27.md`         | 8-layer verification report for Phase 3                                                                |
-| `F:\CD\Opencode\VISION-TOOL-MCP-DOCUMENTATION.md`                            | This file                                                                                              |
-| `F:\CD\Opencode\opencode.json`                                               | MCP entry for vision-tool (L582-593), env passthrough `{env:GEMINI_API_KEY}`                           |
-| `C:\Users\user\AppData\Roaming\vision-tool\config.json`                      | User-level `{"DEFAULT_MODEL": "gemini/gemini-3.5-flash-lite"}`                                         |
-| `C:\Users\user\.config\opencode\opencode.jsonc`                              | Global config with `opencode-auto-vision` + `opencode-eyesight` plugins                                |
-| `C:\Users\user\.cache\opencode\packages\opencode-auto-vision@latest\`        | Plugin source (`dist/index.js` entry, `constants.js`, `domain.js`, `sdk.js`)                           |
-| `C:\Users\user\.cache\opencode\packages\opencode-eyesight@latest\`           | Fallback plugin source (`dist/index.js` entry per `package.json` `"main"` field, NOT `dist/plugin.js`) |
-| `C:\Users\user\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1` | PowerShell profile — sets `OPENCODE_CONFIG`/`OPENCODE_CONFIG_DIR`, defines `opencode` function         |
+| Path                                                                         | Purpose                                                                                                              |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `F:\CD\Opencode\.opencode\tools\vision-tool\vision_mcp_server.py`            | MCP server entry. Patched with `_promote_user_env()` (L48-112)                                                       |
+| `F:\CD\Opencode\.opencode\tools\vision-tool\vision_proxy.py`                 | Vision router. Strategy list L2213-2235. Timeouts L2502-2504                                                         |
+| `F:\CD\Opencode\.opencode\tools\vision-tool\aggressive_test.py`              | 277-test self-check                                                                                                  |
+| `F:\CD\Opencode\.opencode\tools\vision-tool\backend_memory.json`             | Cooldown tracker                                                                                                     |
+| `F:\CD\Opencode\.opencode\backups\vision_mcp_server.original.py`             | Re-snapshotted patched file for diff/rollback                                                                        |
+| `F:\CD\Opencode\.opencode\backups\config.original.json`                      | Empty `{}` rollback marker for AppData config                                                                        |
+| `F:\CD\Opencode\.opencode\POST-INSTALL-NOTE-2026-07-27-vision-default.md`    | 129-line traceability doc for Phase 2                                                                                |
+| `F:\CD\Opencode\FINAL-VERIFICATION-REPORT-vision-tool-2026-07-27.md`         | 8-layer verification report for Phase 3                                                                              |
+| `F:\CD\Opencode\VISION-TOOL-MCP-DOCUMENTATION.md`                            | This file                                                                                                            |
+| `F:\CD\Opencode\opencode.json`                                               | MCP entry for vision-tool (L582-593), env passthrough `{env:GEMINI_API_KEY}`                                         |
+| `C:\Users\user\AppData\Roaming\vision-tool\config.json`                      | User-level `{"DEFAULT_MODEL": "gemini/gemini-3.5-flash-lite"}`                                                       |
+| `C:\Users\user\.config\opencode\opencode.jsonc`                              | Global config with `opencode-auto-vision` + `opencode-eyesight` plugins                                              |
+| `C:\Users\user\.cache\opencode\packages\opencode-auto-vision@latest\`        | Plugin source (`dist/index.js` entry, `constants.js`, `domain.js`, `sdk.js`)                                         |
+| `C:\Users\user\.cache\opencode\packages\opencode-eyesight@latest\`           | Fallback plugin source (`dist/index.js` entry per `package.json` `"main"` field, NOT `dist/plugin.js`)               |
+| `C:\Users\user\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1` | PowerShell profile — sets `OPENCODE_CONFIG`/`OPENCODE_CONFIG_DIR`, defines `opencode` function with `headroom` proxy |
 
 ---
 
