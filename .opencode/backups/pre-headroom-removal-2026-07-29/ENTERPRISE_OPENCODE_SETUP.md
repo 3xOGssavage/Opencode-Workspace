@@ -211,7 +211,7 @@ Q-D3. Which LOCAL MCPs do you want? (All auto-install on first run. Recommended:
       [x] fetch             — URL fetcher
       [x] filesystem        — read/write outside workspace
       [x] chrome-devtools   — Chrome DevTools Protocol
-      [ ] context-compression   — REMOVED 2026-07-29 (Anthropic-only; bedrock in-sess compression deferred to Phase B decision)
+      [x] headroom          — context compression
 ```
 
 ### Batch E — Skill Packs (Ask as multi-select)
@@ -587,7 +587,8 @@ Write this to `{{setup_root}}/opencode.json`. See Appendix B for the actual curr
       "mypy *": "allow",
       "pyright *": "allow",
       "curl *": "allow",
-      "wget *": "allow"
+      "wget *": "allow",
+      "headroom *": "allow"
     },
     "webfetch": "allow",
     "external_directory": {
@@ -674,9 +675,10 @@ Write this to `{{setup_root}}/opencode.json`. See Appendix B for the actual curr
 ```
 
     "tavily": { "type": "local", "command": ["npx", "-y", "tavily-mcp@latest"], "enabled": true, "env": { "TAVILY_API_KEY": "{env:TAVILY_API_KEY}" } },
-        "fetch": { "type": "local", "command": ["uvx", "--with", "mcp<2", "mcp-server-fetch"], "enabled": true, "env": { "PYTHONIOENCODING": "utf-8" } },
+        "fetch": { "type": "local", "command": ["uvx", "mcp-server-fetch"], "enabled": true, "env": { "PYTHONIOENCODING": "utf-8" } },
         "filesystem": { "type": "local", "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "F:\\CD"], "enabled": true },
         "chrome-devtools": { "type": "local", "command": ["npx", "-y", "chrome-devtools-mcp@latest"], "enabled": true },
+        "headroom": { "type": "local", "command": ["headroom", "mcp", "serve"], "enabled": true },
         "sentry": { "type": "remote", "url": "https://mcp.sentry.dev/mcp", "enabled": true },
         "composio": { "type": "remote", "url": "https://connect.composio.dev/mcp", "enabled": true },
         "supabase": { "type": "remote", "url": "https://mcp.supabase.com/mcp?read_only=false", "enabled": true },
@@ -843,7 +845,7 @@ Instructions for opencode sessions working from this workspace.
 ## Role
 
 You are a senior developer with a full engineering team at your disposal
-(17 agents, ~117 skills, 15 MCP servers, LSP, persistent memory, 7 plugins).
+(17 agents, ~117 skills, 16 MCP servers, LSP, persistent memory, 7 plugins).
 Operate autonomously - use the right tool without being told. Plan non-trivial
 tasks. Research when unsure. Verify before claiming success.
 
@@ -870,6 +872,7 @@ Each project may have its own opencode.json for project-specific overrides.
 | tavily              | local            | Web search, crawl, deep research                              |
 | fetch               | local            | Generic HTTP fetch (uvx mcp-server-fetch)                     |
 | filesystem          | local            | Read/write outside workspace                                  |
+| headroom            | local            | Compress large outputs                                        |
 | supabase            | remote (OAuth)   | DB queries, schema, migrations, RLS                           |
 | sentry              | remote (OAuth)   | Production error monitoring                                   |
 | composio            | remote (OAuth)   | 500+ SaaS integrations                                        |
@@ -908,6 +911,7 @@ Each project may have its own opencode.json for project-specific overrides.
 
 - Use the right tool for the job - priority: LSP > context7 > built-in > MCP > bash > subagents
 - Save important decisions to memory MCP without being asked
+- Compress large outputs with headroom_compress when context is heavy
 
 ### 4. When things go wrong
 
@@ -969,6 +973,7 @@ Disabled: explore, general (replaced by OMO-Slim's explorer and orchestrator)
 | chrome-devtools     | Debug web apps, network/perf                          |
 | memory              | Important decision -> save; session start -> retrieve |
 | filesystem          | Read/write outside workspace                          |
+| headroom            | Compress large outputs                                |
 | sentry              | Debug production errors                               |
 | composio            | Interact with SaaS apps                               |
 | supabase            | Database queries, schema                              |
@@ -1257,7 +1262,7 @@ The setup is complete when ALL of the following are true:
 - [ ] `{{setup_root}}/.opencode/anthropic-skills/` exists (cloned)
 - [ ] `{{setup_root}}/.agents/skills/` has `deploy`, `logs`, `setup`, `vercel-cli` (from npx)
 - [ ] `{{setup_root}}/skills-lock.json` has 4 entries (deploy, logs, setup, vercel-cli)
-- [ ] All 15 MCPs are listed in `opencode.json: mcp`
+- [ ] All 16 MCPs are listed in `opencode.json: mcp`
 - [ ] All 17 agents are listed in `opencode.json: agent`
 - [ ] 7 plugins are listed across workspace (4) + global (3) configs
 - [ ] opencode starts cleanly (no errors in startup)
@@ -1296,7 +1301,7 @@ The complete current AGENTS.md (444 lines) is in `{{setup_root}}/AGENTS.md`. Sum
 | Role                                        | 1-3         | Self-description of the agent                                                                                                                     |
 | Workspace                                   | 5-7         | Root + Projects layout                                                                                                                            |
 | Models                                      | 9-37        | Primary, subagent, hcnsec 20-model list                                                                                                           |
-| MCP servers                                 | 39-56       | 15 MCPs with types and purposes                                                                                                                   |
+| MCP servers                                 | 39-56       | 16 MCPs with types and purposes                                                                                                                   |
 | Plugins                                     | 58-66       | 7 plugins (superpowers, opencode-notify, envsitter-guard, @dietrichgebert/ponytail, oh-my-opencode-slim, opencode-auto-vision, opencode-eyesight) |
 | Core operating principles                   | 68-97       | 5 principle groups (session start, before acting, while acting, when wrong, before done)                                                          |
 | Agent roster                                | 99-119      | 17 agents (2 primary, 7 custom, 8 OMO-Slim)                                                                                                       |
@@ -1371,8 +1376,8 @@ Plus one tiny config change in parent `opencode.json`: the `skills.paths` array 
 ### Result of the 2026-07-22 deployment
 
 - ✅ ALL child projects (`neodev-portal/`, `smoke-test/`, `website/`) inherit parent `hcnsec` provider (20 models)
-- ✅ ALL child projects inherit parent's 15 MCP servers (context7, playwright, sentry, github, vercel, composio, supabase, vision-tool, etc.)
-- ✅ ALL child projects inherit parent's 81 bash permission rules
+- ✅ ALL child projects inherit parent's 16 MCP servers (context7, playwright, sentry, github, vercel, composio, supabase, vision-tool, etc.)
+- ✅ ALL child projects inherit parent's 82 bash permission rules
 - ✅ ALL child projects inherit parent's 2 LSP servers (typescript-language-server, pyright-langserver)
 - ✅ ALL child projects inherit parent's plugin set (superpowers, opencode-notify, envsitter-guard, @dietrichgebert/ponytail + global: oh-my-opencode-slim, opencode-auto-vision, opencode-eyesight)
 - ✅ ALL child projects inherit parent's agent defaults + commands (including `/ship`, `/verify`, `/commit`, `/test`, `/context`)
@@ -1430,7 +1435,7 @@ The backup folder `.opencode/backups/pre-config-inheritance-fix/` contains all p
 
 ### Notes / caveats
 
-- **Per-session MCP startup cost:** 15 MCPs spawning at session start adds ~2-3s (headroom removal saves 4s startup + eliminates 30s MCP handshake timeout). Acceptable for enterprise uniformity.
+- **Per-session MCP startup cost:** 16 MCPs spawning at session start adds ~3-5s before TUI is ready. Acceptable for enterprise uniformity.
 - **OPENCODE_CONFIG_DIR loads LAST:** parent's `.opencode/agents/<X>.md` override project's same-named agent (e.g., parent's `architect.md` overrides `neodev-portal/.opencode/agents/architect.md`). For enterprise-uniformity this is desired. To preserve per-project agents, remove the file from parent.
 - **Custom skill packs** (`.opencode/agent-skills/skills/*`, `.opencode/vercel-agent-skills/skills/*`, etc.) inherit via the absolute `skills.paths` array in parent `opencode.json`. Verified existing 2026-07-22.
 - **Future opencode releases** may change inheritance semantics — re-verify against current docs at <https://opencode.ai/docs/config> before updating this section.
@@ -1523,9 +1528,10 @@ Model assignments:
 | `playwright`          | `npx -y @playwright/mcp`                                                                                               | `BROWSER=chromium`                             |
 | `memory`              | `F:\CD\Opencode\.opencode\memory-mcp-wrapper.bat`                                                                      | Sets MEMORY_FILE_PATH then `npx server-memory` |
 | `tavily`              | `npx -y tavily-mcp@latest`                                                                                             | `TAVILY_API_KEY` from env                      |
-| `fetch`               | `uvx --with "mcp<2" mcp-server-fetch`                                                                                  | `PYTHONIOENCODING=utf-8`                       |
+| `fetch`               | `uvx mcp-server-fetch`                                                                                                 | `PYTHONIOENCODING=utf-8`                       |
 | `filesystem`          | `npx -y @modelcontextprotocol/server-filesystem F:\CD`                                                                 | Scoped to F:\CD                                |
 | `chrome-devtools`     | `npx -y chrome-devtools-mcp@latest`                                                                                    | none                                           |
+| `headroom`            | `headroom mcp serve`                                                                                                   | none                                           |
 | `github`              | `github-mcp-server.exe stdio --toolsets repos,issues,pull_requests,actions,code_security,discussions,orgs,users,gists` | `GITHUB_PERSONAL_ACCESS_TOKEN` from env        |
 
 #### Remote MCPs (5)
@@ -1743,7 +1749,6 @@ For anyone reading Sections 17-21 to understand the CURRENT production state of 
 >
 > 1. **Subagent model migration** — all 15 subagents switched from `opencode-zen/mimo-v2.5-free` to `hcnsec/Kimi-K2.6`. The `model`/`small_model` session defaults remain `opencode-zen/mimo-v2.5-free`. See `POST-INSTALL-NOTE-2026-07-27-subagents.md` for the migration traceability record.
 > 2. **vision-tool MCP added** — workspace now has 16 MCP servers (was 15). The new `vision-tool` MCP provides vision analysis via Gemini 3.5-flash-lite (500 RPD free tier). See `VISION-TOOL-MCP-DOCUMENTATION.md` for setup + operations guide.
->    - **2026-07-29 update:** headroom MCP removed (Anthropic-only, broken from install day due to port mismatch). Workspace now has 15 MCP servers. See Phase A removal PR for details. Phase B (compression strategy decision) deferred.
 > 3. **`google` provider added to auth.json** — auth.json now contains 4 providers (was 3): `opencode-go`, `ollama-cloud`, `nvidia`, `google`. The `opencode-zen` provider referenced in the snapshot was never in auth.json (it's a built-in); any mention of "4 provider entries including opencode-zen" in older text is wrong. The `google` provider backs `GEMINI_API_KEY` for the vision-tool MCP and `opencode-eyesight` fallback plugin.
 > 4. **Plugins: 4 → 7** — workspace plugins went from 3 to 4 (added `@dietrichgebert/ponytail`); global plugins went from 1 to 3 (added `opencode-auto-vision`, `opencode-eyesight`). Total: 7.
 > 5. **Skills: ~83 → ~117** — User skills path grew from 11 to 56; Config skills path grew from 7 to 19. Total active: 121 raw, ~117 unique after deduplication.

@@ -1,0 +1,20 @@
+# Opencode wrapper — starts headroom proxy on-demand, stops it when opencode exits
+# Also ensures OPENCODE_CONFIG + OPENCODE_CONFIG_DIR are set at process scope
+# so that opencode and its subprocesses always see parents's config inheritance
+# (HKCU\Environment registry values are not auto-propagated to new processes
+# on Windows; explicit set at process level IS inherited by children).
+$env:OPENCODE_CONFIG     = "F:\CD\Opencode\opencode.json"
+$env:OPENCODE_CONFIG_DIR = "F:\CD\Opencode\.opencode"
+function opencode {
+    $proxy = Get-Process -Name "headroom" -ErrorAction SilentlyContinue
+    if (-not $proxy) {
+        Start-Process -FilePath "headroom" -ArgumentList "proxy", "--port", "8787" -WindowStyle Hidden
+        Start-Sleep -Seconds 4
+    }
+    & "C:\Users\user\AppData\Roaming\npm\opencode.ps1" @args
+    $otherOpencode = Get-Process -Name "opencode" -ErrorAction SilentlyContinue | Where-Object { $_.Id -ne $PID }
+    if (-not $otherOpencode) {
+        $proxy = Get-Process -Name "headroom" -ErrorAction SilentlyContinue
+        if ($proxy) { Stop-Process -Id $proxy.Id -Force -ErrorAction SilentlyContinue }
+    }
+}

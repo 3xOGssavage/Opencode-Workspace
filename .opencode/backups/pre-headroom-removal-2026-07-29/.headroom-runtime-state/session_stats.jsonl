@@ -1,0 +1,6 @@
+{"type":"compress","input_tokens":201,"output_tokens":201,"savings_percent":0.0,"strategy":"router:noop","timestamp":1782547568.5038195,"pid":28220}
+{"type":"compress","input_tokens":27,"output_tokens":27,"savings_percent":0.0,"strategy":"router:noop","timestamp":1783763481.6913974,"pid":34584}
+{"type":"compress","input_tokens":21,"output_tokens":21,"savings_percent":0.0,"strategy":"router:noop","timestamp":1784917594.8346934,"pid":35552}
+{"type":"compress","input_tokens":1501,"output_tokens":1501,"savings_percent":0.0,"strategy":"router:protected:error_output","timestamp":1785199294.674489,"pid":35256}
+{"type":"compress","input_tokens":1219,"output_tokens":1219,"savings_percent":0.0,"strategy":"router:noop","timestamp":1785199482.2148662,"pid":35256}
+{"type":"compress","input_tokens":1357,"output_tokens":1357,"savings_percent":0.0,"strategy":"router:noop","timestamp":1785200631.077313,"pid":35256}

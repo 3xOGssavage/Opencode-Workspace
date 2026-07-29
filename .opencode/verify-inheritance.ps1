@@ -166,7 +166,7 @@ if ($failures -eq 0) {
     Write-Host " Config inheritance is correctly configured." -ForegroundColor Green
     Write-Host " All child project sessions will inherit parent settings:" -ForegroundColor Green
     Write-Host "   - hcnsec provider (20 models) - visible in model picker" -ForegroundColor Green
-    Write-Host "   - 16 MCP servers - active per session" -ForegroundColor Green
+    Write-Host "   - 15 MCP servers - active per session" -ForegroundColor Green
     Write-Host "   - Parent agents/commands/skills - available everywhere" -ForegroundColor Green
 } else {
     Write-Host " RESULT: $failures CHECKS FAILED" -ForegroundColor Red
