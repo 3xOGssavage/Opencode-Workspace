@@ -24,28 +24,28 @@ Each project may have its own `opencode.json` for project-specific overrides.
 
 All 20 models below respond correctly to `/v1/chat/completions` with `max_tokens >= 200`. Models marked "fast" respond in 1-5s; "slow" in 30-60s. Use `MiniMax-M3` as default flagship.
 
-| Model ID                   | Notes                                 | Speed                |
-| -------------------------- | ------------------------------------- | -------------------- |
-| `auto`                     | Smart routing (agnes-2.0-flash)       | ~7s                  |
-| `glm-4.7`                  | GLM 4.7                               | <1s                  |
-| `glm-5.2`                  | Flagship, slow                        | ~2-4min              |
-| `Kimi-K2.6`                | Moonshot Kimi K2.6 (256K context)     | 1.6-26s (median ~3s) |
-| `MiniMax-M3`               | **Recommended flagship**              | 2-55s                |
-| `MiniMax-M2.7`             | Older MiniMax                         | 1-2s                 |
-| `DeepSeek-V4-Flash`        | Fast                                  | 1.5-4s               |
-| `DeepSeek-V4-Pro`          | Pro variant (nvidia/nemotron-3-ultra) | 1.2s                 |
-| `Qwen3-Coder-Next-FP8`     | Coder model                           | 1.4s                 |
-| `Qwen3.5-397B-A17B`        | 397B MoE                              | 1.9s                 |
-| `Qwen3.6-35B-A3B`          | 35B MoE                               | 1.8s                 |
-| `kat-coder-pro-v2`         | Coder                                 | 1.2s                 |
-| `kat-coder-pro-v2.5`       | Coder, needs max_tokens >= 100        | 1.1s                 |
-| `Spark-X2-Flash`           | iFlytek Spark X2                      | 4-5s                 |
-| `sensenova-6.7-flash-lite` | SenseNova, needs max_tokens >= 100    | 1s                   |
-| `step-3.5-flash`           | Step 3.5 Flash                        | 1-2s                 |
-| `step-3.5-flash-2603`      | Step 3.5 Flash 2603 build             | 1.8s                 |
-| `step-3.7-flash`           | Step 3.7 Flash                        | 1-2s                 |
-| `step-router-v1`           | Step router                           | 1s                   |
-| `stepaudio-2.5-chat`       | Audio-capable chat model              | 0.8-1.3s             |
+| Model ID                   | Notes                                                          | Speed                |
+| -------------------------- | -------------------------------------------------------------- | -------------------- |
+| `auto`                     | Smart routing (agnes-2.0-flash)                                | ~7s                  |
+| `glm-4.7`                  | GLM 4.7                                                        | <1s                  |
+| `glm-5.2`                  | Flagship, slow (200K context; 1M needs `[1m]` opt-in via Z.ai) | ~2-4min              |
+| `Kimi-K2.6`                | Moonshot Kimi K2.6 (256K context)                              | 1.6-26s (median ~3s) |
+| `MiniMax-M3`               | **Recommended flagship**                                       | 2-55s                |
+| `MiniMax-M2.7`             | Older MiniMax                                                  | 1-2s                 |
+| `DeepSeek-V4-Flash`        | Fast                                                           | 1.5-4s               |
+| `DeepSeek-V4-Pro`          | Pro variant (nvidia/nemotron-3-ultra)                          | 1.2s                 |
+| `Qwen3-Coder-Next-FP8`     | Coder model                                                    | 1.4s                 |
+| `Qwen3.5-397B-A17B`        | 397B MoE                                                       | 1.9s                 |
+| `Qwen3.6-35B-A3B`          | 35B MoE                                                        | 1.8s                 |
+| `kat-coder-pro-v2`         | Coder                                                          | 1.2s                 |
+| `kat-coder-pro-v2.5`       | Coder, needs max_tokens >= 100                                 | 1.1s                 |
+| `Spark-X2-Flash`           | iFlytek Spark X2                                               | 4-5s                 |
+| `sensenova-6.7-flash-lite` | SenseNova, needs max_tokens >= 100                             | 1s                   |
+| `step-3.5-flash`           | Step 3.5 Flash                                                 | 1-2s                 |
+| `step-3.5-flash-2603`      | Step 3.5 Flash 2603 build                                      | 1.8s                 |
+| `step-3.7-flash`           | Step 3.7 Flash                                                 | 1-2s                 |
+| `step-router-v1`           | Step router                                                    | 1s                   |
+| `stepaudio-2.5-chat`       | Audio-capable chat model                                       | 0.8-1.3s             |
 
 ### hcnsec.cn models that DO NOT work (excluded from config)
 
@@ -310,7 +310,7 @@ the auto-trigger condition — do not duplicate skill inventories in this file.
 
 ## Workspace reference files
 
-- **ENTERPRISE_OPENCODE_SETUP.md** (1737 lines) - interactive setup guide for re-deploying this workspace on another machine. Contains templates, questionnaires, and placeholders. Not loaded by opencode; reference only. Snapshot date 2026-07-19 — predates the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`, vision-tool MCP addition, and `google` provider addition; figures in Sections 1-16 (the setup template) may need adjustment before re-deployment. Sections 17-21 reflect the 2026-07-19 production snapshot and are stale relative to the 2026-07-27 changes.
+- **ENTERPRISE_OPENCODE_SETUP.md** (1737 lines) - interactive setup guide for re-deploying this workspace on another machine. Contains templates, questionnaires, and placeholders. Not loaded by opencode; reference only. Snapshot date 2026-07-19 — predates the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`, vision-tool MCP addition, `google` provider addition, and the 2026-07-30 context-compression tuning (GLM-5.2 context 128K→200K, V1 compaction block enabled); figures in Sections 1-16 (the setup template) may need adjustment before re-deployment. Sections 17-21 reflect the 2026-07-19 production snapshot and are stale relative to those subsequent changes.
 - **skills-lock.json** - integrity hashes for 4 Vercel skills installed via `npx skills add` (deploy, logs, setup, vercel-cli). Validated on skill load.
 
 ### Skill precedence rule
@@ -348,7 +348,7 @@ When starting a new project under `F:\CD\Opencode\Projects\`:
 
 **Inheritance is enforced via two persistent USER env vars** (set 2026-07-22 via `[System.Environment]::SetEnvironmentVariable(..., "User")`):
 
-- `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` — loads parent's full config (provider, mcp, permission, lsp, formatter, agent, plugin, skills.paths, tool_output, compaction) into every session at precedence layer 3 (between global and project walk-up). Per-project `opencode.json` overrides still win (layer 4, deep merge).
+- `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` — loads parent's full config (provider, mcp, permission, lsp, formatter, agent, plugin, skills.paths, tool_output, compaction) into every session at precedence layer 3 (between global and project walk-up). Per-project `opencode.json` overrides still win (layer 4, deep merge). The compaction block is V1-tuned (see "Compaction configuration" below for the rationale and the lossless plugin ecosystem deferred to spike PRs).
 - `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` — adds parent's `.opencode` directory to the scan list for agents, commands, modes, skills, plugins discovery. Loaded LAST, so parent's agents/commands override project's same-named ones (intended for enterprise uniformity).
 
 **Result:** HuanCheng (hcnsec) provider with 20 models becomes visible in every child project session; 15 MCP servers; 81 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, addy-\*) all available everywhere.
@@ -366,16 +366,44 @@ When starting a new project under `F:\CD\Opencode\Projects\`:
 The enterprise setup covers web dev, app dev, automation, AI agents, and AI
 systems. Some domains require per-project additions:
 
-| Domain                          | What's missing                           | How to add                                                         |
-| ------------------------------- | ---------------------------------------- | ------------------------------------------------------------------ |
-| **Mobile native (iOS/Android)** | No Xcode/Gradle MCP, no Swift/Kotlin LSP | Install Xcode/Gradle CLI tools locally; add via `opencode mcp add` |
-| **Non-Supabase databases**      | No MySQL/Mongo/Postgres MCP              | `opencode mcp add postgres <url>` etc.                             |
-| **AWS/GCP/Azure**               | No cloud MCPs                            | `opencode mcp add` for each provider                               |
-| **Email providers**             | Only via composio                        | `opencode mcp auth composio`                                       |
-| **Sandboxed Linux execution**   | bash runs on Windows host                | Use WSL or Docker via existing bash perms                          |
+| Domain                           | What's missing                                        | How to add                                                             |
+| -------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Mobile native (iOS/Android)**  | No Xcode/Gradle MCP, no Swift/Kotlin LSP              | Install Xcode/Gradle CLI tools locally; add via `opencode mcp add`     |
+| **Non-Supabase databases**       | No MySQL/Mongo/Postgres MCP                           | `opencode mcp add postgres <url>` etc.                                 |
+| **AWS/GCP/Azure**                | No cloud MCPs                                         | `opencode mcp add` for each provider                                   |
+| **Email providers**              | Only via composio                                     | `opencode mcp auth composio`                                           |
+| **Sandboxed Linux execution**    | bash runs on Windows host                             | Use WSL or Docker via existing bash perms                              |
+| **Lossless context compression** | Only built-in V1 lossy compaction; no lossless plugin | Spike PR per plugin (see "Lossless context compression plugins" below) |
 
 If the task requires one of these, dispatch the `plan` agent first to design
 the MCP addition, then add it via `opencode mcp add`.
+
+### Lossless context compression plugins (deferred)
+
+The opencode v1.18.9 binary only supports V1 (lossy) compaction — V2
+(`keep.tokens` / `buffer`) was added in later v1.x but is silently ignored by
+this binary. The current `compaction` block (`auto:true, prune:true,
+tail_turns:3, preserve_recent_tokens:8000, reserved:40000`) is the V1
+sane-max, evidence-backed across four GitHub issues (#30664 auto-bypass, #24108
+prune float, #30811 quality-after-N-compactions, #10634 large-tool-output
+overflow). Lossless alternatives exist as plugins but are **deferred to
+separate spike PRs** — none is a drop-in for this workspace due to platform
+support, maintainer risk, or scope:
+
+| Plugin                              | Mechanism                                   | Reduction | License    | Windows PowerShell?        | Deferral reason                                                                            |
+| ----------------------------------- | ------------------------------------------- | --------- | ---------- | -------------------------- | ------------------------------------------------------------------------------------------ |
+| `magic-compact`                     | Explicit lossless plugin                    | N/A       | MIT        | Untested (Node)            | 218 weekly npm, single maintainer, low bus-factor — needs stability audit spike            |
+| `@cortexkit/opencode-magic-context` | Background historian + cross-session memory | N/A       | MIT        | Untested (Node)            | Auto-disables built-in compaction; behavior overlap with memory MCP needs evaluation spike |
+| `claudioemmanuel/squeez`            | Hook-based compression                      | 91.4%     | Apache-2.0 | **NO** — requires Git Bash | Platform-incompatible; would require shell migration spike                                 |
+| `opencode-dcp`                      | Placeholder-based automatic reduction       | N/A       | MIT        | Untested (Node)            | Placeholder approach needs correctness spike on agentic loops                              |
+
+> **mcp-compressor** (Atlassian) is orthogonal — it compresses MCP tool
+> _schemas_ (94 named tools → 2 generic), not session context. Tracked as a
+> separate spike from the four context-compression plugins above.
+
+Each plugin warrants its own spike PR: evaluate on a throwaway branch, measure
+context quality vs. token cost against the V1-tuned baseline, and only promote
+if it strictly dominates the built-in on this workspace's hcnsec/minimax mix.
 
 ## Enterprise Workflow (MANDATORY for all build tasks)
 

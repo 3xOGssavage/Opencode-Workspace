@@ -696,8 +696,11 @@ Write this to `{{setup_root}}/opencode.json`. See Appendix B for the actual curr
         "max_bytes": 65536
       },
       "compaction": {
-        "auto": false,
-        "tail_turns": 15
+        "auto": true,
+        "prune": true,
+        "tail_turns": 3,
+        "preserve_recent_tokens": 8000,
+        "reserved": 40000
       }
     }
 
@@ -1471,28 +1474,28 @@ This section documents the exact state of the `F:\CD\Opencode` workspace as of 2
 
 **hcnsec model list (20):**
 
-| Model ID                   | Name                             | Context | Output | Speed                |
-| -------------------------- | -------------------------------- | ------- | ------ | -------------------- |
-| `auto`                     | Auto (smart routing)             | 128K    | 8K     | ~7s                  |
-| `glm-4.7`                  | GLM 4.7                          | 128K    | 8K     | <1s                  |
-| `glm-5.2`                  | GLM 5.2 (flagship, slow ~2-4min) | 128K    | 8K     | ~2-4min              |
-| `Kimi-K2.6`                | Kimi K2.6 (Moonshot via hcnsec)  | 256K    | 16K    | 1.6-26s (median ~3s) |
-| `MiniMax-M3`               | **MiniMax M3 (recommended)**     | 1M      | 16K    | 2-55s                |
-| `MiniMax-M2.7`             | MiniMax M2.7                     | 200K    | 4K     | 1-2s                 |
-| `DeepSeek-V4-Flash`        | DeepSeek V4 Flash (fast)         | 128K    | 8K     | 1.5-4s               |
-| `DeepSeek-V4-Pro`          | DeepSeek V4 Pro                  | 128K    | 8K     | 1.2s                 |
-| `Qwen3-Coder-Next-FP8`     | Qwen3 Coder Next FP8             | 128K    | 8K     | 1.4s                 |
-| `Qwen3.5-397B-A17B`        | Qwen 3.5 397B                    | 128K    | 8K     | 1.9s                 |
-| `Qwen3.6-35B-A3B`          | Qwen 3.6 35B                     | 128K    | 8K     | 1.8s                 |
-| `kat-coder-pro-v2`         | Kat Coder Pro v2                 | 128K    | 8K     | 1.2s                 |
-| `kat-coder-pro-v2.5`       | Kat Coder Pro v2.5               | 128K    | 8K     | 1.1s                 |
-| `Spark-X2-Flash`           | Spark X2 Flash                   | 128K    | 4K     | 4-5s                 |
-| `sensenova-6.7-flash-lite` | SenseNova 6.7 Flash Lite         | 128K    | 4K     | 1s                   |
-| `step-3.5-flash`           | Step 3.5 Flash                   | 128K    | 4K     | 1-2s                 |
-| `step-3.5-flash-2603`      | Step 3.5 Flash 2603              | 128K    | 4K     | 1.8s                 |
-| `step-3.7-flash`           | Step 3.7 Flash                   | 128K    | 4K     | 1-2s                 |
-| `step-router-v1`           | Step Router v1                   | 128K    | 4K     | 1s                   |
-| `stepaudio-2.5-chat`       | StepAudio 2.5 Chat (voice)       | 32K     | 4K     | 0.8-1.3s             |
+| Model ID                   | Name                             | Context  | Output | Speed                |
+| -------------------------- | -------------------------------- | -------- | ------ | -------------------- |
+| `auto`                     | Auto (smart routing)             | 128K     | 8K     | ~7s                  |
+| `glm-4.7`                  | GLM 4.7                          | 128K     | 8K     | <1s                  |
+| `glm-5.2`                  | GLM 5.2 (flagship, slow ~2-4min) | **200K** | 8K     | ~2-4min              |
+| `Kimi-K2.6`                | Kimi K2.6 (Moonshot via hcnsec)  | 256K     | 16K    | 1.6-26s (median ~3s) |
+| `MiniMax-M3`               | **MiniMax M3 (recommended)**     | 1M       | 16K    | 2-55s                |
+| `MiniMax-M2.7`             | MiniMax M2.7                     | 200K     | 4K     | 1-2s                 |
+| `DeepSeek-V4-Flash`        | DeepSeek V4 Flash (fast)         | 128K     | 8K     | 1.5-4s               |
+| `DeepSeek-V4-Pro`          | DeepSeek V4 Pro                  | 128K     | 8K     | 1.2s                 |
+| `Qwen3-Coder-Next-FP8`     | Qwen3 Coder Next FP8             | 128K     | 8K     | 1.4s                 |
+| `Qwen3.5-397B-A17B`        | Qwen 3.5 397B                    | 128K     | 8K     | 1.9s                 |
+| `Qwen3.6-35B-A3B`          | Qwen 3.6 35B                     | 128K     | 8K     | 1.8s                 |
+| `kat-coder-pro-v2`         | Kat Coder Pro v2                 | 128K     | 8K     | 1.2s                 |
+| `kat-coder-pro-v2.5`       | Kat Coder Pro v2.5               | 128K     | 8K     | 1.1s                 |
+| `Spark-X2-Flash`           | Spark X2 Flash                   | 128K     | 4K     | 4-5s                 |
+| `sensenova-6.7-flash-lite` | SenseNova 6.7 Flash Lite         | 128K     | 4K     | 1s                   |
+| `step-3.5-flash`           | Step 3.5 Flash                   | 128K     | 4K     | 1-2s                 |
+| `step-3.5-flash-2603`      | Step 3.5 Flash 2603              | 128K     | 4K     | 1.8s                 |
+| `step-3.7-flash`           | Step 3.7 Flash                   | 128K     | 4K     | 1-2s                 |
+| `step-router-v1`           | Step Router v1                   | 128K     | 4K     | 1s                   |
+| `stepaudio-2.5-chat`       | StepAudio 2.5 Chat (voice)       | 32K      | 4K     | 0.8-1.3s             |
 
 #### Additional providers (in auth.json)
 
@@ -1664,10 +1667,18 @@ Model assignments:
 
 ### 17.10 Compaction
 
-| Field        | Value | Reason                                                                   |
-| ------------ | ----- | ------------------------------------------------------------------------ |
-| `auto`       | false | Disabled to preserve full context; user triggers manually via `/context` |
-| `tail_turns` | 15    | Buffer when manual compaction is triggered                               |
+| Field                    | Value | Reason                                                                                        |
+| ------------------------ | ----- | --------------------------------------------------------------------------------------------- |
+| `auto`                   | true  | V1-tuned 2026-07-30. `false` was bypassed by provider-overflow auto-compaction (issue #30664) |
+| `prune`                  | true  | Docs/source disagree on default (#24108); explicit `true` is safer                            |
+| `tail_turns`             | 3     | One above default 2 to offset quality-degradation-after-N-compactions (#30811)                |
+| `preserve_recent_tokens` | 8000  | V1 sane-max (`MAX_PRESERVE_RECENT_TOKENS` in source; user-set via `??`)                       |
+| `reserved`               | 40000 | Triggers earlier to mitigate large-tool-output overflow (#10634)                              |
+
+> **V2 not supported.** The opencode v1.18.9 binary only supports V1
+> (lossy) compaction. V2 fields (`keep.tokens`, `buffer`) were added in later
+> v1.x but are silently ignored. Lossless plugin alternatives are tracked
+> separately (see `AGENTS.md` → "Lossless context compression plugins (deferred)").
 
 ### 17.11 Projects (3 total)
 
@@ -1748,5 +1759,6 @@ For anyone reading Sections 17-21 to understand the CURRENT production state of 
 > 4. **Plugins: 4 → 7** — workspace plugins went from 3 to 4 (added `@dietrichgebert/ponytail`); global plugins went from 1 to 3 (added `opencode-auto-vision`, `opencode-eyesight`). Total: 7.
 > 5. **Skills: ~83 → ~117** — User skills path grew from 11 to 56; Config skills path grew from 7 to 19. Total active: 121 raw, ~117 unique after deduplication.
 > 6. **Supabase MCP** — live URL is now `read_only=false` (write-enabled). Snapshot's `read_only=true` (read-only enforced) is outdated.
+> 7. **Context compression tuning (2026-07-30)** — `glm-5.2` context corrected from 128K to 200K (NVIDIA NIM 200K cap + Cloudflare 262K + Warp issue #12980 + Cursor forum consensus); output remains 8192. The `compaction` block switched from `{auto:false, tail_turns:15}` (bypassed by provider-overflow — issue #30664) to the V1 sane-max: `{auto:true, prune:true, tail_turns:3, preserve_recent_tokens:8000, reserved:40000}` — evidence-backed across issues #24108 (prune default), #30811 (quality-after-N), #10634 (large-tool-output overflow). `Projects/neodev-portal/opencode.json` patched identically. Lossless plugin alternatives (Magic Compact, Magic Context, squeez, DCP) deferred to separate spike PRs — see `AGENTS.md` → "Lossless context compression plugins (deferred)".
 >
 > Before re-deploying this workspace on a new machine using Sections 1-16 as a template, update the template guided by the live `AGENTS.md` and `opencode.json` rather than by the figures in Sections 17-21.
