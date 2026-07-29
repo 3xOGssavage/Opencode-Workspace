@@ -140,9 +140,9 @@
           }
         },
         "glm-5.2": {
-          "name": "GLM 5.2 (flagship, slow ~2-4min)",
+          "name": "GLM 5.2 (flagship, slow ~2-4min, 200K-context default; 1M requires [1m] opt-in via Z.ai directly)",
           "limit": {
-            "context": 128000,
+            "context": 200000,
             "output": 8192
           }
         },
@@ -552,7 +552,10 @@
     "max_bytes": 65536
   },
   "compaction": {
-    "auto": false,
-    "tail_turns": 15
+    "auto": true,
+    "prune": true,
+    "tail_turns": 3,
+    "preserve_recent_tokens": 8000,
+    "reserved": 40000
   }
 }
