@@ -469,7 +469,7 @@
     },
     "fetch": {
       "type": "local",
-      "command": ["uvx", "mcp-server-fetch"],
+      "command": ["uvx", "--with", "mcp<2", "mcp-server-fetch"],
       "enabled": true,
       "env": {
         "PYTHONIOENCODING": "utf-8"

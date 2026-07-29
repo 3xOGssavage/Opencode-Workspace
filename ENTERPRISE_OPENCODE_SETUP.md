@@ -674,7 +674,7 @@ Write this to `{{setup_root}}/opencode.json`. See Appendix B for the actual curr
 ```
 
     "tavily": { "type": "local", "command": ["npx", "-y", "tavily-mcp@latest"], "enabled": true, "env": { "TAVILY_API_KEY": "{env:TAVILY_API_KEY}" } },
-        "fetch": { "type": "local", "command": ["uvx", "mcp-server-fetch"], "enabled": true, "env": { "PYTHONIOENCODING": "utf-8" } },
+        "fetch": { "type": "local", "command": ["uvx", "--with", "mcp<2", "mcp-server-fetch"], "enabled": true, "env": { "PYTHONIOENCODING": "utf-8" } },
         "filesystem": { "type": "local", "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "F:\\CD"], "enabled": true },
         "chrome-devtools": { "type": "local", "command": ["npx", "-y", "chrome-devtools-mcp@latest"], "enabled": true },
         "sentry": { "type": "remote", "url": "https://mcp.sentry.dev/mcp", "enabled": true },
@@ -1523,7 +1523,7 @@ Model assignments:
 | `playwright`          | `npx -y @playwright/mcp`                                                                                               | `BROWSER=chromium`                             |
 | `memory`              | `F:\CD\Opencode\.opencode\memory-mcp-wrapper.bat`                                                                      | Sets MEMORY_FILE_PATH then `npx server-memory` |
 | `tavily`              | `npx -y tavily-mcp@latest`                                                                                             | `TAVILY_API_KEY` from env                      |
-| `fetch`               | `uvx mcp-server-fetch`                                                                                                 | `PYTHONIOENCODING=utf-8`                       |
+| `fetch`               | `uvx --with "mcp<2" mcp-server-fetch`                                                                                  | `PYTHONIOENCODING=utf-8`                       |
 | `filesystem`          | `npx -y @modelcontextprotocol/server-filesystem F:\CD`                                                                 | Scoped to F:\CD                                |
 | `chrome-devtools`     | `npx -y chrome-devtools-mcp@latest`                                                                                    | none                                           |
 | `github`              | `github-mcp-server.exe stdio --toolsets repos,issues,pull_requests,actions,code_security,discussions,orgs,users,gists` | `GITHUB_PERSONAL_ACCESS_TOKEN` from env        |
