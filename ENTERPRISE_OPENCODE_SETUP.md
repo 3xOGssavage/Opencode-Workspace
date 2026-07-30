@@ -1474,28 +1474,28 @@ This section documents the exact state of the `F:\CD\Opencode` workspace as of 2
 
 **hcnsec model list (20):**
 
-| Model ID                   | Name                             | Context  | Output | Speed                |
-| -------------------------- | -------------------------------- | -------- | ------ | -------------------- |
-| `auto`                     | Auto (smart routing)             | 128K     | 8K     | ~7s                  |
-| `glm-4.7`                  | GLM 4.7                          | 128K     | 8K     | <1s                  |
-| `glm-5.2`                  | GLM 5.2 (flagship, slow ~2-4min) | **200K** | 8K     | ~2-4min              |
-| `Kimi-K2.6`                | Kimi K2.6 (Moonshot via hcnsec)  | 256K     | 16K    | 1.6-26s (median ~3s) |
-| `MiniMax-M3`               | **MiniMax M3 (recommended)**     | 1M       | 16K    | 2-55s                |
-| `MiniMax-M2.7`             | MiniMax M2.7                     | 200K     | 4K     | 1-2s                 |
-| `DeepSeek-V4-Flash`        | DeepSeek V4 Flash (fast)         | 128K     | 8K     | 1.5-4s               |
-| `DeepSeek-V4-Pro`          | DeepSeek V4 Pro                  | 128K     | 8K     | 1.2s                 |
-| `Qwen3-Coder-Next-FP8`     | Qwen3 Coder Next FP8             | 128K     | 8K     | 1.4s                 |
-| `Qwen3.5-397B-A17B`        | Qwen 3.5 397B                    | 128K     | 8K     | 1.9s                 |
-| `Qwen3.6-35B-A3B`          | Qwen 3.6 35B                     | 128K     | 8K     | 1.8s                 |
-| `kat-coder-pro-v2`         | Kat Coder Pro v2                 | 128K     | 8K     | 1.2s                 |
-| `kat-coder-pro-v2.5`       | Kat Coder Pro v2.5               | 128K     | 8K     | 1.1s                 |
-| `Spark-X2-Flash`           | Spark X2 Flash                   | 128K     | 4K     | 4-5s                 |
-| `sensenova-6.7-flash-lite` | SenseNova 6.7 Flash Lite         | 128K     | 4K     | 1s                   |
-| `step-3.5-flash`           | Step 3.5 Flash                   | 128K     | 4K     | 1-2s                 |
-| `step-3.5-flash-2603`      | Step 3.5 Flash 2603              | 128K     | 4K     | 1.8s                 |
-| `step-3.7-flash`           | Step 3.7 Flash                   | 128K     | 4K     | 1-2s                 |
-| `step-router-v1`           | Step Router v1                   | 128K     | 4K     | 1s                   |
-| `stepaudio-2.5-chat`       | StepAudio 2.5 Chat (voice)       | 32K      | 4K     | 0.8-1.3s             |
+| Model ID                   | Name                     | Context  | Output | Speed                |
+| -------------------------- | ------------------------ | -------- | ------ | -------------------- |
+| `auto`                     | Auto (smart routing)     | 128K     | 8K     | ~7s                  |
+| `glm-4.7`                  | GLM 4.7                  | 128K     | 8K     | <1s                  |
+| `glm-5.2`                  | GLM 5.2                  | **200K** | 8K     | ~2-4min              |
+| `Kimi-K2.6`                | Kimi K2.6                | 256K     | 16K    | 1.6-26s (median ~3s) |
+| `MiniMax-M3`               | MiniMax M3               | 1M       | 16K    | 2-55s                |
+| `MiniMax-M2.7`             | MiniMax M2.7             | 200K     | 4K     | 1-2s                 |
+| `DeepSeek-V4-Flash`        | DeepSeek V4 Flash        | 128K     | 8K     | 1.5-4s               |
+| `DeepSeek-V4-Pro`          | DeepSeek V4 Pro          | 128K     | 8K     | 1.2s                 |
+| `Qwen3-Coder-Next-FP8`     | Qwen3 Coder Next FP8     | 128K     | 8K     | 1.4s                 |
+| `Qwen3.5-397B-A17B`        | Qwen 3.5 397B            | 128K     | 8K     | 1.9s                 |
+| `Qwen3.6-35B-A3B`          | Qwen 3.6 35B             | 128K     | 8K     | 1.8s                 |
+| `kat-coder-pro-v2`         | Kat Coder Pro v2         | 128K     | 8K     | 1.2s                 |
+| `kat-coder-pro-v2.5`       | Kat Coder Pro v2.5       | 128K     | 8K     | 1.1s                 |
+| `Spark-X2-Flash`           | Spark X2 Flash           | 128K     | 4K     | 4-5s                 |
+| `sensenova-6.7-flash-lite` | SenseNova 6.7 Flash Lite | 128K     | 4K     | 1s                   |
+| `step-3.5-flash`           | Step 3.5 Flash           | 128K     | 4K     | 1-2s                 |
+| `step-3.5-flash-2603`      | Step 3.5 Flash 2603      | 128K     | 4K     | 1.8s                 |
+| `step-3.7-flash`           | Step 3.7 Flash           | 128K     | 4K     | 1-2s                 |
+| `step-router-v1`           | Step Router v1           | 128K     | 4K     | 1s                   |
+| `stepaudio-2.5-chat`       | StepAudio 2.5 Chat       | 32K      | 4K     | 0.8-1.3s             |
 
 #### Additional providers (in auth.json)
 

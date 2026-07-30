@@ -140,21 +140,21 @@
           }
         },
         "glm-5.2": {
-          "name": "GLM 5.2 (flagship, slow ~2-4min, 200K-context default; 1M requires [1m] opt-in via Z.ai directly)",
+          "name": "GLM 5.2",
           "limit": {
             "context": 200000,
             "output": 8192
           }
         },
         "Kimi-K2.6": {
-          "name": "Kimi K2.6 (Moonshot via hcnsec)",
+          "name": "Kimi K2.6",
           "limit": {
             "context": 256000,
             "output": 16384
           }
         },
         "MiniMax-M3": {
-          "name": "MiniMax M3 (recommended)",
+          "name": "MiniMax M3",
           "limit": {
             "context": 1000000,
             "output": 16384
@@ -168,7 +168,7 @@
           }
         },
         "DeepSeek-V4-Flash": {
-          "name": "DeepSeek V4 Flash (fast)",
+          "name": "DeepSeek V4 Flash",
           "limit": {
             "context": 128000,
             "output": 8192
@@ -259,7 +259,7 @@
           }
         },
         "stepaudio-2.5-chat": {
-          "name": "StepAudio 2.5 Chat (voice)",
+          "name": "StepAudio 2.5 Chat",
           "limit": {
             "context": 32768,
             "output": 4096
