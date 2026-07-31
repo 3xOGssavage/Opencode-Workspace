@@ -276,11 +276,11 @@
       },
       "models": {
         "moonshotai/kimi-k3-free": {
-          "name": "moonshotai/kimi-k3-free",
+          "name": "Kimi K3 Free",
           "limit": { "context": 1048576, "output": 131072 }
         },
         "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free": {
-          "name": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+          "name": "Nemotron 3 Nano Omni 30B Free",
           "limit": { "context": 256000, "output": 65536 }
         }
       }
