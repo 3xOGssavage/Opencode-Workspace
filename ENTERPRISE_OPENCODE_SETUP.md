@@ -316,10 +316,10 @@ Create this structure under `{{setup_root}}`:
 │   │   ├── architect.md
 │   │   ├── reviewer.md
 │   │   ├── tester.md
-│   │   ├── addy-code-reviewer.md
-│   │   ├── addy-security-auditor.md
-│   │   ├── addy-test-engineer.md
-│   │   └── addy-web-perf-auditor.md
+│   │   ├── code-reviewer.md
+│   │   ├── security-auditor.md
+│   │   ├── test-engineer.md
+│   │   └── web-perf-auditor.md
 │   ├── commands/                     # custom commands (commit, context, test, verify, ship)
 │   ├── agent-skills/                # addyosmani/agent-skills (24 skills, after clone)
 │   ├── last30days-skill/            # last30days (1 skill, after clone)
@@ -643,10 +643,10 @@ Write this to `{{setup_root}}/opencode.json`. See Appendix B for the actual curr
     "observer": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
     "council": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
     "orchestrator": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
-    "addy-code-reviewer": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
-    "addy-security-auditor": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
-    "addy-test-engineer": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
-    "addy-web-perf-auditor": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } }
+    "code-reviewer": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
+    "security-auditor": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
+    "test-engineer": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
+    "web-perf-auditor": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } }
   },
   "lsp": {
     "typescript-language-server": {
@@ -926,7 +926,7 @@ Run /verify (lint -> typecheck -> test). Then check the 8-item definition of don
 ## Agent roster
 
 **Primary (2):** build (default), plan
-**Custom subagents (7):** architect, reviewer, tester, addy-code-reviewer, addy-security-auditor, addy-test-engineer, addy-web-perf-auditor
+**Custom subagents (7):** architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor
 **OMO-Slim agents (8):** orchestrator, oracle, council, librarian, explorer, designer, fixer, observer
 Disabled: explore, general (replaced by OMO-Slim's explorer and orchestrator)
 
@@ -945,17 +945,17 @@ Disabled: explore, general (replaced by OMO-Slim's explorer and orchestrator)
 | Monitor background       | observer agent                                       |
 | Library docs             | context7 MCP or librarian agent                      |
 | Current web info         | tavily MCP or fetch MCP                              |
-| Review code              | reviewer or addy-code-reviewer                       |
+| Review code              | reviewer or code-reviewer                            |
 | Run tests                | tester agent or /test command                        |
-| Security check           | addy-security-auditor                                |
-| Performance audit        | addy-web-perf-auditor                                |
+| Security check           | security-auditor                                     |
+| Performance audit        | web-perf-auditor                                     |
 
 ## Quality standards - definition of done
 
 1. Code implements the requested feature/fix completely
 2. LSP diagnostics show no new errors
 3. /verify passes (lint -> typecheck -> test)
-4. Code reviewed by reviewer or addy-code-reviewer
+4. Code reviewed by reviewer or code-reviewer
 5. No secrets, API keys, or .env values in code
 6. No unnecessary dependencies added
 7. Existing tests still pass
@@ -1144,19 +1144,19 @@ You are the tester. Your job is verification, not implementation.
 Never edit source to fix a failure - report it so the implementer can fix it.
 ```
 
-### 10.4 - addy-code-reviewer.md
+### 10.4 - code-reviewer.md
 
 The 5-axis staff-engineer reviewer. See [upstream addyosmani/agent-skills/agents/code-reviewer.md](https://github.com/addyosmani/agent-skills/blob/main/agents/code-reviewer.md) for the full prompt (~107 lines). Evaluate every change across: Correctness, Readability, Architecture, Security, Performance. Output Critical / Important / Suggestions.
 
-### 10.5 - addy-security-auditor.md
+### 10.5 - security-auditor.md
 
 OWASP-based security auditor. See [upstream addyosmani/agent-skills/agents/security-auditor.md](https://github.com/addyosmani/agent-skills/blob/main/agents/security-auditor.md) for the full prompt (~123 lines). Covers: Input Handling, Auth/AuthZ, Data Protection, Infrastructure, Third-Party Integrations, AI/LLM Features.
 
-### 10.6 - addy-test-engineer.md
+### 10.6 - test-engineer.md
 
 QA engineer for test strategy. See [upstream addyosmani/agent-skills/agents/test-engineer.md](https://github.com/addyosmani/agent-skills/blob/main/agents/test-engineer.md) for the full prompt (~100 lines). Covers: Analyze Before Writing, Test at the Right Level, Prove-It Pattern for Bugs.
 
-### 10.7 - addy-web-perf-auditor.md
+### 10.7 - web-perf-auditor.md
 
 Core Web Vitals auditor. See [upstream addyosmani/agent-skills/agents/web-performance-auditor.md](https://github.com/addyosmani/agent-skills/blob/main/agents/web-performance-auditor.md) for the full prompt (~189 lines). Covers LCP, INP, CLS, Loading, Rendering, Network.
 
@@ -1325,17 +1325,17 @@ The full file is in `{{setup_root}}/AGENTS.md` and is the canonical operating ma
 
 The 7 custom agent .md files in `{{setup_root}}/.opencode/agents/`:
 
-| Agent                      | Source                                                    | Lines |
-| -------------------------- | --------------------------------------------------------- | ----- |
-| `architect.md`             | This template (Section 10.1)                              | 23    |
-| `reviewer.md`              | This template (Section 10.2)                              | 24    |
-| `tester.md`                | This template (Section 10.3)                              | 26    |
-| `addy-code-reviewer.md`    | addyosmani/agent-skills/agents/code-reviewer.md           | 107   |
-| `addy-security-auditor.md` | addyosmani/agent-skills/agents/security-auditor.md        | 123   |
-| `addy-test-engineer.md`    | addyosmani/agent-skills/agents/test-engineer.md           | 100   |
-| `addy-web-perf-auditor.md` | addyosmani/agent-skills/agents/web-performance-auditor.md | 189   |
+| Agent                 | Source                                                    | Lines |
+| --------------------- | --------------------------------------------------------- | ----- |
+| `architect.md`        | This template (Section 10.1)                              | 23    |
+| `reviewer.md`         | This template (Section 10.2)                              | 24    |
+| `tester.md`           | This template (Section 10.3)                              | 26    |
+| `code-reviewer.md`    | addyosmani/agent-skills/agents/code-reviewer.md           | 107   |
+| `security-auditor.md` | addyosmani/agent-skills/agents/security-auditor.md        | 123   |
+| `test-engineer.md`    | addyosmani/agent-skills/agents/test-engineer.md           | 100   |
+| `web-perf-auditor.md` | addyosmani/agent-skills/agents/web-performance-auditor.md | 189   |
 
-See Section 10 for full text of the 3 local agents. The 4 addy-\* agents are upstream content; fetch them from `https://github.com/addyosmani/agent-skills/blob/main/agents/`.
+See Section 10 for full text of the 3 local agents. The 4 agents (code-reviewer, security-auditor, test-engineer, web-perf-auditor) are upstream content; fetch them from `https://github.com/addyosmani/agent-skills/blob/main/agents/`.
 
 ---
 
@@ -1543,25 +1543,25 @@ Model assignments:
 
 ### 17.4 Agents (17 total)
 
-| Agent                   | Model                   | Mode     | Edit             | Bash           | Purpose                        |
-| ----------------------- | ----------------------- | -------- | ---------------- | -------------- | ------------------------------ |
-| `build`                 | ollama-cloud/minimax-m3 | primary  | (inherits allow) | (inherits ask) | Implementation (default)       |
-| `plan`                  | ollama-cloud/minimax-m3 | primary  | (inherits allow) | (inherits ask) | Planning                       |
-| `architect`             | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Design, boundaries, tradeoffs  |
-| `reviewer`              | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Strict code review             |
-| `tester`                | hcnsec/Kimi-K2.6        | subagent | deny             | **5 denylist** | Lint/typecheck/test (hardened) |
-| `explorer`              | hcnsec/Kimi-K2.6        | subagent | deny             | allow          | Code understanding             |
-| `oracle`                | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Deep reasoning                 |
-| `librarian`             | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Library docs                   |
-| `fixer`                 | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Bug fixing                     |
-| `designer`              | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | UI/frontend design             |
-| `observer`              | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Background tasks               |
-| `council`               | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Multi-perspective review       |
-| `orchestrator`          | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Multi-agent coordination       |
-| `addy-code-reviewer`    | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | 5-axis staff review            |
-| `addy-security-auditor` | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | OWASP security audit           |
-| `addy-test-engineer`    | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Test strategy                  |
-| `addy-web-perf-auditor` | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Core Web Vitals                |
+| Agent              | Model                   | Mode     | Edit             | Bash           | Purpose                        |
+| ------------------ | ----------------------- | -------- | ---------------- | -------------- | ------------------------------ |
+| `build`            | ollama-cloud/minimax-m3 | primary  | (inherits allow) | (inherits ask) | Implementation (default)       |
+| `plan`             | ollama-cloud/minimax-m3 | primary  | (inherits allow) | (inherits ask) | Planning                       |
+| `architect`        | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Design, boundaries, tradeoffs  |
+| `reviewer`         | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Strict code review             |
+| `tester`           | hcnsec/Kimi-K2.6        | subagent | deny             | **5 denylist** | Lint/typecheck/test (hardened) |
+| `explorer`         | hcnsec/Kimi-K2.6        | subagent | deny             | allow          | Code understanding             |
+| `oracle`           | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Deep reasoning                 |
+| `librarian`        | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Library docs                   |
+| `fixer`            | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Bug fixing                     |
+| `designer`         | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | UI/frontend design             |
+| `observer`         | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Background tasks               |
+| `council`          | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Multi-perspective review       |
+| `orchestrator`     | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Multi-agent coordination       |
+| `code-reviewer`    | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | 5-axis staff review            |
+| `security-auditor` | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | OWASP security audit           |
+| `test-engineer`    | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Test strategy                  |
+| `web-perf-auditor` | hcnsec/Kimi-K2.6        | subagent | deny             | ask            | Core Web Vitals                |
 
 **Tester hardening (post-fix R2+):** 5 denylist: Remove-Item, Set-Content, Clear-Content, Move-Item, Copy-Item all -> deny.
 

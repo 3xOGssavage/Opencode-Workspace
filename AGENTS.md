@@ -184,10 +184,10 @@ All subagents run on `hcnsec/Kimi-K2.6` (Moonshot Kimi K2.6 via hcnsec reseller,
 - `architect` — design, boundaries, tradeoffs. Read-only.
 - `reviewer` — strict review against conventions. Read-only.
 - `tester` — runs lint/typecheck/test. Bash only.
-- `addy-code-reviewer` — 5-axis staff-engineer review.
-- `addy-security-auditor` — vulnerability detection, OWASP.
-- `addy-test-engineer` — test strategy, coverage analysis.
-- `addy-web-perf-auditor` — Core Web Vitals audit.
+- `code-reviewer` — 5-axis staff-engineer review.
+- `security-auditor` — vulnerability detection, OWASP.
+- `test-engineer` — test strategy, coverage analysis.
+- `web-perf-auditor` — Core Web Vitals audit.
 
 **OMO-Slim agents (8):**
 
@@ -198,7 +198,7 @@ Disabled: `explore`, `general` (replaced by OMO-Slim's `explorer` and `orchestra
 
 ### Subagent dispatch architecture
 
-Opencode's custom agents (architect, reviewer, tester, addy-\*, orchestrator,
+Opencode's custom agents (architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor, orchestrator,
 oracle, council, librarian, explorer, designer, fixer, observer) are invoked
 via opencode's **agent-switching mechanism** (e.g., switching the active agent
 in the TUI), NOT via the `task` tool. The `task` tool's `subagent_type`
@@ -229,11 +229,11 @@ Practical implications:
 | Need to monitor background tasks          | Dispatch `observer` agent                                |
 | Need to look up library docs              | `context7` MCP or `librarian` agent                      |
 | Need current web info                     | `tavily` MCP (search) or `fetch` MCP (single URL)        |
-| Need to review code before merge          | `reviewer` or `addy-code-reviewer`                       |
+| Need to review code before merge          | `reviewer` or `code-reviewer`                            |
 | Need to run tests                         | `tester` agent or `/test` command                        |
-| Need test strategy or coverage analysis   | `addy-test-engineer` agent                               |
-| Need to check security issues             | `addy-security-auditor` agent                            |
-| Need to audit web performance             | `addy-web-perf-auditor` agent                            |
+| Need test strategy or coverage analysis   | `test-engineer` agent                                    |
+| Need to check security issues             | `security-auditor` agent                                 |
+| Need to audit web performance             | `web-perf-auditor` agent                                 |
 | Need to research tools/approaches         | `last30days` skill                                       |
 | Need to interact with SaaS apps           | `composio` MCP                                           |
 | Need database queries / schema management | `supabase` MCP                                           |
@@ -255,7 +255,7 @@ A task is NOT done until ALL of these are true:
 1. Code implements the requested feature/fix completely.
 2. LSP diagnostics show no new errors in changed files.
 3. `/verify` passes (lint → typecheck → test, in that order).
-4. Code reviewed by `reviewer` or `addy-code-reviewer` subagent — no blocking issues.
+4. Code reviewed by `reviewer` or `code-reviewer` subagent — no blocking issues.
 5. No secrets, API keys, or `.env` values in the code.
 6. No unnecessary dependencies added.
 7. Existing tests still pass.
@@ -351,7 +351,7 @@ When starting a new project under `F:\CD\Opencode\Projects\`:
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` — loads parent's full config (provider, mcp, permission, lsp, formatter, agent, plugin, skills.paths, tool_output, compaction) into every session at precedence layer 3 (between global and project walk-up). Per-project `opencode.json` overrides still win (layer 4, deep merge). The compaction block is V1-tuned (see "Compaction configuration" below for the rationale and the lossless plugin ecosystem deferred to spike PRs).
 - `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` — adds parent's `.opencode` directory to the scan list for agents, commands, modes, skills, plugins discovery. Loaded LAST, so parent's agents/commands override project's same-named ones (intended for enterprise uniformity).
 
-**Result:** HuanCheng (hcnsec) provider with 20 models becomes visible in every child project session; 15 MCP servers; 81 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, addy-\*) all available everywhere.
+**Result:** HuanCheng (hcnsec) provider with 20 models becomes visible in every child project session; 15 MCP servers; 81 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
 
 **Verifying:** Run `powershell -ExecutionPolicy Bypass -File .opencode\verify-inheritance.ps1` from any project root.
 

@@ -266,6 +266,24 @@
           }
         }
       }
+    },
+    "tokenrouter": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "TokenRouter",
+      "options": {
+        "baseURL": "https://api.tokenrouter.com/v1",
+        "apiKey": "{env:TOKENROUTER_API_KEY}"
+      },
+      "models": {
+        "moonshotai/kimi-k3-free": {
+          "name": "moonshotai/kimi-k3-free",
+          "limit": { "context": 1048576, "output": 131072 }
+        },
+        "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free": {
+          "name": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+          "limit": { "context": 256000, "output": 65536 }
+        }
+      }
     }
   },
   "agent": {
@@ -371,7 +389,7 @@
         "bash": "ask"
       }
     },
-    "addy-code-reviewer": {
+    "code-reviewer": {
       "model": "hcnsec/Kimi-K2.6",
       "mode": "subagent",
       "permission": {
@@ -379,7 +397,7 @@
         "bash": "ask"
       }
     },
-    "addy-security-auditor": {
+    "security-auditor": {
       "model": "hcnsec/Kimi-K2.6",
       "mode": "subagent",
       "permission": {
@@ -387,7 +405,7 @@
         "bash": "ask"
       }
     },
-    "addy-test-engineer": {
+    "test-engineer": {
       "model": "hcnsec/Kimi-K2.6",
       "mode": "subagent",
       "permission": {
@@ -395,7 +413,7 @@
         "bash": "ask"
       }
     },
-    "addy-web-perf-auditor": {
+    "web-perf-auditor": {
       "model": "hcnsec/Kimi-K2.6",
       "mode": "subagent",
       "permission": {
