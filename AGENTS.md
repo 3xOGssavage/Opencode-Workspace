@@ -19,6 +19,7 @@ Each project may have its own `opencode.json` for project-specific overrides.
 - **Primary agents** (build, plan): `ollama-cloud/minimax-m3`
 - **All subagents** (15 custom + 8 OMO-Slim): `hcnsec/Kimi-K2.6` (256K context, Moonshot Kimi K2.6 via hcnsec reseller)
 - **3rd provider (hcnsec.cn)**: 20 verified-working models at `https://api.hcnsec.cn/v1` (key in `HCNSEC_API_KEY` env var). Use as alternates via `/models` menu with format `hcnsec/<model-id>`.
+- **4th provider (TokenRouter, Tier-3 experimental)**: 2 free-tier models at `https://api.tokenrouter.com/v1` (key in `TOKENROUTER_API_KEY` env var). Access via `/models` with `tokenrouter/<model-id>`. Not for production-critical agents — fallback to hcnsec if unavailable. See ADR-005.
 
 ### hcnsec.cn models (verified 2026-07-19)
 
@@ -58,13 +59,24 @@ All 20 models below respond correctly to `/v1/chat/completions` with `max_tokens
 | `stepaudio-2.5-realtime` | 404 — realtime audio, requires websocket endpoint                   |
 | `stepaudio-2.5-tts`      | 404 — text-to-speech, requires `/v1/audio/speech` (400 Bad Request) |
 
+### TokenRouter models (added 2026-07-31, Tier-3 experimental)
+
+Free-tier models verified working against `https://api.tokenrouter.com/v1`. TokenRouter is a small routing proxy — free-tier quota is unstated and may move without notice. See ADR-005.
+
+| Model ID (JSON key)                                  | Display name                  | Context   | Output  |
+| ---------------------------------------------------- | ----------------------------- | --------- | ------- |
+| `moonshotai/kimi-k3-free`                            | Kimi K3 Free                  | 1,048,576 | 131,072 |
+| `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free` | Nemotron 3 Nano Omni 30B Free | 256,000   | 65,536  |
+
+TokenRouter is in `opencode.json:provider` (alongside `hcnsec`), NOT in `auth.json`.
+
 ### Why some "empty response" models need max_tokens >= 200
 
 Several hcnsec models (`kat-coder-pro-v2.5`, `MiniMax-M2.7`, `sensenova-6.7-flash-lite`, `step-3.5-flash`, `step-3.7-flash`, `step-router-v1`, `step-3.5-flash-2603`) emit leading formatting tokens (newlines, whitespace) before the actual content. With `max_tokens <= 5`, they exhaust the budget on formatting and return empty content with `finish_reason: "length"`. The opencode.json config includes `limit.output` values (4096-16384) so opencode requests adequate output tokens automatically.
 
 ### Additional providers in auth.json
 
-The `auth.json` file at `C:/Users/user/.local/share/opencode/auth.json` contains 4 provider entries. `ollama-cloud` is the primary provider (build/plan agents) and is documented in the provider block above. The remaining 3 are for subagents, project-specific routing, or alternate use:
+The `auth.json` file at `C:/Users/user/.local/share/opencode/auth.json` contains 4 provider entries (none of which are TokenRouter — TokenRouter is in `opencode.json:provider` alongside `hcnsec`). `ollama-cloud` is the primary provider (build/plan agents) and is documented in the provider block above. The remaining 3 are for subagents, project-specific routing, or alternate use:
 
 | Provider      | Key prefix                  | Status | Used by                                                                                                           |
 | ------------- | --------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------- |
@@ -483,16 +495,18 @@ When starting a NEW project (no existing repo):
 - `MEMORY_FILE_PATH` is set as a User env var (via `setx`) pointing to `.opencode\memory.jsonl` so the memory MCP server stores entities in the workspace.
 - `HCNSEC_API_KEY` (51 chars, `sk-...`) is set as a User env var — the hcnsec reseller key backing all `hcnsec/*` models in `/models`.
 - `GEMINI_API_KEY` (53 chars, `AQ.Ab8R...`) is set as a User env var — backs the `google` provider in `auth.json`, used by the `vision-tool` MCP (Gemini 3.5-flash-lite vision backend) and the `opencode-eyesight` fallback plugin.
+- `TOKENROUTER_API_KEY` (51 chars, `sk-2NW2...73er`) is set as a User env var — backs both `tokenrouter/*` models in `/models`. TokenRouter provider is in `opencode.json:provider`, NOT in `auth.json`.
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` and `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` are set as User env vars (see "Project inheritance" below) — these propagate the parent workspace's config into every child-project session.
 - `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `ANTHROPIC_API_KEY`, `OPENCODE_API_KEY` are **not** set as User env vars. Either set them per-project or add via `setx` if you want OpenAI / OpenRouter / Anthropic / opencode-cloud providers visible globally.
 - Composio auth: run `opencode mcp auth composio` to connect SaaS apps.
 - Sentry: remote OAuth via `https://mcp.sentry.dev/mcp`.
 - Supabase: write-enabled (`read_only=false` is the current live URL in `opencode.json:mcp.supabase.url`). To re-enable read-only mode, set `read_only=true` in the MCP URL.
 - **hcnsec rate limits**: hcnsec has no `rateLimits` config (opencode feature request #32423). opencode uses retry with exponential backoff only. Avoid parallel subagent fan-out on hcnsec models - sequential dispatch is safer.
-- **fetch MCP SSRF**: the `fetch` MCP (`uvx --with mcp<2 mcp-server-fetch`) accepts any URL with no allowlist. Never fetch `localhost`, `127.0.0.1`, `169.254.169.254` (AWS metadata), or internal network IPs. Risk: SSRF exploitation if user-supplied URLs flow to fetch MCP.
+- **fetch MCP SSRF**: the `fetch` MCP (`uvx --with mcp<2 mcp-server-fetch`) accepts any URL with no allowlist. Never fetch `localhost`, `127.0.0.1`, `169.254.169.254` (AWS metadata), or internal network IPs. Risk: SSRF exploitation if user-supplied URLs flow to fetch MCP. **Removal trigger**: when `uvx mcp-server-fetch --version` reports a version published after 2026.7.10 (PyPI publish of modelcontextprotocol/servers#4560 fix), remove `--with "mcp<2"` from BOTH parent and child `fetch.command` arrays. See ADR-002.
 - **Cache maintenance**: the opencode cache at `C:/Users/user/.cache/opencode` may grow to 700+ MB. Periodically clean after opencode restart: `Remove-Item "$env:USERPROFILE/.cache/opencode" -Recurse -Force` (requires user confirmation since destructive bash is now `ask`).
 - **Multi-session memory**: the memory MCP (`@modelcontextprotocol/server-memory`) has no file locking. Running two opencode sessions simultaneously may corrupt `memory.jsonl`. Run one session at a time.
 - **auth.json security**: stores 4 provider API keys in plaintext. File ACL restricted to `SOHAM/user`, `SYSTEM`, `Administrators` only (as of 2026-07-19 audit). Do not commit auth.json to git.
 - **Tool output truncation**: when tool output exceeds `max_bytes` (65536) or `max_lines` (200), truncated content is stored at `C:/Users/user/.local/share/opencode/tool-output/` (outside workspace read-tool reach). Use bash `Get-Content` to read truncated files.
 - Backup files for `AGENTS.md` and `opencode.json` (from setup iteration) live in
   `.opencode/backups/` — do not edit them; they are historical snapshots.
+- **opencode v2 forward-path**: V2 beta is live (opencode.ai/v2/docs/migrate-v1). AGENTS.md and `.opencode/` files keep working (intentional compatibility). However, `compaction.tail_turns` (this workspace uses `tail_turns:3`) is removed in v2 — replace with `compaction.keep.tokens` on v2 upgrade. `small_model` and `enabled_providers`/`disabled_providers` top-level fields also removed. Defer v2 migration until a quiet slot — track the v2 stable release at opencode.ai/v2/docs/migrate-v1.
