@@ -764,6 +764,33 @@ For each `provider_choice`, replace the `provider` block:
 
 For the `ollama-cloud` provider (the current production setup's primary model), no explicit `provider` block is needed because it's registered in `auth.json` automatically. Set `main_model_id` to `ollama-cloud/minimax-m3`.
 
+**(i) TokenRouter (Tier-3 experimental, added 2026-07-31):**
+
+```json
+"provider": {
+  "tokenrouter": {
+    "npm": "@ai-sdk/openai-compatible",
+    "name": "TokenRouter",
+    "options": {
+      "baseURL": "https://api.tokenrouter.com/v1",
+      "apiKey": "{env:TOKENROUTER_API_KEY}"
+    },
+    "models": {
+      "moonshotai/kimi-k3-free": {
+        "name": "Kimi K3 Free",
+        "limit": { "context": 1048576, "output": 131072 }
+      },
+      "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free": {
+        "name": "Nemotron 3 Nano Omni 30B Free",
+        "limit": { "context": 256000, "output": 65536 }
+      }
+    }
+  }
+}
+```
+
+TokenRouter is NOT in `auth.json` — it lives in `opencode.json:provider` alongside `hcnsec`. Key is in the `TOKENROUTER_API_KEY` User env var (51 chars). Classified Tier-3 experimental: small routing proxy, unstated free-tier quota (per apidog.com). No production agent depends on it; fallback to hcnsec if unavailable. See ADR-005.
+
 ### 8.2 - Safety Patterns (MANDATORY for enterprise)
 
 The current production `opencode.json` includes these critical safety patterns that MUST be preserved:
@@ -1166,22 +1193,24 @@ Core Web Vitals auditor. See [upstream addyosmani/agent-skills/agents/web-perfor
 
 Set the following at User scope (Windows: System Properties -> Environment Variables; macOS/Linux: shell rc file):
 
-| Variable                       | Required           | Purpose                       | Where to get it                         |
-| ------------------------------ | ------------------ | ----------------------------- | --------------------------------------- |
-| `OPENCODE_API_KEY`             | If using Zen       | Auth for opencode-zen         | https://opencode.ai/zen                 |
-| `OPENAI_API_KEY`               | If using OpenAI    | Auth for openai               | https://platform.openai.com/api-keys    |
-| `ANTHROPIC_API_KEY`            | If using Anthropic | Auth for anthropic            | https://console.anthropic.com/          |
-| `GEMINI_API_KEY`               | If using Gemini    | Auth for google               | https://aistudio.google.com/apikey      |
-| `HCNSEC_API_KEY`               | If using hcnsec    | Auth for HuanCheng models     | https://hcnsec.cn/dashboard             |
-| `TAVILY_API_KEY`               | If enable_tavily   | Tavily web search             | https://app.tavily.com/                 |
-| `SENTRY_AUTH_TOKEN`            | If enable_sentry   | Sentry MCP                    | https://sentry.io/settings/auth-tokens/ |
-| `GITHUB_PERSONAL_ACCESS_TOKEN` | If GitHub MCP      | PAT with repo scope           | https://github.com/settings/tokens      |
-| `MEMORY_FILE_PATH`             | Always             | Absolute path to memory.jsonl | `{{setup_root}}/.opencode/memory.jsonl` |
+| Variable                       | Required             | Purpose                                           | Where to get it                         |
+| ------------------------------ | -------------------- | ------------------------------------------------- | --------------------------------------- |
+| `OPENCODE_API_KEY`             | If using Zen         | Auth for opencode-zen                             | https://opencode.ai/zen                 |
+| `OPENAI_API_KEY`               | If using OpenAI      | Auth for openai                                   | https://platform.openai.com/api-keys    |
+| `ANTHROPIC_API_KEY`            | If using Anthropic   | Auth for anthropic                                | https://console.anthropic.com/          |
+| `GEMINI_API_KEY`               | If using Gemini      | Auth for google                                   | https://aistudio.google.com/apikey      |
+| `HCNSEC_API_KEY`               | If using hcnsec      | Auth for HuanCheng models                         | https://hcnsec.cn/dashboard             |
+| `TOKENROUTER_API_KEY`          | If using TokenRouter | Auth for TokenRouter models (Tier-3 experimental) | https://tokenrouter.com/                |
+| `TAVILY_API_KEY`               | If enable_tavily     | Tavily web search                                 | https://app.tavily.com/                 |
+| `SENTRY_AUTH_TOKEN`            | If enable_sentry     | Sentry MCP                                        | https://sentry.io/settings/auth-tokens/ |
+| `GITHUB_PERSONAL_ACCESS_TOKEN` | If GitHub MCP        | PAT with repo scope                               | https://github.com/settings/tokens      |
+| `MEMORY_FILE_PATH`             | Always               | Absolute path to memory.jsonl                     | `{{setup_root}}/.opencode/memory.jsonl` |
 
 Set with PowerShell (admin):
 
 ```powershell
 [System.Environment]::SetEnvironmentVariable("HCNSEC_API_KEY", "sk-...", "User")
+[System.Environment]::SetEnvironmentVariable("TOKENROUTER_API_KEY", "sk-...", "User")
 [System.Environment]::SetEnvironmentVariable("MEMORY_FILE_PATH", "F:\CD\Opencode\.opencode\memory.jsonl", "User")
 ```
 
@@ -1189,6 +1218,7 @@ Set with bash:
 
 ```bash
 echo 'export HCNSEC_API_KEY="sk-..."' >> ~/.bashrc
+echo 'export TOKENROUTER_API_KEY="sk-..."' >> ~/.bashrc
 echo 'export MEMORY_FILE_PATH="/path/to/.opencode/memory.jsonl"' >> ~/.bashrc
 source ~/.bashrc
 ```
@@ -1497,14 +1527,16 @@ This section documents the exact state of the `F:\CD\Opencode` workspace as of 2
 | `step-router-v1`           | Step Router v1           | 128K     | 4K     | 1s                   |
 | `stepaudio-2.5-chat`       | StepAudio 2.5 Chat       | 32K      | 4K     | 0.8-1.3s             |
 
-#### Additional providers (in auth.json)
+#### Additional providers (in auth.json and opencode.json:provider)
 
-| Provider       | Key prefix       | Length   | Documented?        | Used by                                         |
-| -------------- | ---------------- | -------- | ------------------ | ----------------------------------------------- |
-| `ollama-cloud` | `7f31eb...`      | 49 chars | Yes (in AGENTS.md) | All primary agents (build, plan)                |
-| `opencode-zen` | (built-in)       | -        | Yes (in AGENTS.md) | All 15 subagents + default session model        |
-| `opencode-go`  | `sk-W8GXu...`    | 67 chars | Yes (in AGENTS.md) | smoke-test project only                         |
-| `nvidia`       | `nvapi-W1yyV...` | 70 chars | Yes (in AGENTS.md) | Project-specific routing (`<provider>/<model>`) |
+| Provider       | Key prefix       | Length   | Documented?        | Used by                                                                                                                                                                                                                                                                                                              |
+| -------------- | ---------------- | -------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ollama-cloud` | `7f31eb...`      | 49 chars | Yes (in AGENTS.md) | All primary agents (build, plan)                                                                                                                                                                                                                                                                                     |
+| `opencode-zen` | (built-in)       | -        | Yes (in AGENTS.md) | All 15 subagents + default session model                                                                                                                                                                                                                                                                             |
+| `opencode-go`  | `sk-W8GXu...`    | 67 chars | Yes (in AGENTS.md) | smoke-test project only                                                                                                                                                                                                                                                                                              |
+| `nvidia`       | `nvapi-W1yyV...` | 70 chars | Yes (in AGENTS.md) | Project-specific routing (`<provider>/<model>`)                                                                                                                                                                                                                                                                      |
+| `google`       | `AQ.Ab8R...`     | 53 chars | Yes (in AGENTS.md) | Gemini 3.5-flash-lite vision backend (vision-tool MCP, opencode-eyesight plugin). NOT in this snapshot table originally — added 2026-07-27 (see staleness note item 3).                                                                                                                                              |
+| `tokenrouter`  | `sk-2NW2...73er` | 51 chars | Yes (in AGENTS.md) | 2 free-tier models in `opencode.json:provider` (NOT auth.json): `moonshotai/kimi-k3-free` (Kimi K3 Free, 1M context), `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free` (Nemotron 3 Nano Omni 30B Free, 256K context). Small routing proxy — Tier-3 experimental, quota unstated. Added 2026-07-31 — see ADR-005. |
 
 Model assignments:
 
@@ -1760,5 +1792,9 @@ For anyone reading Sections 17-21 to understand the CURRENT production state of 
 > 5. **Skills: ~83 → ~117** — User skills path grew from 11 to 56; Config skills path grew from 7 to 19. Total active: 121 raw, ~117 unique after deduplication.
 > 6. **Supabase MCP** — live URL is now `read_only=false` (write-enabled). Snapshot's `read_only=true` (read-only enforced) is outdated.
 > 7. **Context compression tuning (2026-07-30)** — `glm-5.2` context corrected from 128K to 200K (NVIDIA NIM 200K cap + Cloudflare 262K + Warp issue #12980 + Cursor forum consensus); output remains 8192. The `compaction` block switched from `{auto:false, tail_turns:15}` (bypassed by provider-overflow — issue #30664) to the V1 sane-max: `{auto:true, prune:true, tail_turns:3, preserve_recent_tokens:8000, reserved:40000}` — evidence-backed across issues #24108 (prune default), #30811 (quality-after-N), #10634 (large-tool-output overflow). `Projects/neodev-portal/opencode.json` patched identically. Lossless plugin alternatives (Magic Compact, Magic Context, squeez, DCP) deferred to separate spike PRs — see `AGENTS.md` → "Lossless context compression plugins (deferred)".
+> 8. **fetch MCP SDK pin (2026-07-29)** — fetch MCP `command` array pinned to `uvx --with "mcp<2" mcp-server-fetch` to dodge SDK v2.0.0 `McpError`→`MCPError` rename. Upstream bug: modelcontextprotocol/servers#4560. Removal trigger documented in AGENTS.md gotchas. See ADR-002. Targets both parent and neodev-portal child `fetch.command` arrays.
+> 9. **hcnsec model display names simplified (2026-07-31, Task 1)** — 5 hcnsec models had `name` fields set to raw IDs; changed to clean Title Case labels (e.g., `Kimi-K2.6` → `Kimi K2.6`). Display-only; JSON keys (routing) unchanged. See ADR-003.
+> 10. **Agent `addy-` prefix removed (2026-07-31, Task 2)** — 4 specialist agents renamed: `addy-code-reviewer` → `code-reviewer`, `addy-security-auditor` → `security-auditor`, `addy-test-engineer` → `test-engineer`, `addy-web-perf-auditor` → `web-perf-auditor`. All 17 agents now use bare names. See ADR-004.
+> 11. **TokenRouter provider added (2026-07-31)** — 4th provider in `opencode.json:provider` (NOT auth.json). 2 free-tier models: `moonshotai/kimi-k3-free` (Kimi K3 Free, 1M context) and `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free` (Nemotron 3 Nano Omni 30B Free, 256K context). Key in `TOKENROUTER_API_KEY` User env var. Classified Tier-3 experimental — no production agent depends on it; fallback to hcnsec if unavailable. Display names simplified 2026-08-01 (Task 4, ADR-006). See ADR-005.
 >
 > Before re-deploying this workspace on a new machine using Sections 1-16 as a template, update the template guided by the live `AGENTS.md` and `opencode.json` rather than by the figures in Sections 17-21.

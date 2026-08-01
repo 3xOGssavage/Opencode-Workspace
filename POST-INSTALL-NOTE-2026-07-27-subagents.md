@@ -93,7 +93,7 @@ After restart:
 /agents
 ```
 
-Expected: 15 subagents (architect, reviewer, tester, explorer, oracle, librarian, fixer, designer, observer, council, orchestrator, addy-code-reviewer, addy-security-auditor, addy-test-engineer, addy-web-perf-auditor) all show model `hcnsec/Kimi-K2.6`; 2 primary (build, plan) show `ollama-cloud/minimax-m3`.
+Expected: 15 subagents (architect, reviewer, tester, explorer, oracle, librarian, fixer, designer, observer, council, orchestrator, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all show model `hcnsec/Kimi-K2.6`; 2 primary (build, plan) show `ollama-cloud/minimax-m3`.
 
 Then:
 
