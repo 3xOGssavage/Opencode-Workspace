@@ -96,11 +96,18 @@ try {
     if (-not $SkipPush) {
         Step "push $branchName to origin" {
             $pat = $env:GITHUB_PERSONAL_ACCESS_TOKEN
-            if ($pat) {
-                $helper = "!f() { echo username=$ghUser; echo password=$pat; }; f"
-                git -c credential.helper= -c credential.helper="!$helper" push -u origin $branchName 2>&1 | Out-Null
-            } else {
-                git push -u origin $branchName 2>&1 | Out-Null
+            $prevEAP = $ErrorActionPreference
+            $ErrorActionPreference = "Continue"
+            try {
+                if ($pat) {
+                    $helper = "!f() { echo username=$ghUser; echo password=$pat; }; f"
+                    git -c credential.helper= -c credential.helper="!$helper" push -u origin $branchName 2>&1 | Out-Null
+                } else {
+                    git push -u origin $branchName 2>&1 | Out-Null
+                }
+                if ($LASTEXITCODE -ne 0) { throw "git push failed (exit $LASTEXITCODE)" }
+            } finally {
+                $ErrorActionPreference = $prevEAP
             }
         }
     } else {
