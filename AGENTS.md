@@ -186,10 +186,11 @@ done (below). Never claim success without evidence.
 All subagents run on `hcnsec/Kimi-K2.6` (Moonshot Kimi K2.6 via hcnsec reseller, 256K context). Primary agents use
 `ollama-cloud/minimax-m3`. Subagents consume Kimi quota — dispatch sequentially to avoid hcnsec rate limits; parallel fan-out risks 429s.
 
-**Primary (2):**
+**Primary (3):**
 
 - `build` — implementation. Default agent.
 - `plan` — planning before coding.
+- `orchestrator` — multi-agent parallel dispatch (Tab-accessible). Uses OMO-Slim `stripOrchestratorModel: true` to preserve runtime `/model` selection. Switch to it via Tab when you need parallel subagent work; `build` remains default for normal coding.
 
 **Custom subagents (7 in `.opencode/agent/`):**
 
@@ -213,52 +214,90 @@ Disabled: `explore`, `general` (replaced by OMO-Slim's `explorer` and `orchestra
 Opencode's custom agents (architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor, orchestrator,
 oracle, council, librarian, explorer, designer, fixer, observer) are invoked
 via opencode's **agent-switching mechanism** (e.g., switching the active agent
-in the TUI), NOT via the `task` tool. The `task` tool's `subagent_type`
-parameter accepts a different fixed enum (e.g., `general-purpose`,
-`statusline-setup`) that does not include opencode's custom agents.
+in the TUI). The `task` tool's `subagent_type` parameter is **dynamic** — it
+accepts any registered agent name, not a fixed enum.
+
+The `background` parameter on the `task` tool is gated behind the
+`OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true` env var (GitHub issue #29638).
 
 Practical implications:
 
 - Inside an opencode session, custom agents are referenced in prose
   ("dispatch `architect`", "use `tester` for verification") and opencode routes
-  to the right context. The model used is whatever the agent's `model`
-  field specifies in `opencode.json`.
+  to the right context. The model used is whatever the agent's `model` field
+  specifies in `opencode.json`.
 - For external automation, subagents are reachable via the opencode CLI/API,
   not via the `task` tool.
+- **Parallel background dispatch**: Tab to `orchestrator` and ask it to run
+  multiple subagent tasks in parallel (e.g., "do these 5 things in parallel").
+  Monitor via Ctrl+X (session tree viewer). Use `task_status(task_id=...)` to
+  poll individual task results. No streaming/progress visibility (GitHub #27898,
+  closed not-planned).
+
+### Parallel background subagent workflow
+
+**Prerequisites:**
+
+- **opencode v1.18.11+** (v1.18.11 fixes interleaved reasoning field handling that caused t_out=0 on subagent calls in v1.18.10; verify with a 2-task parallel test after restart)
+- `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true` (User env var, set via `setx`)
+- `orchestrator` agent set to `mode: primary` in `opencode.json` (Tab-accessible)
+- OMO-Slim `stripOrchestratorModel: true` in `oh-my-opencode-slim.json`
+
+**Usage:**
+
+1. Tab to `orchestrator` in the TUI.
+2. Ask it to dispatch multiple tasks in parallel (e.g., "analyze the codebase
+   and do these 5 things in parallel: ...").
+3. Monitor active sessions via **Ctrl+X** (built-in session tree viewer).
+4. Use `task_status(task_id=...)` to poll individual task results.
+
+**Known issues and mitigations:**
+
+| Issue                                                                 | Severity | Mitigation                                                                                                                                     |
+| --------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| #31789 - Completed background tasks trigger infinite re-dispatch loop | HIGH     | Start with 2 concurrent tasks, not 5. Kill command: `Get-Process \| Where-Object { $_.ProcessName -like "*opencode*" } \| Stop-Process -Force` |
+| oh-my-openagent#2954 - Background subagents stay idle on Windows      | MEDIUM   | 5-min timeout; fall back to synchronous dispatch if no output                                                                                  |
+| #27898 - No streaming/progress for background tasks                   | LOW      | Use Ctrl+X session tree + `task_status` polling                                                                                                |
+
+**v1.18.11 changelog**: fixes (1) provider configs with interleaved reasoning fields like `reasoning_text` or custom field names — this was the upstream class of bug causing `finish_reason: "unknown"` with 0 output tokens on subagent calls (#26170 class, wontfix at opencode level — fixed upstream); (2) MCP SSE reconnect loops that may relate to #31789. The bug is _likely_ fixed but UNVERIFIED on hcnsec/Kimi-K2.6 — run a 2-task parallel test after restart before relying on it.
+
+**Rollback:** `setx OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS ""`, remove
+`orchestrator` `mode: primary` override from `opencode.json`, remove
+`stripOrchestratorModel` from `oh-my-opencode-slim.json`, restart opencode.
 
 ## Decision framework
 
-| Situation                                 | Action                                                   |
-| ----------------------------------------- | -------------------------------------------------------- |
-| Task touches 1 file, obvious change       | `build` directly                                         |
-| Task touches 2+ files or ambiguous        | `plan` first, then `architect` if structural             |
-| Bug report or unexpected behavior         | `debugging-and-error-recovery` skill, then `fixer` agent |
-| Need to understand existing code          | Dispatch `explorer` agent                                |
-| Need deep reasoning on architecture       | Dispatch `oracle` agent                                  |
-| Need multi-perspective review             | Dispatch `council` agent                                 |
-| Need to coordinate multi-agent task       | Use `orchestrator` agent                                 |
-| Need UI/frontend design work              | Dispatch `designer` agent                                |
-| Need to monitor background tasks          | Dispatch `observer` agent                                |
-| Need to look up library docs              | `context7` MCP or `librarian` agent                      |
-| Need current web info                     | `tavily` MCP (search) or `fetch` MCP (single URL)        |
-| Need to review code before merge          | `reviewer` or `code-reviewer`                            |
-| Need to run tests                         | `tester` agent or `/test` command                        |
-| Need test strategy or coverage analysis   | `test-engineer` agent                                    |
-| Need to check security issues             | `security-auditor` agent                                 |
-| Need to audit web performance             | `web-perf-auditor` agent                                 |
-| Need to research tools/approaches         | `last30days` skill                                       |
-| Need to interact with SaaS apps           | `composio` MCP                                           |
-| Need database queries / schema management | `supabase` MCP                                           |
-| Need to debug production errors           | `sentry` MCP                                             |
-| Need GitHub actions (PRs, issues, files)  | `github` MCP                                             |
-| Need to search 1M GitHub repos for code   | `grep` MCP                                               |
-| Need to build GitHub Actions workflows    | `agentic-workflows` skill (gh-aw)                        |
-| Need GitHub stack workflow patterns       | `gh-stack` skill                                         |
-| Need Vercel project management            | `vercel` MCP (deploy, logs, domains, env vars)           |
-| Need to deploy to Vercel                  | `vercel` MCP (deploy_to_vercel) + `deploy` skill         |
-| Need GitHub stack workflow patterns       | `gh-stack` skill                                         |
-| Context getting heavy                     | `/context` command (built-in)                            |
-| Important decision made                   | Save to `memory` MCP                                     |
+| Situation                                 | Action                                                         |
+| ----------------------------------------- | -------------------------------------------------------------- |
+| Task touches 1 file, obvious change       | `build` directly                                               |
+| Task touches 2+ files or ambiguous        | `plan` first, then `architect` if structural                   |
+| Bug report or unexpected behavior         | `debugging-and-error-recovery` skill, then `fixer` agent       |
+| Need to understand existing code          | Dispatch `explorer` agent                                      |
+| Need deep reasoning on architecture       | Dispatch `oracle` agent                                        |
+| Need multi-perspective review             | Dispatch `council` agent                                       |
+| Need to coordinate multi-agent task       | Tab to `orchestrator` agent (primary), dispatch parallel tasks |
+| Need UI/frontend design work              | Dispatch `designer` agent                                      |
+| Need to monitor background tasks          | Dispatch `observer` agent                                      |
+| Need to look up library docs              | `context7` MCP or `librarian` agent                            |
+| Need current web info                     | `tavily` MCP (search) or `fetch` MCP (single URL)              |
+| Need to review code before merge          | `reviewer` or `code-reviewer`                                  |
+| Need to run tests                         | `tester` agent or `/test` command                              |
+| Need test strategy or coverage analysis   | `test-engineer` agent                                          |
+| Need to check security issues             | `security-auditor` agent                                       |
+| Need to audit web performance             | `web-perf-auditor` agent                                       |
+| Need to research tools/approaches         | `last30days` skill                                             |
+| Need to interact with SaaS apps           | `composio` MCP                                                 |
+| Need database queries / schema management | `supabase` MCP                                                 |
+| Need to debug production errors           | `sentry` MCP                                                   |
+| Need GitHub actions (PRs, issues, files)  | `github` MCP                                                   |
+| Need to search 1M GitHub repos for code   | `grep` MCP                                                     |
+| Need to build GitHub Actions workflows    | `agentic-workflows` skill (gh-aw)                              |
+| Need GitHub stack workflow patterns       | `gh-stack` skill                                               |
+| Need Vercel project management            | `vercel` MCP (deploy, logs, domains, env vars)                 |
+| Need to deploy to Vercel                  | `vercel` MCP (deploy_to_vercel) + `deploy` skill               |
+| Need GitHub stack workflow patterns       | `gh-stack` skill                                               |
+| Context getting heavy                     | `/context` command (built-in)                                  |
+| Important decision made                   | Save to `memory` MCP                                           |
 
 ## Quality standards — definition of done
 
@@ -322,7 +361,7 @@ the auto-trigger condition — do not duplicate skill inventories in this file.
 
 ## Workspace reference files
 
-- **ENTERPRISE_OPENCODE_SETUP.md** (1737 lines) - interactive setup guide for re-deploying this workspace on another machine. Contains templates, questionnaires, and placeholders. Not loaded by opencode; reference only. Snapshot date 2026-07-19 — predates the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`, vision-tool MCP addition, `google` provider addition, and the 2026-07-30 context-compression tuning (GLM-5.2 context 128K→200K, V1 compaction block enabled); figures in Sections 1-16 (the setup template) may need adjustment before re-deployment. Sections 17-21 reflect the 2026-07-19 production snapshot and are stale relative to those subsequent changes.
+- **ENTERPRISE_OPENCODE_SETUP.md** (1737 lines) - interactive setup guide for re-deploying this workspace on another machine. Contains templates, questionnaires, and placeholders. Not loaded by opencode; reference only. Snapshot date 2026-07-19 — predates the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`, vision-tool MCP addition, `google` provider addition, the 2026-07-30 context-compression tuning (GLM-5.2 context 128K→200K, V1 compaction block enabled), and the 2026-08-02 opencode v1.18.11 upgrade + parallel subagent verification (fixes v1.18.10 zero-output bug, env var `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true` restored, regression table removed, 2-task parallel test passed); figures in Sections 1-16 (the setup template) may need adjustment before re-deployment. Sections 17-21 reflect the 2026-07-19 production snapshot and are stale relative to those subsequent changes. See ADR-007 (post-snapshot item 12) for the v1.18.11 upgrade details.
 - **skills-lock.json** - integrity hashes for 4 Vercel skills installed via `npx skills add` (deploy, logs, setup, vercel-cli). Validated on skill load.
 
 ### Skill precedence rule
@@ -392,7 +431,7 @@ the MCP addition, then add it via `opencode mcp add`.
 
 ### Lossless context compression plugins (deferred)
 
-The opencode v1.18.9 binary only supports V1 (lossy) compaction — V2
+The opencode v1.18.11 binary only supports V1 (lossy) compaction — V2
 (`keep.tokens` / `buffer`) was added in later v1.x but is silently ignored by
 this binary. The current `compaction` block (`auto:true, prune:true,
 tail_turns:3, preserve_recent_tokens:8000, reserved:40000`) is the V1
@@ -497,6 +536,7 @@ When starting a NEW project (no existing repo):
 - `GEMINI_API_KEY` (53 chars, `AQ.Ab8R...`) is set as a User env var — backs the `google` provider in `auth.json`, used by the `vision-tool` MCP (Gemini 3.5-flash-lite vision backend) and the `opencode-eyesight` fallback plugin.
 - `TOKENROUTER_API_KEY` (51 chars, `sk-2NW2...73er`) is set as a User env var — backs both `tokenrouter/*` models in `/models`. TokenRouter provider is in `opencode.json:provider`, NOT in `auth.json`.
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` and `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` are set as User env vars (see "Project inheritance" below) — these propagate the parent workspace's config into every child-project session.
+- `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS` is set to `true` as a User env var (via `setx`) — gates the `background` parameter on the `task` tool, enabling parallel subagent dispatch via the orchestrator. Requires opencode restart to take effect.
 - `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `ANTHROPIC_API_KEY`, `OPENCODE_API_KEY` are **not** set as User env vars. Either set them per-project or add via `setx` if you want OpenAI / OpenRouter / Anthropic / opencode-cloud providers visible globally.
 - Composio auth: run `opencode mcp auth composio` to connect SaaS apps.
 - Sentry: remote OAuth via `https://mcp.sentry.dev/mcp`.

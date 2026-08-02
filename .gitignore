@@ -1,0 +1,37 @@
+# Workspace exclusion (preserve dir for inheritance, ignore contents)
+/Projects/*
+!/Projects/.gitignore
+!/Projects/.gitkeep
+
+# Secrets — never commit
+/session-*.md
+
+# Workspace backup artifacts (not config)
+/.opencode/backups/
+/.opencode/tools/vision-tool/docs/demo/
+/.opencode/tools/vision-tool/__pycache__/
+
+# Vendored skill packs (auto-reinstallable)
+/.opencode/agent-skills/
+/.opencode/anthropic-skills/
+/.opencode/last30days-skill/
+/.opencode/vercel-agent-skills/
+/.opencode/playwright-bp-skill/
+/.opencode/github-mcp-server/
+/.opencode/node_modules/
+/.agents/
+
+# OS cruft
+*.bak
+*.bak.parallel
+*.zip
+*.db
+*.db-shm
+*.db-wal
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Runtime
+*.log
+*.tmp
