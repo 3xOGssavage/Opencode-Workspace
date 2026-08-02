@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "deploy": {
+      "source": "vercel/vercel-deploy-claude-code-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/deploy/SKILL.md",
+      "computedHash": "89611e2b32979533b8031a208ba709f9614db09f011ca09d27a56824ded76f5c"
+    },
+    "logs": {
+      "source": "vercel/vercel-deploy-claude-code-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/logs/SKILL.md",
+      "computedHash": "0b27725f24f7568287da3a407b3db146bf27e83b5c5412035f846c5a6c61169b"
+    },
+    "setup": {
+      "source": "vercel/vercel-deploy-claude-code-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/setup/SKILL.md",
+      "computedHash": "c8764ffa2b7104325ca7652899c10922a221abcc6baa5ba7c8e276ab4fb87fb1"
+    },
+    "vercel-cli": {
+      "source": "vercel/vercel",
+      "sourceType": "github",
+      "skillPath": "skills/vercel-cli/SKILL.md",
+      "computedHash": "28a2c25884bd7272688d48f1563f048ecb9a1b21f900aa08406f56f33240932c"
+    }
+  }
+}
