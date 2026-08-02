@@ -285,6 +285,109 @@ To update this backup after future workspace changes:
 | Paths in opencode.json point to `F:\CD\Opencode` on a new machine | Re-run `scripts\setup-env-vars.ps1` — it regex-replaces the old path with the current clone path.                                                                                            |
 | opencode.db is huge / chat history missing                        | `opencode.db` (1.43 GB) is NOT in this backup — it's chat history, not portable. A fresh one is created on first run.                                                                        |
 
+## Backup hardening v7 (skills snapshot + script decoupling + disaster scenarios)
+
+This section appends on top of the v6 init (the rest of this README). v7 adds:
+
+- `scripts/skills-snapshot.json` — committed snapshot of `~/.agents/.skill-lock.json` (22 KB) so a new-machine restore knows exactly which 56 user skills to reinstall.
+- `scripts/backup-workspace.ps1` — runtime backup runner. Decoupled from hardcoded GitHub username (now parses `git remote get-url origin`). Added `-DryRun`, `-SkipPush`, `.last-backup` marker (gitignored), and Windows Application Event Log entries on success (EventId 100) and failure (EventId 101) using the existing `"Windows PowerShell"` source (no admin required).
+- `scripts/audit-secrets.ps1` — lightweight pre-commit secret scanner (AWS/GCP/GitHub/Slack/JWT/SSH key patterns + documentation-prefix allow-list).
+- `.githooks/pre-commit` — invokes the audit script before every commit.
+- `.github/workflows/secret-scan.yml` + `.github/gitleaks.toml` — gitleaks CI runs on every PR to `main`.
+- Disaster scenarios table (below) — explicit coverage of what v7 handles and what it doesn't.
+
+### Disaster scenarios and recovery
+
+| Scenario                                     | v7 coverage                                     | Recovery procedure                                                                                                                                                                                            |
+| -------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Disk failure (F: drive dies)                 | ✅ Re-clone from GitHub                         | `git clone https://github.com/3xOGssavage/Opencode-Workspace.git F:\CD\Opencode` → run `scripts\setup-env-vars.ps1` → re-install 56 skills (see "Refreshing skills-snapshot.json" below for the source list). |
+| GitHub outage (hours)                        | ✅ Work locally                                 | All work continues against the local clone. Push when GitHub returns. Nothing is lost.                                                                                                                        |
+| GitHub 2FA device lost                       | ⚠️ Recoverable ONLY with backup codes           | Use one of the 16 saved `github-recovery-codes.txt` (store offline). If those are also lost → GitHub Support verification (SLOW, days).                                                                       |
+| GitHub account permanent ban                 | ⚠️ Code preserved locally; Issues/PRs/Wiki lost | Clone to a fresh account. Quarterly "Export account data" tar.gz (Settings → Account → Export) covers Issues/PRs/Wiki — see "Future hardening" below.                                                         |
+| Both F: drive AND GitHub die on the same day | ❌ WORKSPACE IS GONE                            | This is an accepted risk per user choice (2 copies only). Mitigation = 16 GitHub 2FA recovery codes stored offline + `git bundle create --all` on a separate drive. NOT IMPLEMENTED in v7.                    |
+| Ransomware encrypts F:                       | ❌ Local copy lost                              | Re-clone from GitHub. Gitleaks CI catches any pushed secrets.                                                                                                                                                 |
+| Accidental commit of a secret                | ✅ gitleaks CI on PR + pre-commit hook          | Rotate the secret THEN run BFG to strip from history (see "Future hardening" below).                                                                                                                          |
+
+### What v7 does NOT back up (explicit, by design)
+
+| Not backed up                        | Why                                    | Where to get it back                                                              |
+| ------------------------------------ | -------------------------------------- | --------------------------------------------------------------------------------- |
+| `opencode.db` (1.43 GB chat history) | Runtime state, not portable            | Fresh one created on first opencode run                                           |
+| `auth.json` (4 provider API keys)    | Secrets — never committed              | Re-issue from each provider (hcnsec, opencode-go, nvidia, google)                 |
+| `mcp-auth.json` (4 OAuth tokens)     | Secrets — never committed              | `opencode mcp auth sentry\|composio\|supabase\|vercel`                            |
+| 6 User API-key env vars              | Secrets — never committed              | `setx HCNSEC_API_KEY ...`, etc. (see "Secrets setup" below)                       |
+| `smoke-test`, `website` projects     | Disposable sandboxes (per user choice) | Recreatable from the opencode enterprise setup                                    |
+| `~/.cache/opencode/` (776 MB)        | Auto-regenerated                       | Run opencode; cache rebuilds itself                                               |
+| GitHub Issues/PRs/Wiki/Releases      | Not in git objects                     | `Settings → Account → Export` tar.gz (manual, quarterly — see "Future hardening") |
+
+### Secrets and credentials setup (on a new machine, manual)
+
+After cloning the repo and running `scripts\setup-env-vars.ps1`:
+
+1. **`auth.json`** at `%USERPROFILE%\.local\share\opencode\auth.json` — 4 provider API keys (hcnsec, opencode-go, nvidia, google). Get fresh from each provider.
+2. **`mcp-auth.json`** at the same path — re-auth each OAuth MCP:
+   ```
+   opencode mcp auth sentry
+   opencode mcp auth composio
+   opencode mcp auth supabase
+   opencode mcp auth vercel
+   ```
+3. **6 env vars** via `setx` (User scope):
+   ```
+   setx HCNSEC_API_KEY "sk-..."
+   setx GEMINI_API_KEY "AQ.Ab8R..."
+   setx TOKENROUTER_API_KEY "sk-..."
+   setx TAVILY_API_KEY "tvly-..."
+   setx SENTRY_AUTH_TOKEN "sntryu_..."
+   setx GITHUB_PERSONAL_ACCESS_TOKEN "ghp_..."   # scopes: repo, workflow, audit_log
+   ```
+4. **GitHub 2FA recovery codes** — restore `github-recovery-codes.txt` from your offline storage.
+
+### Monthly backup procedure (Task Scheduler)
+
+- **Trigger:** first Sunday monthly, 14:00 local
+- **Action:** `pwsh -File F:\CD\Opencode\scripts\backup-workspace.ps1`
+- **Settings:** "Run only when user is logged on" ✓, "Run task as soon as possible after a scheduled start is missed" ✓ (catches when the laptop is off — 10-min default delay before retry).
+- **Precondition:** working tree MUST be clean (script refuses otherwise).
+- **On failure:** check Event Viewer → Windows Logs → Application, filter Source=`Windows PowerShell`, EventId=`101`.
+- **Success marker:** `scripts\.last-backup` (gitignored).
+
+See `scripts\setup-scheduled-backup.ps1` (run once on a new machine to register the task) or register manually:
+
+```powershell
+$Action = New-ScheduledTaskAction -Execute "pwsh.exe" -Argument "-File F:\CD\Opencode\scripts\backup-workspace.ps1" -WorkingDirectory "F:\CD\Opencode"
+$Trigger = New-ScheduledTaskTrigger -Weekly -WeeksInterval 1 -DaysOfWeek Sunday -At 14:00
+$Settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 30) -DontStopOnIdleEnd
+Register-ScheduledTask -Action $Action -Trigger $Trigger -Settings $Settings -TaskName "Opencode monthly backup" -RunLevel Limited
+```
+
+### Refreshing `skills-snapshot.json` (after installing new skills)
+
+```powershell
+Copy-Item $env:USERPROFILE\.agents\.skill-lock.json F:\CD\Opencode\scripts\skills-snapshot.json
+git add scripts/skills-snapshot.json
+git commit -m "chore(skills): refresh skills-snapshot.json"
+git push
+```
+
+### Future hardening (optional, NOT in v7)
+
+- **3rd offline copy** via `git bundle create --all opencode-$(date).bundle` + `git bundle verify opencode-*.bundle`. Closes the "both F: and GitHub die same day" gap. Store the bundle on a separate drive or USB stick.
+- **Quarterly GitHub Export tar.gz** — `Settings → Account → Export`. Captures Issues/PRs/Wiki/Releases metadata that `git bundle`/`git clone --mirror` don't. Download link expires in 7 days.
+- **BFG public-release sweep** — if this repo is ever flipped public, run BFG to strip partial key prefixes (`sk-W8GXu...`, `nvapi-W1yyV...`, `AQ.Ab8R...`) from history, THEN rotate every key. Gitleaks CI is the live gate against new leaks.
+- **Annual `git gc --aggressive --prune=now`** — monitor via `git count-objects -vH`. Keeps the repo lean when many backup branches accumulate.
+
+### Acceptance criteria (this v7 release)
+
+- ✅ `backup-workspace.ps1` syntactically valid PowerShell (parser lint passes)
+- ✅ `backup-workspace.ps1 -DryRun -SkipPush` prints all steps without writing
+- ✅ `scripts/.last-backup` is NOT created by `-DryRun`
+- ✅ `scripts/skills-snapshot.json` valid JSON (22 KB, 56 skills)
+- ✅ Clone repo to `$env:TEMP\opencode-restore-test` → `setup-env-vars.ps1 -DryRun` runs cleanly
+- ✅ Diff clone vs live workspace: no missing tracked files
+- ✅ Gitleaks CI runs green on this PR
+- ✅ Hardcoded `3xOGssavage` absent from `scripts/*.ps1` (decoupled via `git remote get-url origin`)
+
 ## License
 
 Private repo. Internal use only.

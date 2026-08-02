@@ -1,0 +1,544 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-01T21:13:49.045Z",
+      "updatedAt": "2026-04-01T21:13:49.045Z"
+    },
+    "playwright-cli": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".claude/skills/playwright-cli/SKILL.md",
+      "skillFolderHash": "7f1be9aef5c4435ed99dc74a383ca814d05c82c5",
+      "installedAt": "2026-07-09T19:57:29.209Z",
+      "updatedAt": "2026-07-09T20:11:03.686Z"
+    },
+    "agentic-workflow-designer": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/agentic-workflow-designer/SKILL.md",
+      "skillFolderHash": "77e5f2df5551228cd6d6736b1387eec84663e8fc",
+      "installedAt": "2026-07-09T19:57:29.211Z",
+      "updatedAt": "2026-07-09T20:11:03.689Z"
+    },
+    "agentic-workflows": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/agentic-workflows/SKILL.md",
+      "skillFolderHash": "900c3439e4a0144ac44ae877067b664ce97d3bbc",
+      "installedAt": "2026-07-09T19:57:29.213Z",
+      "updatedAt": "2026-07-09T20:11:03.691Z"
+    },
+    "awf-release-integrator": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/awf-release-integrator/SKILL.md",
+      "skillFolderHash": "539b21c1242df6fdaa1327c26e407d8954352edd",
+      "installedAt": "2026-07-09T19:57:29.214Z",
+      "updatedAt": "2026-07-09T20:11:03.693Z"
+    },
+    "checkout-credential-review": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/checkout-credential-review/SKILL.md",
+      "skillFolderHash": "4a302743c8c73b1e3299f651872cf01e1ce5b160",
+      "installedAt": "2026-07-09T19:57:29.215Z",
+      "updatedAt": "2026-07-09T20:11:03.701Z"
+    },
+    "console-rendering": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/console-rendering/SKILL.md",
+      "skillFolderHash": "94715174247fda54ba52cd2ad2b4e192eae5448a",
+      "installedAt": "2026-07-09T19:57:29.217Z",
+      "updatedAt": "2026-07-09T20:11:03.702Z"
+    },
+    "copilot-review": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/copilot-review/SKILL.md",
+      "skillFolderHash": "24ed9410f0363c20946c8bb00a3de36726bdf443",
+      "installedAt": "2026-07-09T19:57:29.218Z",
+      "updatedAt": "2026-07-09T20:11:03.716Z"
+    },
+    "create-canvas": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/create-canvas/SKILL.md",
+      "skillFolderHash": "68f798fc1d772b4c7086ce027a89ced17e9a8ce4",
+      "installedAt": "2026-07-09T19:57:29.219Z",
+      "updatedAt": "2026-07-09T20:11:03.718Z"
+    },
+    "custom-agents": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/custom-agents/SKILL.md",
+      "skillFolderHash": "71824aff2e9b7cc965c733b452b50c185b56afbd",
+      "installedAt": "2026-07-09T19:57:29.220Z",
+      "updatedAt": "2026-07-09T20:11:03.719Z"
+    },
+    "debugging-workflows": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/debugging-workflows/SKILL.md",
+      "skillFolderHash": "1ab9ccff63a76f3ee48c3234129b4d4396010f22",
+      "installedAt": "2026-07-09T19:57:29.221Z",
+      "updatedAt": "2026-07-09T20:11:03.721Z"
+    },
+    "developer": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/developer/SKILL.md",
+      "skillFolderHash": "d051bdc1510265c9e92b52fbb6aae575f0f8b0a8",
+      "installedAt": "2026-07-09T19:57:29.222Z",
+      "updatedAt": "2026-07-09T20:11:03.723Z"
+    },
+    "documentation": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/documentation/SKILL.md",
+      "skillFolderHash": "d9cb2989b895182db4751b6e870d0858ce7942c2",
+      "installedAt": "2026-07-09T19:57:29.223Z",
+      "updatedAt": "2026-07-09T20:11:03.725Z"
+    },
+    "error-messages": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/error-messages/SKILL.md",
+      "skillFolderHash": "7dae4cf7160b4326000662fb6ee08c9b6af413ed",
+      "installedAt": "2026-07-09T19:57:29.227Z",
+      "updatedAt": "2026-07-09T20:11:03.732Z"
+    },
+    "error-pattern-safety": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/error-pattern-safety/SKILL.md",
+      "skillFolderHash": "0a451c7eae1628fe1644785420e78f6f390f043d",
+      "installedAt": "2026-07-09T19:57:29.229Z",
+      "updatedAt": "2026-07-09T20:11:03.747Z"
+    },
+    "gh-agent-session": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/gh-agent-session/SKILL.md",
+      "skillFolderHash": "603da1d3e5ca77073cf99e216d033d55249494fd",
+      "installedAt": "2026-07-09T19:57:29.243Z",
+      "updatedAt": "2026-07-09T20:11:03.748Z"
+    },
+    "gh-agent-task": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/gh-agent-task/SKILL.md",
+      "skillFolderHash": "46102ba965a3a4bcd83c8824e200e5be40b65f9f",
+      "installedAt": "2026-07-09T19:57:29.245Z",
+      "updatedAt": "2026-07-09T20:11:03.750Z"
+    },
+    "github-copilot-agent-tips-and-tricks": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/github-copilot-agent-tips-and-tricks/SKILL.md",
+      "skillFolderHash": "1d4c2c050117978a81623fd2dd09653cacb877a6",
+      "installedAt": "2026-07-09T19:57:29.247Z",
+      "updatedAt": "2026-07-09T20:11:03.751Z"
+    },
+    "github-discussion-query": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/github-discussion-query/SKILL.md",
+      "skillFolderHash": "c90c60620faa6c0bc047abd771f28d402fb37c01",
+      "installedAt": "2026-07-09T19:57:29.248Z",
+      "updatedAt": "2026-07-09T20:11:03.752Z"
+    },
+    "github-issue-query": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/github-issue-query/SKILL.md",
+      "skillFolderHash": "2ca6237854e03187955a9c0ce28af6e012b07234",
+      "installedAt": "2026-07-09T19:57:29.250Z",
+      "updatedAt": "2026-07-09T20:11:03.754Z"
+    },
+    "github-labels-query": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/github-labels-query/SKILL.md",
+      "skillFolderHash": "b18bd76c594e94d76914e5ca8a34c081dec45907",
+      "installedAt": "2026-07-09T19:57:29.251Z",
+      "updatedAt": "2026-07-09T20:11:03.761Z"
+    },
+    "github-mcp-server": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/github-mcp-server/SKILL.md",
+      "skillFolderHash": "71e9405e9d49d17fd4879fe99659885c51488ae9",
+      "installedAt": "2026-07-09T19:57:29.252Z",
+      "updatedAt": "2026-07-09T20:11:03.764Z"
+    },
+    "github-pr-query": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/github-pr-query/SKILL.md",
+      "skillFolderHash": "9ac32487bf68a922e9599b80361826158a7538e9",
+      "installedAt": "2026-07-09T19:57:29.254Z",
+      "updatedAt": "2026-07-09T20:11:03.765Z"
+    },
+    "github-script": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/github-script/SKILL.md",
+      "skillFolderHash": "7206bac8795a3464cf7b53e67c195a026ec80a3d",
+      "installedAt": "2026-07-09T19:57:29.260Z",
+      "updatedAt": "2026-07-09T20:11:03.775Z"
+    },
+    "github-workflows-query": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/github-workflows-query/SKILL.md",
+      "skillFolderHash": "4999d3e390c205861c371b9528d8d093c1bd1696",
+      "installedAt": "2026-07-09T19:57:29.274Z",
+      "updatedAt": "2026-07-09T20:11:03.777Z"
+    },
+    "go-codemod": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/go-codemod/SKILL.md",
+      "skillFolderHash": "e97a78a62fe175f995969f549d8eadb9d4845d60",
+      "installedAt": "2026-07-09T19:57:29.276Z",
+      "updatedAt": "2026-07-09T20:11:03.779Z"
+    },
+    "go-linters": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/go-linters/SKILL.md",
+      "skillFolderHash": "624803b28b393330a82ead05c47819df06f7c5ab",
+      "installedAt": "2026-07-09T19:57:29.278Z",
+      "updatedAt": "2026-07-09T20:11:03.780Z"
+    },
+    "http_mcp_headers": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/http-mcp-headers/SKILL.md",
+      "skillFolderHash": "557363a2016195ae9e5280f1f5a2c897065a7327",
+      "installedAt": "2026-07-09T19:57:29.279Z",
+      "updatedAt": "2026-07-09T20:11:03.782Z"
+    },
+    "javascript-refactoring": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/javascript-refactoring/SKILL.md",
+      "skillFolderHash": "6606a0d9cbf3bf236ca7d5735db42daf57db2910",
+      "installedAt": "2026-07-09T19:57:29.281Z",
+      "updatedAt": "2026-07-09T20:11:03.783Z"
+    },
+    "jqschema": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/jqschema/SKILL.md",
+      "skillFolderHash": "3e4e667f065a2deac9581b251e1519a484da98ba",
+      "installedAt": "2026-07-09T19:57:29.283Z",
+      "updatedAt": "2026-07-09T20:11:03.789Z"
+    },
+    "messages": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/messages/SKILL.md",
+      "skillFolderHash": "e355ff6307f7a789aea19b13d82abc5a84c0662a",
+      "installedAt": "2026-07-09T19:57:29.285Z",
+      "updatedAt": "2026-07-09T20:11:03.791Z"
+    },
+    "optimize-agentic-workflow": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/optimize-agentic-workflow/SKILL.md",
+      "skillFolderHash": "37042e190e07c100d22b64c8161d074e2f430af3",
+      "installedAt": "2026-07-09T19:57:29.287Z",
+      "updatedAt": "2026-07-09T20:11:03.804Z"
+    },
+    "otel-queries": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/otel-queries/SKILL.md",
+      "skillFolderHash": "78a06db56b214d3232af06a41ffad3d595887b1c",
+      "installedAt": "2026-07-09T19:57:29.290Z",
+      "updatedAt": "2026-07-09T20:11:03.806Z"
+    },
+    "pr-finisher": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/pr-finisher/SKILL.md",
+      "skillFolderHash": "177ff2670e0fdd63ca7336d0a301e5fdc6b7f308",
+      "installedAt": "2026-07-09T19:57:29.291Z",
+      "updatedAt": "2026-07-09T20:11:03.807Z"
+    },
+    "pr-to-go-linter": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/pr-to-go-linter/SKILL.md",
+      "skillFolderHash": "9914a5cbd1a309a79331a0d55861c9e9da2678c3",
+      "installedAt": "2026-07-09T19:57:29.292Z",
+      "updatedAt": "2026-07-09T20:11:03.809Z"
+    },
+    "prompt-token-efficiency": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/prompt-token-efficiency/SKILL.md",
+      "skillFolderHash": "8d452c4b126eb5ee59bd3d88d1c47a1451d9e18e",
+      "installedAt": "2026-07-09T19:57:29.295Z",
+      "updatedAt": "2026-07-09T20:11:03.811Z"
+    },
+    "reporting": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/reporting/SKILL.md",
+      "skillFolderHash": "6c774477779ef6c544a3c798cec85cb68e2ee3e0",
+      "installedAt": "2026-07-09T19:57:29.299Z",
+      "updatedAt": "2026-07-09T20:11:03.812Z"
+    },
+    "sergo-examples": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/sergo-examples/SKILL.md",
+      "skillFolderHash": "393e6ee1b1ca1613dd837f82b618ed2caf9d76a3",
+      "installedAt": "2026-07-09T19:57:29.301Z",
+      "updatedAt": "2026-07-09T20:11:03.820Z"
+    },
+    "ssl-skill-normalizer": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/ssl/SKILL.md",
+      "skillFolderHash": "2ac2f971cb2a7ea8368fd24d0e89a0180574379f",
+      "installedAt": "2026-07-09T19:57:29.314Z",
+      "updatedAt": "2026-07-09T20:11:03.822Z"
+    },
+    "temporary-id-safe-output": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/temporary-id-safe-output/SKILL.md",
+      "skillFolderHash": "8140b689509df1870d927ebcde2ee23880ba3e99",
+      "installedAt": "2026-07-09T19:57:29.316Z",
+      "updatedAt": "2026-07-09T20:11:03.835Z"
+    },
+    "workflow-step-summaries": {
+      "source": "github/gh-aw",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-aw.git",
+      "skillPath": ".github/skills/workflow-step-summaries/SKILL.md",
+      "skillFolderHash": "8bdf5e8acd6372d53b2bfd4124888f76d6c31bfe",
+      "installedAt": "2026-07-09T19:57:29.317Z",
+      "updatedAt": "2026-07-09T20:11:03.837Z"
+    },
+    "gh-stack": {
+      "source": "github/gh-stack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-stack.git",
+      "skillPath": "skills/gh-stack/SKILL.md",
+      "skillFolderHash": "c68c56b3414753690759b148af1ce5a5c717d774",
+      "installedAt": "2026-07-09T19:57:40.909Z",
+      "updatedAt": "2026-07-09T19:57:40.909Z"
+    },
+    "vercel-cli": {
+      "source": "vercel/vercel",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel/vercel.git",
+      "skillPath": "skills/vercel-cli/SKILL.md",
+      "skillFolderHash": "859a7decfbd55e478f6ff66f97fb8835be24e8c9",
+      "installedAt": "2026-07-09T20:46:47.827Z",
+      "updatedAt": "2026-07-09T20:46:47.827Z"
+    },
+    "deploy": {
+      "source": "vercel/vercel-deploy-claude-code-plugin",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel/vercel-deploy-claude-code-plugin.git",
+      "skillPath": "skills/deploy/SKILL.md",
+      "skillFolderHash": "7f9ce80802604e069e87abd7e65d3723c4410019",
+      "installedAt": "2026-07-09T20:47:02.318Z",
+      "updatedAt": "2026-07-09T20:47:02.318Z"
+    },
+    "logs": {
+      "source": "vercel/vercel-deploy-claude-code-plugin",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel/vercel-deploy-claude-code-plugin.git",
+      "skillPath": "skills/logs/SKILL.md",
+      "skillFolderHash": "ff8892a3fc36ba1839f1cfdc361f8f98dd7ca15b",
+      "installedAt": "2026-07-09T20:47:02.319Z",
+      "updatedAt": "2026-07-09T20:47:02.319Z"
+    },
+    "setup": {
+      "source": "vercel/vercel-deploy-claude-code-plugin",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel/vercel-deploy-claude-code-plugin.git",
+      "skillPath": "skills/setup/SKILL.md",
+      "skillFolderHash": "b7bde785625ea64395d69051090726309f011d5e",
+      "installedAt": "2026-07-09T20:47:02.320Z",
+      "updatedAt": "2026-07-09T20:47:02.320Z"
+    },
+    "gsap-core": {
+      "source": "greensock/gsap-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/greensock/gsap-skills.git",
+      "skillPath": "skills/gsap-core/SKILL.md",
+      "skillFolderHash": "135754edd728103e329a8df8b471b197375b370e",
+      "installedAt": "2026-07-23T10:40:29.536Z",
+      "updatedAt": "2026-07-23T10:40:29.536Z"
+    },
+    "gsap-frameworks": {
+      "source": "greensock/gsap-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/greensock/gsap-skills.git",
+      "skillPath": "skills/gsap-frameworks/SKILL.md",
+      "skillFolderHash": "5b086fa623be801882128fa16b2a9b446d193029",
+      "installedAt": "2026-07-23T10:40:29.538Z",
+      "updatedAt": "2026-07-23T10:40:29.538Z"
+    },
+    "gsap-performance": {
+      "source": "greensock/gsap-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/greensock/gsap-skills.git",
+      "skillPath": "skills/gsap-performance/SKILL.md",
+      "skillFolderHash": "34dec2f051872f8d02df06de97450e448bac9c5e",
+      "installedAt": "2026-07-23T10:40:29.539Z",
+      "updatedAt": "2026-07-23T10:40:29.539Z"
+    },
+    "gsap-plugins": {
+      "source": "greensock/gsap-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/greensock/gsap-skills.git",
+      "skillPath": "skills/gsap-plugins/SKILL.md",
+      "skillFolderHash": "e31ccbdb75cf41f0e7df0fec567f6e07956eaca9",
+      "installedAt": "2026-07-23T10:40:29.544Z",
+      "updatedAt": "2026-07-23T10:40:29.544Z"
+    },
+    "gsap-react": {
+      "source": "greensock/gsap-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/greensock/gsap-skills.git",
+      "skillPath": "skills/gsap-react/SKILL.md",
+      "skillFolderHash": "ac01a338b96fddbc6cf65a89858d2e6068887b39",
+      "installedAt": "2026-07-23T10:40:29.545Z",
+      "updatedAt": "2026-07-23T10:40:29.545Z"
+    },
+    "gsap-scrolltrigger": {
+      "source": "greensock/gsap-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/greensock/gsap-skills.git",
+      "skillPath": "skills/gsap-scrolltrigger/SKILL.md",
+      "skillFolderHash": "7838f515e05bfab0a79dd63368a409ddc7d76ee6",
+      "installedAt": "2026-07-23T10:40:29.546Z",
+      "updatedAt": "2026-07-23T10:40:29.546Z"
+    },
+    "gsap-timeline": {
+      "source": "greensock/gsap-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/greensock/gsap-skills.git",
+      "skillPath": "skills/gsap-timeline/SKILL.md",
+      "skillFolderHash": "37eb5d623c3e14367864d57160acb64f13950994",
+      "installedAt": "2026-07-23T10:40:29.547Z",
+      "updatedAt": "2026-07-23T10:40:29.547Z"
+    },
+    "gsap-utils": {
+      "source": "greensock/gsap-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/greensock/gsap-skills.git",
+      "skillPath": "skills/gsap-utils/SKILL.md",
+      "skillFolderHash": "3f7aa617dd2dc7ebf21f30349b9c7b6d8640d789",
+      "installedAt": "2026-07-23T10:40:29.548Z",
+      "updatedAt": "2026-07-23T10:40:29.548Z"
+    },
+    "design-taste-frontend": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Leonxlnx/taste-skill.git",
+      "skillPath": "skills/taste-skill/SKILL.md",
+      "skillFolderHash": "a6d128e53b4ec0238baee751dde33bf707adb5ec",
+      "installedAt": "2026-07-23T11:00:11.019Z",
+      "updatedAt": "2026-07-23T11:00:11.019Z"
+    },
+    "transitions-dev": {
+      "source": "Jakubantalik/transitions.dev",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Jakubantalik/transitions.dev.git",
+      "skillPath": "skills/transitions-dev/SKILL.md",
+      "skillFolderHash": "b5843d085c881a788329d6fdf41da9fed68b8e5b",
+      "installedAt": "2026-07-23T11:06:37.712Z",
+      "updatedAt": "2026-07-23T11:06:37.712Z"
+    },
+    "transitions-polish": {
+      "source": "Jakubantalik/transitions.dev",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Jakubantalik/transitions.dev.git",
+      "skillPath": "skills/transitions-polish/SKILL.md",
+      "skillFolderHash": "afd053fa85269d70d7e76f56321d7eb5bebde212",
+      "installedAt": "2026-07-23T11:06:37.714Z",
+      "updatedAt": "2026-07-23T11:06:37.714Z"
+    },
+    "seo": {
+      "source": "davila7/claude-code-templates",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/davila7/claude-code-templates.git",
+      "skillPath": "cli-tool/components/skills/development/seo/SKILL.md",
+      "skillFolderHash": "4e2636fafef2fbd4ffa6eb8474ad0f0b5f3ff4ac",
+      "installedAt": "2026-07-23T11:18:24.967Z",
+      "updatedAt": "2026-07-23T11:18:24.967Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "firebender",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp"
+  ]
+}

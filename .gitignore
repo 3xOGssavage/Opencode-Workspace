@@ -35,3 +35,6 @@ desktop.ini
 # Runtime
 *.log
 *.tmp
+
+# Local backup state (marker file written by backup-workspace.ps1)
+/scripts/.last-backup

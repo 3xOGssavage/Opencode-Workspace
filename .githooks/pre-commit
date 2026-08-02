@@ -1,0 +1,5 @@
+#!/bin/sh
+# Pre-commit hook: runs local secret scanner before each commit.
+# Enable with: git config core.hookspath .githooks
+pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/audit-secrets.ps1
+exit $?
