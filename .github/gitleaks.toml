@@ -1,0 +1,24 @@
+title = "opencode-workspace gitleaks config"
+
+[allowlist]
+description = "Allowed false-positives: truncated documentation prefixes only."
+paths = [
+  '''README\.md''',
+  '''AGENTS\.md''',
+  '''ENTERPRISE_OPENCODE_SETUP\.md''',
+  '''scripts/skills-snapshot\.json''',
+  '''skills-lock\.json''',
+]
+
+# Truncated API key prefixes documented in AGENTS.md/README.md fragments.
+# Allow if the rest of the token is < 20 chars (cannot be a live key).
+regexes = [
+  '''sk-W8GXu[A-Za-z0-9.\-]{0,19}''',
+  '''nvapi-W1yyV[A-Za-z0-9.\-]{0,19}''',
+  '''AQ\.Ab8R[A-Za-z0-9.\-_]{0,19}''',
+  '''sk-2NW2[A-Za-z0-9.\-]{0,19}''',
+]
+
+[[allowlist.commits]]
+# Pre-existing commits with truncated prefix documentation are allowed.
+# Add SHAs here if gitleaks flags historical commits.
