@@ -46,14 +46,16 @@ try {
     if ($DryRun) { Write-Host "(DRY RUN - no changes will be made)" -ForegroundColor Cyan }
     Write-Host ""
 
-    # 1. Pre-flight: working tree must be clean for a clean backup
+    # 1. Pre-flight: detect uncommitted changes (these are what we're backing up).
+    #    Empty status = nothing to backup = early exit, NOT an error.
     $dirty = git status --porcelain
-    if ($dirty) {
-        Write-Host "Pre-flight: uncommitted changes detected - stash or commit first:" -ForegroundColor Red
-        $dirty | ForEach-Object { Write-Host "  $_" }
-        throw "Working tree not clean"
+    if (-not $dirty) {
+        Write-Host "Pre-flight: nothing to backup (working tree clean)" -ForegroundColor Yellow
+        # ponytail: no Event Log entry on no-op - nothing was backed up, no event worth recording.
+        return
     }
-    Write-Host "Pre-flight: working tree clean" -ForegroundColor Green
+    $fileCount = ($dirty | Measure-Object -Line).Lines
+    Write-Host "Pre-flight: $fileCount uncommitted change(s) to backup" -ForegroundColor Green
 
     # 2. Parse GitHub username from origin remote (keeps script repo-agnostic)
     $remoteUrl = git remote get-url origin
@@ -78,7 +80,13 @@ try {
     $stagedCount = (git diff --cached --numstat | Measure-Object -Line).Lines
     if ($stagedCount -eq 0) {
         Write-Host "Nothing to commit - no backup needed" -ForegroundColor Yellow
-        if (-not $DryRun) { git checkout main | Out-Null }
+        if (-not $DryRun) {
+            git checkout main | Out-Null
+            # Clean up the empty backup branch we just created
+            $orphan = git for-each-ref --format='%(refname:short)' "refs/heads/$branchName"
+            if ($orphan -eq $branchName) { git branch -D $branchName | Out-Null }
+        }
+        # ponytail: no Event Log entry on no-op — nothing was backed up, so no event worth recording.
         return
     }
     $commitMsg = "chore(backup): auto-snapshot $date"
