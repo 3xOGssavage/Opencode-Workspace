@@ -46,14 +46,16 @@ try {
     if ($DryRun) { Write-Host "(DRY RUN - no changes will be made)" -ForegroundColor Cyan }
     Write-Host ""
 
-    # 1. Pre-flight: working tree must be clean for a clean backup
+    # 1. Pre-flight: detect uncommitted changes (these are what we're backing up).
+    #    Empty status = nothing to backup = early exit, NOT an error.
     $dirty = git status --porcelain
-    if ($dirty) {
-        Write-Host "Pre-flight: uncommitted changes detected - stash or commit first:" -ForegroundColor Red
-        $dirty | ForEach-Object { Write-Host "  $_" }
-        throw "Working tree not clean"
+    if (-not $dirty) {
+        Write-Host "Pre-flight: nothing to backup (working tree clean)" -ForegroundColor Yellow
+        # ponytail: no Event Log entry on no-op - nothing was backed up, no event worth recording.
+        return
     }
-    Write-Host "Pre-flight: working tree clean" -ForegroundColor Green
+    $fileCount = ($dirty | Measure-Object -Line).Lines
+    Write-Host "Pre-flight: $fileCount uncommitted change(s) to backup" -ForegroundColor Green
 
     # 2. Parse GitHub username from origin remote (keeps script repo-agnostic)
     $remoteUrl = git remote get-url origin
