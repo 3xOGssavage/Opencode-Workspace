@@ -642,7 +642,7 @@ Write this to `{{setup_root}}/opencode.json`. See Appendix B for the actual curr
     "designer": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
     "observer": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
     "council": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
-    "orchestrator": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
+    "orchestrator": { "model": "{{small_model_id}}", "mode": "primary", "permission": { "edit": "deny", "bash": "ask" } },
     "code-reviewer": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
     "security-auditor": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
     "test-engineer": { "model": "{{small_model_id}}", "mode": "subagent", "permission": { "edit": "deny", "bash": "ask" } },
@@ -1193,18 +1193,21 @@ Core Web Vitals auditor. See [upstream addyosmani/agent-skills/agents/web-perfor
 
 Set the following at User scope (Windows: System Properties -> Environment Variables; macOS/Linux: shell rc file):
 
-| Variable                       | Required             | Purpose                                           | Where to get it                         |
-| ------------------------------ | -------------------- | ------------------------------------------------- | --------------------------------------- |
-| `OPENCODE_API_KEY`             | If using Zen         | Auth for opencode-zen                             | https://opencode.ai/zen                 |
-| `OPENAI_API_KEY`               | If using OpenAI      | Auth for openai                                   | https://platform.openai.com/api-keys    |
-| `ANTHROPIC_API_KEY`            | If using Anthropic   | Auth for anthropic                                | https://console.anthropic.com/          |
-| `GEMINI_API_KEY`               | If using Gemini      | Auth for google                                   | https://aistudio.google.com/apikey      |
-| `HCNSEC_API_KEY`               | If using hcnsec      | Auth for HuanCheng models                         | https://hcnsec.cn/dashboard             |
-| `TOKENROUTER_API_KEY`          | If using TokenRouter | Auth for TokenRouter models (Tier-3 experimental) | https://tokenrouter.com/                |
-| `TAVILY_API_KEY`               | If enable_tavily     | Tavily web search                                 | https://app.tavily.com/                 |
-| `SENTRY_AUTH_TOKEN`            | If enable_sentry     | Sentry MCP                                        | https://sentry.io/settings/auth-tokens/ |
-| `GITHUB_PERSONAL_ACCESS_TOKEN` | If GitHub MCP        | PAT with repo scope                               | https://github.com/settings/tokens      |
-| `MEMORY_FILE_PATH`             | Always               | Absolute path to memory.jsonl                     | `{{setup_root}}/.opencode/memory.jsonl` |
+| Variable                                     | Required              | Purpose                                                        | Where to get it                         |
+| -------------------------------------------- | --------------------- | -------------------------------------------------------------- | --------------------------------------- |
+| `OPENCODE_API_KEY`                           | If using Zen          | Auth for opencode-zen                                          | https://opencode.ai/zen                 |
+| `OPENAI_API_KEY`                             | If using OpenAI       | Auth for openai                                                | https://platform.openai.com/api-keys    |
+| `ANTHROPIC_API_KEY`                          | If using Anthropic    | Auth for anthropic                                             | https://console.anthropic.com/          |
+| `GEMINI_API_KEY`                             | If using Gemini       | Auth for google                                                | https://aistudio.google.com/apikey      |
+| `HCNSEC_API_KEY`                             | If using hcnsec       | Auth for HuanCheng models                                      | https://hcnsec.cn/dashboard             |
+| `TOKENROUTER_API_KEY`                        | If using TokenRouter  | Auth for TokenRouter models (Tier-3 experimental)              | https://tokenrouter.com/                |
+| `TAVILY_API_KEY`                             | If enable_tavily      | Tavily web search                                              | https://app.tavily.com/                 |
+| `SENTRY_AUTH_TOKEN`                          | If enable_sentry      | Sentry MCP                                                     | https://sentry.io/settings/auth-tokens/ |
+| `GITHUB_PERSONAL_ACCESS_TOKEN`               | If GitHub MCP         | PAT with repo scope                                            | https://github.com/settings/tokens      |
+| `MEMORY_FILE_PATH`                           | Always                | Absolute path to memory.jsonl                                  | `{{setup_root}}/.opencode/memory.jsonl` |
+| `OPENCODE_CONFIG`                            | Always (inheritance)  | Path to parent `opencode.json` for child projects              | `{{setup_root}}/opencode.json`          |
+| `OPENCODE_CONFIG_DIR`                        | Always (inheritance)  | Parent `.opencode` dir for agent/command discovery             | `{{setup_root}}/.opencode`              |
+| `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS` | If parallel subagents | `true` to enable background subagent dispatch via orchestrator | `true`                                  |
 
 Set with PowerShell (admin):
 
@@ -1266,13 +1269,22 @@ After the agent says setup is complete, the user must do the following:
 
 9. **Check backups**. After the first edit, verify `.opencode/backups/` has a timestamped `.pre-audit-2026-07-19.bak` file for every config that was modified.
 
+10. **Run a 2-task parallel subagent test** (requires `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true` User env var + opencode v1.18.11+ + orchestrator `mode: "primary"`):
+
+    1. Tab to the `orchestrator` agent in the opencode TUI.
+    2. Ask it to dispatch 2 background subagent tasks in parallel (e.g., "read AGENTS.md and report its section count" + "list all .md files in .opencode/agents/").
+    3. Monitor active sessions via **Ctrl+X** (session tree viewer).
+    4. **Expected:** both subagents return non-zero output with real data. If either returns `finish_reason: "unknown"` with `0` output tokens, you have hit the v1.18.10 zero-output bug — verify you're on v1.18.11+ (`opencode --version`).
+
+    > **Why this test matters:** v1.18.10 had a bug where subagent calls returned zero output tokens due to interleaved reasoning field handling. v1.18.11 fixes this. The 2-task parallel test is the smallest test that fails if the bug is present. See `POST-INSTALL-NOTE-2026-08-02-v1.18.11-upgrade.md` and ADR-007 (post-snapshot item 12).
+
 ---
 
 ## 13. Verification Checklist
 
 The setup is complete when ALL of the following are true:
 
-- [ ] `opencode --version` returns >= 1.0.0
+- [ ] `opencode --version` returns >= 1.18.11 (required for parallel subagent dispatch; v1.18.10 has a zero-output bug)
 - [ ] `python --version` returns >= 3.12
 - [ ] `node --version` returns >= 20
 - [ ] `git --version` returns >= 2.40
@@ -1707,7 +1719,7 @@ Model assignments:
 | `preserve_recent_tokens` | 8000  | V1 sane-max (`MAX_PRESERVE_RECENT_TOKENS` in source; user-set via `??`)                       |
 | `reserved`               | 40000 | Triggers earlier to mitigate large-tool-output overflow (#10634)                              |
 
-> **V2 not supported.** The opencode v1.18.9 binary only supports V1
+> **V2 not supported.** The opencode v1.18.11 binary only supports V1
 > (lossy) compaction. V2 fields (`keep.tokens`, `buffer`) were added in later
 > v1.x but are silently ignored. Lossless plugin alternatives are tracked
 > separately (see `AGENTS.md` → "Lossless context compression plugins (deferred)").
@@ -1796,5 +1808,6 @@ For anyone reading Sections 17-21 to understand the CURRENT production state of 
 > 9. **hcnsec model display names simplified (2026-07-31, Task 1)** — 5 hcnsec models had `name` fields set to raw IDs; changed to clean Title Case labels (e.g., `Kimi-K2.6` → `Kimi K2.6`). Display-only; JSON keys (routing) unchanged. See ADR-003.
 > 10. **Agent `addy-` prefix removed (2026-07-31, Task 2)** — 4 specialist agents renamed: `addy-code-reviewer` → `code-reviewer`, `addy-security-auditor` → `security-auditor`, `addy-test-engineer` → `test-engineer`, `addy-web-perf-auditor` → `web-perf-auditor`. All 17 agents now use bare names. See ADR-004.
 > 11. **TokenRouter provider added (2026-07-31)** — 4th provider in `opencode.json:provider` (NOT auth.json). 2 free-tier models: `moonshotai/kimi-k3-free` (Kimi K3 Free, 1M context) and `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free` (Nemotron 3 Nano Omni 30B Free, 256K context). Key in `TOKENROUTER_API_KEY` User env var. Classified Tier-3 experimental — no production agent depends on it; fallback to hcnsec if unavailable. Display names simplified 2026-08-01 (Task 4, ADR-006). See ADR-005.
+> 12. **opencode v1.18.11 upgrade + parallel subagent verification (2026-08-02)** — upgraded from v1.18.10 (which had a zero-output bug on subagent calls caused by interleaved reasoning field handling) to v1.18.11 (fixes the bug class). Restored `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true` User env var (gates the `background` parameter on the `task` tool). Removed the v1.18.10 regression table and WARNING block from `AGENTS.md` → "Parallel background subagent workflow" (no longer needed post-fix). Updated prerequisites from "v1.18.9 (NOT v1.18.10)" to "v1.18.11+". Verified with a 2-task parallel subagent test: both `explorer` background subagents on `hcnsec/Kimi-K2.6` returned non-zero output with real data. `autoupdate: "notify"` retained (opencode prompts but does not auto-install). Also fixed this setup guide's template: orchestrator `mode` corrected from `"subagent"` → `"primary"` (L645), 3 env var rows added to the env var table (`OPENCODE_CONFIG`, `OPENCODE_CONFIG_DIR`, `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS`), and Section 12 step 10 added (2-task parallel subagent test). See ADR-007. Full details: `POST-INSTALL-NOTE-2026-08-02-v1.18.11-upgrade.md`.
 >
 > Before re-deploying this workspace on a new machine using Sections 1-16 as a template, update the template guided by the live `AGENTS.md` and `opencode.json` rather than by the figures in Sections 17-21.

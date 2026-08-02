@@ -383,7 +383,7 @@
     },
     "orchestrator": {
       "model": "hcnsec/Kimi-K2.6",
-      "mode": "subagent",
+      "mode": "primary",
       "permission": {
         "edit": "deny",
         "bash": "ask"
