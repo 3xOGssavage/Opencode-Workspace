@@ -285,6 +285,97 @@ To update this backup after future workspace changes:
 | Paths in opencode.json point to `F:\CD\Opencode` on a new machine | Re-run `scripts\setup-env-vars.ps1` — it regex-replaces the old path with the current clone path.                                                                                            |
 | opencode.db is huge / chat history missing                        | `opencode.db` (1.43 GB) is NOT in this backup — it's chat history, not portable. A fresh one is created on first run.                                                                        |
 
+## Backup hardening (v6)
+
+The base backup (PR #1) established the 3-2-1 architecture: workspace + zip + GitHub. PR #2 added these **defense-in-depth** layers:
+
+### 1. Pre-commit secret guard (local)
+
+`.githooks/pre-commit` runs `scripts/audit-secrets.ps1` on every staged file. Commits are **blocked** if any of these patterns are detected:
+
+- `sk-[A-Za-z0-9]{20,}` (OpenAI/Anthropic/hcnsec/TokenRouter)
+- `ghp_[A-Za-z0-9]{36}` (GitHub classic PAT)
+- `github_pat_[A-Za-z0-9_]{82}` (GitHub fine-grained PAT)
+- `nvapi-[A-Za-z0-9]{20,}` (NVIDIA)
+- `AQ\.[A-Za-z0-9_\-]{20,}` (Google AI Studio)
+- `xox[baprs]-...` (Slack)
+- `AKIA[0-9A-Z]{16}` (AWS access key)
+- `sntrys_...` (Sentry auth token)
+
+The hook is activated by `git config core.hooksPath .githooks` (set automatically by `setup-env-vars.ps1`, or run manually once after cloning).
+
+**Bypass in emergencies:** `git commit --no-verify` (use sparingly — the CI scan still catches it on push).
+
+**Test it yourself:**
+
+```powershell
+pwsh scripts/audit-secrets.ps1
+```
+
+### 2. GitHub Actions secret scan (cloud, defense in depth)
+
+`.github/workflows/secret-scan.yml` runs `gitleaks/gitleaks-action@v2` on every push and PR to every branch. This is the cloud safety net for the local pre-commit hook — independent of GitHub's paid Advanced Security (which private repos don't get for free).
+
+**If the workflow fails on a push:** a secret was detected in the diff. Remove the secret from the file, re-commit, and push again. There's no bypass for CI scans — by design.
+
+**Config:** `.github/gitleaks.toml` extends default rules with allow-lists for our `{env:VAR}` placeholders and partial-key documentation patterns (`sk-W8GXu...`, `nvapi-W1yyV...`, `AQ.Ab8R...`).
+
+**View scan history:** https://github.com/3xOGssavage/Opencode-Workspace/actions/workflows/secret-scan.yml
+
+### 3. Semi-automated backup runner
+
+`scripts/backup-workspace.ps1` automates the "manual backup" workflow:
+
+```powershell
+pwsh scripts/backup-workspace.ps1                                    # auto message
+pwsh scripts/backup-workspace.ps1 -Message "chore: post-vX.Y.Z snapshot"
+pwsh scripts/backup-workspace.ps1 -SkipPush                          # commit locally only
+```
+
+It:
+
+1. Refuses to run if `git status` shows uncommitted changes (safer than auto-stashing; user stays in control)
+2. Creates a `chore/auto-backup-YYYY-MM-DD` branch
+3. Stages tracked-only changes (`git add -A` respects .gitignore)
+4. Commits + pushes via inline credential helper using `GITHUB_PERSONAL_ACCESS_TOKEN`
+5. Prints the URL for you to merge the resulting PR
+
+**Monthly auto-run (Windows Task Scheduler):**
+
+1. Open Task Scheduler → Create Basic Task
+2. Name: `opencode-backup-monthly`, Trigger: Monthly (1st of month), Action: Start a program
+3. Program: `pwsh.exe`, Arguments: `-NoProfile -ExecutionPolicy Bypass -File F:\CD\Opencode\scripts\backup-workspace.ps1`
+4. Finish. The script will silently commit + push on the 1st of each month. You get a PR notification from GitHub — merge when convenient.
+
+### 4. Setup script -DryRun (safe restore testing)
+
+`setup-env-vars.ps1` now accepts a `-DryRun` switch that simulates every action, modifies nothing:
+
+```powershell
+pwsh scripts/setup-env-vars.ps1 -DryRun
+```
+
+Use it before running the real setup on a new machine to preview what will happen — no env vars are set, no files are copied, no `opencode.json` paths are rewritten, no `core.hooksPath` is configured.
+
+### 5. Known risk: opencode issue #9086
+
+opencode v1.1.25 had a bug where `{env:VAR_NAME}` placeholders in `opencode.json` were overwritten with the actual secret values on startup. The current workspace runs v1.18.11 (the bug is fixed upstream), but to be safe:
+
+- The pre-commit secret guard (section 1 above) catches the leak if it ever recurs on a future opencode version.
+- The GitHub Actions secret scan (section 2) catches it on push.
+- Manually: `pwsh scripts/audit-secrets.ps1` after any opencode session to verify `opencode.json` placeholders are intact.
+
+### 6. Restore test verified (2026-08-02)
+
+Restore of this backup was end-to-end tested on 2026-08-02:
+
+- **Zip extracted** to temp folder — 83 files, 864 KB uncompressed, structure matches expected layout (root .md files, `.opencode/{agents,commands,skills,...}`, `global-config/`, `docs/adrs/`)
+- **GitHub repo cloned** to temp folder — all 8 branches came down cleanly
+- **`setup-env-vars.ps1 -DryRun` executed** — output sensible, no errors, path normalization would correctly rebase `F:\CD\Opencode` → current clone path
+- **Pre-commit hook tested** — `pwsh scripts/audit-secrets.ps1` returned 0 (clean) on the tracked tree
+
+Re-test any time: `pwsh scripts/setup-env-vars.ps1 -DryRun` + `pwsh scripts/audit-secrets.ps1`.
+
 ## License
 
 Private repo. Internal use only.

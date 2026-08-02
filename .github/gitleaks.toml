@@ -1,0 +1,21 @@
+# Gitleaks config - extends the default rules with allow-list for our placeholders.
+# Default rules + providers are auto-merged from gitleaks/gitleaks-action@v2.
+title = "opencode-workspace custom rules"
+
+[allowlist]
+description = "Allow opencode.json env-var placeholders (not actual secrets)"
+regexes = [
+  '''\{env:[A-Z_]+\}''',
+  '''sk-W8GXu\.\.\.''',
+  '''nvapi-W1yyV\.\.\.''',
+  '''AQ\.Ab8R\.\.\.'''
+]
+
+# Allow specific files that only reference secret names (not values) in docs/README
+paths = [
+  '''README\.md''',
+  '''ENTERPRISE_OPENCODE_SETUP\.md''',
+  '''AGENTS\.md''',
+  '''scripts/setup-env-vars\.ps1''',
+  '''scripts/audit-secrets\.ps1'''
+]

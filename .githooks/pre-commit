@@ -1,0 +1,27 @@
+#!/bin/sh
+# Pre-commit hook: runs scripts/audit-secrets.ps1 on staged files.
+# Blocks commit if any known API-key pattern is found in staged text files.
+# Configured via:  git config core.hooksPath .githooks
+# Bypass in emergencies:  git commit --no-verify
+
+# Resolve workspace root (git runs hooks from repo root)
+HOOK_DIR="$(git rev-parse --git-dir)/hooks"
+SCRIPT="scripts/audit-secrets.ps1"
+
+# Prefer pwsh (PowerShell 7+) if available, fall back to powershell (5.1)
+if command -v pwsh >/dev/null 2>&1; then
+  PS=pwsh
+elif command -v powershell >/dev/null 2>&1; then
+  PS=powershell
+else
+  echo "pre-commit: SKIP - no PowerShell found on PATH (cannot run audit-secrets.ps1)"
+  exit 0
+fi
+
+if [ ! -f "$SCRIPT" ]; then
+  echo "pre-commit: SKIP - $SCRIPT not found at repo root"
+  exit 0
+fi
+
+"$PS" -NoProfile -NonInteractive -File "$SCRIPT" -StagedOnly:$true
+exit $?
