@@ -129,12 +129,18 @@ try {
     # 9. Return to main
     Step "checkout main" { git checkout main | Out-Null }
 
-    # 10. Event Log success entry (uses existing "Windows PowerShell" source - no admin needed)
+    # 10. Event Log success entry (best-effort: skip silently if source isn't registered).
+    #      "Windows PowerShell" source is registered by PS itself on first use, but if Event Log
+    #      is locked or source missing, backup already succeeded (marker + push done) - don't fail.
     if (-not $DryRun) {
-        Write-EventLog -LogName Application -Source 'Windows PowerShell' `
-            -EventId 100 -EntryType Information `
-            -Message "opencode-workspace backup OK (branch $branchName, commit $commitHash)"
-        Write-Host "Event Log: success entry written (EventId 100)" -ForegroundColor Green
+        try {
+            Write-EventLog -LogName Application -Source 'Windows PowerShell' `
+                -EventId 100 -EntryType Information `
+                -Message "opencode-workspace backup OK (branch $branchName, commit $commitHash)"
+            Write-Host "Event Log: success entry written (EventId 100)" -ForegroundColor Green
+        } catch {
+            Write-Host "Event Log: skipped (source not writable - backup still succeeded): $($_.Exception.Message)" -ForegroundColor Yellow
+        }
     }
 
     Write-Host ""
