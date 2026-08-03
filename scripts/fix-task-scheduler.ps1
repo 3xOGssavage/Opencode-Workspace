@@ -24,7 +24,7 @@
 [CmdletBinding()]
 param(
     [string]$TaskName = "Opencode monthly backup",
-    [string]$WorkingDirectory = (Get-Item -Path $PSScriptRoot).Parent.FullName
+    [string]$WorkingDirectory = $(if ($PSScriptRoot) { (Get-Item -Path $PSScriptRoot).Parent.FullName } else { 'F:\CD\Opencode' })
 )
 
 $ErrorActionPreference = "Stop"
@@ -40,8 +40,8 @@ $task.Settings | Select-Object DisallowStartIfOnBatteries, StopIfGoingOnBatterie
 Write-Host "Actions: $(($task.Actions | ForEach-Object { $_.Arguments }) -join ' | ')" -ForegroundColor Cyan
 
 $newSettings = New-ScheduledTaskSettingsSet `
-    -DisallowStartIfOnBatteries:$false `
-    -StopIfGoingOnBatteries:$false `
+    -AllowStartIfOnBatteries `
+    -DontStopIfGoingOnBatteries `
     -WakeToRun `
     -StartWhenAvailable `
     -ExecutionTimeLimit (New-TimeSpan -Minutes 30) `
