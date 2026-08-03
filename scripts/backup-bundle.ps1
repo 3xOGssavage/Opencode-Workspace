@@ -44,12 +44,26 @@ $date   = Get-Date -Format "yyyy-MMdd"
 $bundle = Join-Path $BundleDir "opencode-$date.bundle"
 
 Write-Host "Creating bundle: $bundle" -ForegroundColor Green
-git bundle create $bundle --all
-if ($LASTEXITCODE -ne 0) { throw "git bundle create failed (exit $LASTEXITCODE)" }
 
-Write-Host "Verifying bundle integrity..." -ForegroundColor Green
-git bundle verify $bundle
-if ($LASTEXITCODE -ne 0) { throw "git bundle verify failed (exit $LASTEXITCODE)" }
+try {
+    git bundle create $bundle --all
+    if ($LASTEXITCODE -ne 0) { throw "git bundle create failed (exit $LASTEXITCODE)" }
+
+    Write-Host "Verifying bundle integrity..." -ForegroundColor Green
+    git bundle verify $bundle
+    if ($LASTEXITCODE -ne 0) { throw "git bundle verify failed (exit $LASTEXITCODE)" }
+} catch {
+    # Best-effort Event Log write on failure (EventId 103). Must NOT mask the original error.
+    try {
+        Write-EventLog -LogName Application -Source 'Windows PowerShell' `
+            -EventId 103 -EntryType Error `
+            -Message "opencode-workspace bundle FAILED: $($_.Exception.Message)"
+        Write-Host "Event Log: failure entry written (EventId 103)" -ForegroundColor Yellow
+    } catch {
+        Write-Host "Event Log: could not write failure entry (non-fatal): $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+    throw
+}
 
 # Retain only the last 3 bundles (by name descending = newest first).
 Get-ChildItem $BundleDir -Filter "opencode-*.bundle" |
@@ -58,3 +72,14 @@ Get-ChildItem $BundleDir -Filter "opencode-*.bundle" |
     Remove-Item -Force
 
 Write-Host "Bundle complete: $bundle (retained last 3)" -ForegroundColor Green
+
+# Best-effort Event Log write (EventId 102 = bundle success). Matches backup-workspace.ps1
+# pattern (EventId 100/101 for push). Best-effort: a locked Event Log must NOT fail the backup.
+try {
+    Write-EventLog -LogName Application -Source 'Windows PowerShell' `
+        -EventId 102 -EntryType Information `
+        -Message "opencode-workspace bundle OK ($bundle)"
+    Write-Host "Event Log: success entry written (EventId 102)" -ForegroundColor Green
+} catch {
+    Write-Host "Event Log: could not write success entry (non-fatal): $($_.Exception.Message)" -ForegroundColor Yellow
+}
