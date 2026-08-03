@@ -278,20 +278,25 @@ When you need to recreate secrets, this table shows each credential's source, sh
 
 Untested backups are assumptions, not controls. Following the CISA / NIST SP 800-34 cadence scaled for a personal Tier-2 setup:
 
-| Frequency          | What to run                                                                                                                                                                                                         | What success looks like                                                                                                       |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Weekly (automatic) | scheduled task runs `backup-workspace.ps1` (push) + `backup-bundle.ps1` (bundle to D:\Backups\)                                                                                                                     | Event Viewer → Application → Source="Windows PowerShell", EventId=100. New `opencode-YYYY-MMDD.bundle` exists in D:\Backups\. |
-| Monthly            | `git bundle verify D:\Backups\opencode-<latest>.bundle`                                                                                                                                                             | Prints "OK" (or "The bundle contains 73 refs"). Confirms integrity without unpacking.                                         |
-| Quarterly          | Spot-restore 3 one-liners (no script): `git clone D:\Backups\opencode-<latest>.bundle $env:TEMP\oc-restore` then `Test-Path $env:TEMP\oc-restore\AGENTS.md` then `Remove-Item $env:TEMP\oc-restore -Recurse -Force` | Second command prints `True`. Workspace restores from bundle cleanly.                                                         |
-| Annually           | Full fresh-dir drill: clone the latest bundle to a new directory, start opencode there, confirm MCP servers + agents load. Then delete the drill clone.                                                             | opencode boots, MCP servers connect, agents appear in `/agents`.                                                              |
+| Frequency          | What to run                                                                                                                                                                                                         | What success looks like                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Initial (one-time) | After merging PR #10, run `pwsh -File scripts\backup-bundle.ps1` manually once.                                                                                                                                     | Event Viewer → Application → Source="Windows PowerShell", EventId=102. `opencode-<today>.bundle` exists in `D:\Backups\`.                                                            |
+| Weekly (automatic) | scheduled task runs `backup-workspace.ps1` (push, EventId=100/101) + `backup-bundle.ps1` (bundle to D:\Backups\, EventId=102/103)                                                                                   | Event Viewer shows EventId=100 (push OK) and EventId=102 (bundle OK). New `opencode-YYYY-MMDD.bundle` exists in D:\Backups\. On failure: EventId=101 (push) or EventId=103 (bundle). |
+| Monthly            | `git bundle verify D:\Backups\opencode-<latest>.bundle`                                                                                                                                                             | Prints "OK" (or "The bundle contains 73 refs"). Confirms integrity without unpacking.                                                                                                |
+| Quarterly          | Spot-restore 3 one-liners (no script): `git clone D:\Backups\opencode-<latest>.bundle $env:TEMP\oc-restore` then `Test-Path $env:TEMP\oc-restore\AGENTS.md` then `Remove-Item $env:TEMP\oc-restore -Recurse -Force` | Second command prints `True`. Workspace restores from bundle cleanly.                                                                                                                |
+| Annually           | Full fresh-dir drill: clone the latest bundle to a new directory, start opencode there, confirm MCP servers + agents load. Then delete the drill clone.                                                             | opencode boots, MCP servers connect, agents appear in `/agents`.                                                                                                                     |
 
 ---
 
-### Known issue: mcp-auth.json corruption (opencode issue #29804)
+### Known issue: mcp-auth.json corruption (opencode issue #29804) — FIXED in v1.18.8+
 
-opencode has an active bug where every OAuth token refresh appends an extra `}` to `mcp-auth.json`, eventually producing invalid JSON and breaking **all 4 remote MCP servers** (sentry, composio, supabase, vercel). Symptom: `SSE error: Unexpected non-whitespace character after JSON at position N`.
+opencode had a bug where every OAuth token refresh appended an extra `}` to `mcp-auth.json`, eventually producing invalid JSON and breaking **all 4 remote MCP servers** (sentry, composio, supabase, vercel). Symptom: `SSE error: Unexpected non-whitespace character after JSON at position N`.
 
-**Quick fix** (PowerShell one-liner, strips trailing braces):
+**Status:** Closed as fixed in [#29852](https://github.com/anomalyco/opencode/pull/29852), shipped in opencode **v1.18.8+**. **You are unaffected on v1.18.11+.**
+
+The recovery one-liners below are retained as a fallback for anyone still running v1.15.12–v1.17.x:
+
+**Quick fix** (PowerShell one-liner, strips trailing braces — v1.15.12–v1.17.x only):
 
 ```powershell
 $f = "$env:USERPROFILE\.local\share\opencode\mcp-auth.json"
@@ -300,7 +305,7 @@ while ($true) { try { $c | ConvertFrom-Json | Out-Null; break } catch { $c = $c 
 $c | Set-Content $f -NoNewline
 ```
 
-**Clean fix** (re-authenticates all 4 OAuth flows):
+**Clean fix** (re-authenticates all 4 OAuth flows — any version):
 
 ```
 opencode mcp auth sentry
@@ -313,9 +318,20 @@ Prefer the clean fix if you have network access — the quick fix only unblocks 
 
 ---
 
-### GitHub Push Protection (server-side backstop)
+### GitHub Push Protection (server-side backstop) — cost note for private repos
 
-The pre-commit hook (`scripts\audit-secrets.ps1`) scans for `ghp_`, `sk-`, `AIza`, `github_pat_` shapes locally. GitHub's server-side Push Protection is the second net — it blocks pushes that contain recognized token shapes regardless of local scanner coverage. Toggle it on:
+The pre-commit hook (`scripts\audit-secrets.ps1`) scans for `ghp_`, `sk-`, `AIza`, `github_pat_` shapes locally. GitHub's server-side Push Protection is a second net — it blocks pushes containing recognized token shapes regardless of local scanner coverage.
+
+**Cost for private repos:** GitHub Push Protection for private repositories requires **GitHub Advanced Security (GHAS)** at **$19/active committer/month**. Free tier covers **public repos only**. This repo is private by design (contains `auth.json` ACL notes + user paths), so **DO NOT flip it public** to access free Push Protection.
+
+**The free combo is strictly stronger for solo private use:**
+
+1. `scripts\audit-secrets.ps1` pre-commit hook (blocks commit locally, before push)
+2. `gitleaks` CI with `fetch-depth: 0` (scans full history, not just current PR — catches secrets in every prior commit)
+
+Together these provide historical scanning that paid Push Protection does **not** offer by itself. Skip the paid GHAS tier for solo use; revisit only if team size grows past 1 active committer.
+
+**To enable Push Protection anyway** (if budget allows, or if repo is ever flipped public):
 
 1. Repo → **Settings** → **Code security and analysis**
 2. Enable **Secret scanning** and **Push protection**
@@ -341,6 +357,39 @@ Also note these minor items to verify after a restore:
 - **`mcp-auth.json` ACL** — the live file has an extra `SOHAM\CodexSandboxUsers` ReadAndExecute principal. Non-default. Investigate whether your Codex sandbox install requires it; remove if not.
 - **LogonType limitation** — the scheduled task uses `LogonType=Interactive`, so it only runs when you are logged in. Fine for an always-on home machine. For server-style 24/7 operation, switch to `S4ULogon` (requires SYSTEM account + elevation).
 - **`Tavily` / `Sentry` scanner gap** — `audit-secrets.ps1` regex does not cover `tvly-` or `sntrys_` prefixes. Manual discipline + GitHub Push Protection cover the gap until the regex is extended.
+
+---
+
+### True air-gapped copy (monthly manual)
+
+`D:\Backups\` is **offline** (drive always connected) but NOT **air-gapped** — ransomware running as your user can write to D:. For true ransomware resilience per the 3-2-1-1-0 standard (which requires "1 immutable/offline/air-gapped copy"), once a month copy the latest bundle to a USB stick stored in a physical drawer. Unplugged USB = real air-gap.
+
+**Monthly ritual (~1 min):**
+
+```powershell
+$latest = Get-ChildItem D:\Backups\opencode-*.bundle | Sort-Object Name -Descending | Select-Object -First 1
+Copy-Item $latest.FullName <USB-DRIVE>:\opencode-backups\
+```
+
+Then eject the USB and store it in a physical drawer. Next month, replace the prior bundle with the new one on the USB (keep only the latest to avoid clutter).
+
+This closes the "both F: and GitHub die same day" disaster scenario from the v7 table above — the drawer USB survives even if every connected drive is encrypted by ransomware.
+
+### Encryption (optional but recommended)
+
+The bundle content is repo-only (verified by `audit-secrets.ps1` pre-commit + gitleaks CI), so the bundle itself does not need encryption. **However**, the USB stick that holds `auth.json` + `mcp-auth.json` (the manual secrets copy from the Restore Playbook) SHOULD be encrypted — it contains plaintext API keys and OAuth tokens.
+
+**Encryption options (any one is sufficient):**
+
+| Option                                         | Windows tier required   | Setup effort |
+| ---------------------------------------------- | ----------------------- | ------------ |
+| **BitLocker To Go** on the USB partition       | Pro/Enterprise/Edu      | ~2 min       |
+| **VeraCrypt** container on the USB             | Any (free, open-source) | ~5 min       |
+| **7-Zip AES-256** archive with strong password | Any (free)              | ~1 min       |
+
+For a solo user with a single USB, BitLocker To Go (Windows Pro+) is the simplest — native, no extra install. On Windows Home, use 7-Zip's AES-256 zip or a VeraCrypt container.
+
+Reference: r/sysadmin consensus (multiple threads 2018-2025) is "encrypt ALL backups, even local" — ransomware and physical theft both target unencrypted USB drives.
 
 ---
 
@@ -446,6 +495,8 @@ After cloning the repo and running `scripts\setup-env-vars.ps1`:
 - **Precondition:** working tree MUST be clean (script refuses otherwise).
 - **On failure:** check Event Viewer → Windows Logs → Application, filter Source=`Windows PowerShell`, EventId=`101`.
 - **Success marker:** `scripts\.last-backup` (gitignored).
+
+> **Note on the task name:** the registered task is called `"Opencode monthly backup"` — this is a legacy name from the original setup script. It actually runs **WEEKLY** (Sundays 14:00, `WeeksInterval=1`), not monthly. The trigger's `WeeksInterval=1` defines the cadence; the task name is cosmetic and kept for backward compatibility with `fix-task-scheduler.ps1` and `setup-scheduled-backup.ps1`. Renaming would break those scripts ( ponytail: not worth the diff).
 
 See `scripts\setup-scheduled-backup.ps1` (run once on a new machine to register the task) or register manually:
 
