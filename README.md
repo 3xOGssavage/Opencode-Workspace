@@ -249,6 +249,101 @@ If migrating to a new machine (different drive letters, no env vars, no auth):
 
 ---
 
+### Restore Playbook (quick reference)
+
+When you need to recreate secrets, this table shows each credential's source, shape, and whether the pre-commit/CI secret scanner will catch an accidental leak. **Placeholders use ≤8 trailing chars — well under the scanner's regex thresholds, so this README is safe to commit.**
+
+| Credential           | Where to re-issue                                                             | Shape                    | Scanner covers?                                                            |
+| -------------------- | ----------------------------------------------------------------------------- | ------------------------ | -------------------------------------------------------------------------- |
+| GitHub PAT (classic) | github.com → Settings → Developer settings → Personal access tokens (classic) | `ghp_xxxx…` (40 chars)   | yes — regex `ghp_[0-9A-Za-z]{36}`                                          |
+| Anthropic API key    | console.anthropic.com → API keys                                              | `sk-ant…` (~100 chars)   | yes — regex `sk-[0-9A-Za-z]{20,}`                                          |
+| hcnsec key           | hcnsec.cn reseller dashboard                                                  | `sk-xxxx…` (51 chars)    | yes — same regex as above                                                  |
+| TokenRouter key      | tokenrouter.com → dashboard                                                   | `sk-xxxx…` (51 chars)    | yes — same regex                                                           |
+| Google / Gemini      | aistudio.google.com → API key                                                 | `AIza…` (39 chars)       | yes — regex `AIza[0-9A-Za-z_-]{35}`                                        |
+| Tavily key           | app.tavily.com → API key                                                      | `tvly-xxxx…`             | no — scanner gap; manual discipline + GitHub Push Protection (server-side) |
+| Sentry auth token    | sentry.io → Settings → Auth tokens                                            | `sntrys_xxxx…`           | no — scanner gap; manual discipline + GitHub Push Protection               |
+| Google OAuth refresh | AI Studio (auto-generated, long-lived)                                        | `AQ.Ab8R...` (~53 chars) | partial — allowlisted prefix only                                          |
+
+**Secrets never in repo (manual USB attachment):**
+
+- `%USERPROFILE%\.local\share\opencode\auth.json` (468 B, 4 provider keys)
+- `%USERPROFILE%\.local\share\opencode\mcp-auth.json` (2.4 KB, 4 OAuth tokens)
+- Copy both files to an offline USB stick / password-manager attachment after a fresh OAuth re-auth. These are NOT touched by any script in this repo (by design — keeping secrets out of git).
+
+**Projects/ subdirectories** manage their own backups (each project has its own repo). See each project's README if you need to back those up.
+
+---
+
+### Restore drill cadence
+
+Untested backups are assumptions, not controls. Following the CISA / NIST SP 800-34 cadence scaled for a personal Tier-2 setup:
+
+| Frequency          | What to run                                                                                                                                                                                                         | What success looks like                                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Weekly (automatic) | scheduled task runs `backup-workspace.ps1` (push) + `backup-bundle.ps1` (bundle to D:\Backups\)                                                                                                                     | Event Viewer → Application → Source="Windows PowerShell", EventId=100. New `opencode-YYYY-MMDD.bundle` exists in D:\Backups\. |
+| Monthly            | `git bundle verify D:\Backups\opencode-<latest>.bundle`                                                                                                                                                             | Prints "OK" (or "The bundle contains 73 refs"). Confirms integrity without unpacking.                                         |
+| Quarterly          | Spot-restore 3 one-liners (no script): `git clone D:\Backups\opencode-<latest>.bundle $env:TEMP\oc-restore` then `Test-Path $env:TEMP\oc-restore\AGENTS.md` then `Remove-Item $env:TEMP\oc-restore -Recurse -Force` | Second command prints `True`. Workspace restores from bundle cleanly.                                                         |
+| Annually           | Full fresh-dir drill: clone the latest bundle to a new directory, start opencode there, confirm MCP servers + agents load. Then delete the drill clone.                                                             | opencode boots, MCP servers connect, agents appear in `/agents`.                                                              |
+
+---
+
+### Known issue: mcp-auth.json corruption (opencode issue #29804)
+
+opencode has an active bug where every OAuth token refresh appends an extra `}` to `mcp-auth.json`, eventually producing invalid JSON and breaking **all 4 remote MCP servers** (sentry, composio, supabase, vercel). Symptom: `SSE error: Unexpected non-whitespace character after JSON at position N`.
+
+**Quick fix** (PowerShell one-liner, strips trailing braces):
+
+```powershell
+$f = "$env:USERPROFILE\.local\share\opencode\mcp-auth.json"
+$c = Get-Content $f -Raw
+while ($true) { try { $c | ConvertFrom-Json | Out-Null; break } catch { $c = $c -replace '(\})\s*\}+\s*$','$1' } }
+$c | Set-Content $f -NoNewline
+```
+
+**Clean fix** (re-authenticates all 4 OAuth flows):
+
+```
+opencode mcp auth sentry
+opencode mcp auth composio
+opencode mcp auth supabase
+opencode mcp auth vercel
+```
+
+Prefer the clean fix if you have network access — the quick fix only unblocks the JSON, doesn't refresh stale tokens.
+
+---
+
+### GitHub Push Protection (server-side backstop)
+
+The pre-commit hook (`scripts\audit-secrets.ps1`) scans for `ghp_`, `sk-`, `AIza`, `github_pat_` shapes locally. GitHub's server-side Push Protection is the second net — it blocks pushes that contain recognized token shapes regardless of local scanner coverage. Toggle it on:
+
+1. Repo → **Settings** → **Code security and analysis**
+2. Enable **Secret scanning** and **Push protection**
+
+Verify (requires `gh` CLI in PATH):
+
+```
+gh api repos/3xOGssavage/Opencode-Workspace --jq '.security_and_analysis'
+```
+
+---
+
+### Orphan backup file cleanup
+
+The orphan file `auth.json.bak.20260725-170222` (595 B) exists in `%USERPROFILE%\.local\share\opencode\` — no script in this repo creates it; it's a stale artifact. Remove with:
+
+```powershell
+Remove-Item "$env:USERPROFILE\.local\share\opencode\auth.json.bak.*" -Force
+```
+
+Also note these minor items to verify after a restore:
+
+- **`mcp-auth.json` ACL** — the live file has an extra `SOHAM\CodexSandboxUsers` ReadAndExecute principal. Non-default. Investigate whether your Codex sandbox install requires it; remove if not.
+- **LogonType limitation** — the scheduled task uses `LogonType=Interactive`, so it only runs when you are logged in. Fine for an always-on home machine. For server-style 24/7 operation, switch to `S4ULogon` (requires SYSTEM account + elevation).
+- **`Tavily` / `Sentry` scanner gap** — `audit-secrets.ps1` regex does not cover `tvly-` or `sntrys_` prefixes. Manual discipline + GitHub Push Protection cover the gap until the regex is extended.
+
+---
+
 ## Maintenance: Updating the backup
 
 To update this backup after future workspace changes:
