@@ -79,7 +79,7 @@ the hcnsec reseller). Keep `ollama-cloud/minimax-m3` as the primary
 - `verify-inheritance.ps1` passes end-to-end after the migration
   (Output: `ALL CHECKS PASSED`, `16 MCP servers active`).
 - Audit commit `12ece08` aligned AGENTS.md, ENTERPRISE_OPENCODE_SETUP.md,
-  POST-INSTALL-NOTE-2026-07-27-subagents.md, and verify-inheritance.ps1
+  ../operational-history/POST-INSTALL-NOTE-2026-07-27-subagents.md, and verify-inheritance.ps1
   with the post-migration state.
 - 121 active SKILL.md files across 9 packs confirmed by filesystem
   enumeration (~117 unique after dedup).
@@ -103,5 +103,5 @@ powershell -ExecutionPolicy Bypass -File .opencode/verify-inheritance.ps1
 ## References
 
 - `AGENTS.md` — "Models" section (L82-87) and hcnsec model table
-- `POST-INSTALL-NOTE-2026-07-27-subagents.md` — migration note
+- `../operational-history/POST-INSTALL-NOTE-2026-07-27-subagents.md` — migration note
 - `ENTERPRISE_OPENCODE_SETUP.md` L1746 — Post-snapshot update footnote

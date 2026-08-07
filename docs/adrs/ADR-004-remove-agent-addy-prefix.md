@@ -75,7 +75,7 @@ dependency.
   documents the state as of 2026-07-27; the addy- removal happened
   2026-07-31. ADRs are immutable once accepted (supersede, don't edit, per
   Martin Fowler ADR best practice).
-- `POST-INSTALL-NOTE-2026-07-27-subagents.md` — frozen post-install record.
+- `../operational-history/POST-INSTALL-NOTE-2026-07-27-subagents.md` — frozen post-install record.
   Line 96 will be updated separately (it's an expected-output string, not a
   historical narrative).
 - `.opencode/agent-skills/` — the addyosmani skill pack is unchanged; it

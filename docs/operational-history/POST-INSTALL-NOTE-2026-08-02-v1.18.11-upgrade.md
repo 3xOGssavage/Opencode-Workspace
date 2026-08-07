@@ -176,5 +176,4 @@ If v1.18.11 causes issues:
 
 - **ADR-007:** Virtual reference (no ADR file on disk) — points to this post-snapshot item 12. Follows the ADR-002, ADR-005, ADR-006 pattern.
 - **Related:** `POST-INSTALL-NOTE-2026-07-27-subagents.md` (initial subagent migration to hcnsec/Kimi-K2.6)
-- **Related:** `AUDIT-MILESTONE-2026-07-27.md` (audit of the 2026-07-27 subagent migration work)
 - **GitHub issues referenced:** #31789 (completed background tasks re-dispatch loop), #27898 (no streaming for background tasks), oh-my-openagent#2954 (background subagents stay idle on Windows)

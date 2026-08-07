@@ -88,25 +88,29 @@ These remain in `auth.json` for active project use. The `opencode-zen` provider 
 
 ## MCP servers (16, auto-start)
 
-| MCP                   | Type             | Purpose                                                                                                                                                                                                      |
-| --------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `context7`            | local            | Up-to-date library/framework docs                                                                                                                                                                            |
-| `sequential-thinking` | local            | Reflective multi-step reasoning                                                                                                                                                                              |
-| `playwright`          | local            | Browser automation, E2E testing                                                                                                                                                                              |
-| `chrome-devtools`     | local            | Live DevTools, network, performance traces                                                                                                                                                                   |
-| `memory`              | local            | Persistent knowledge graph (`.opencode/memory.jsonl` — survives restarts; launched via wrapper `.opencode/memory-mcp-wrapper.bat` which sets `MEMORY_FILE_PATH` from system env if not already set)          |
-| `tavily`              | local            | Web search, crawl, deep research                                                                                                                                                                             |
-| `fetch`               | local            | Generic HTTP fetch (uvx --with mcp<2 mcp-server-fetch — pins mcp SDK v1.x to fix McpError rename)                                                                                                            |
-| `filesystem`          | local            | Read/write outside workspace (scoped to `F:\CD`)                                                                                                                                                             |
-| `supabase`            | remote (OAuth)   | DB queries, schema, migrations, RLS                                                                                                                                                                          |
-| `sentry`              | remote (OAuth)   | Production error monitoring                                                                                                                                                                                  |
-| `composio`            | remote (OAuth)   | 500+ SaaS integrations                                                                                                                                                                                       |
-| `grep`                | remote           | Search 1M public GitHub repos                                                                                                                                                                                |
-| `github`              | local (binary)   | GitHub API: issues, PRs, repos, actions, code security                                                                                                                                                       |
-| `vercel`              | remote (OAuth)   | Deploy projects, logs, domains, env vars, agent runs                                                                                                                                                         |
-| `vision-tool`         | local (vendored) | Vision analysis via Gemini 3.5-flash-lite (500 RPD free tier). AppData config sets `DEFAULT_MODEL`. See `VISION-TOOL-MCP-DOCUMENTATION.md`. Pairs with `opencode-auto-vision` + `opencode-eyesight` plugins. |
+| MCP                   | Type             | Purpose                                                                                                                                                                                                                        |
+| --------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `context7`            | local            | Up-to-date library/framework docs                                                                                                                                                                                              |
+| `sequential-thinking` | local            | Reflective multi-step reasoning                                                                                                                                                                                                |
+| `playwright`          | local            | Browser automation, E2E testing                                                                                                                                                                                                |
+| `chrome-devtools`     | local            | Live DevTools, network, performance traces                                                                                                                                                                                     |
+| `memory`              | local            | Persistent knowledge graph (`.opencode/memory.jsonl` — survives restarts; launched via wrapper `.opencode/memory-mcp-wrapper.bat` which sets `MEMORY_FILE_PATH` from system env if not already set)                            |
+| `tavily`              | local            | Web search, crawl, deep research                                                                                                                                                                                               |
+| `fetch`               | local            | Generic HTTP fetch (uvx --with mcp<2 mcp-server-fetch — pins mcp SDK v1.x to fix McpError rename)                                                                                                                              |
+| `filesystem`          | local            | Read/write outside workspace (scoped to `F:\CD`)                                                                                                                                                                               |
+| `supabase`            | remote (OAuth)   | DB queries, schema, migrations, RLS                                                                                                                                                                                            |
+| `sentry`              | remote (OAuth)   | Production error monitoring                                                                                                                                                                                                    |
+| `composio`            | remote (OAuth)   | 500+ SaaS integrations                                                                                                                                                                                                         |
+| `grep`                | remote           | Search 1M public GitHub repos                                                                                                                                                                                                  |
+| `github`              | local (binary)   | GitHub API: issues, PRs, repos, actions, code security                                                                                                                                                                         |
+| `vercel`              | remote (OAuth)   | Deploy projects, logs, domains, env vars, agent runs                                                                                                                                                                           |
+| `vision-tool`         | local (vendored) | Vision analysis via Gemini 3.5-flash-lite (500 RPD free tier). AppData config sets `DEFAULT_MODEL`. See `docs/architecture/VISION-TOOL-MCP-DOCUMENTATION.md`. Pairs with `opencode-auto-vision` + `opencode-eyesight` plugins. |
 
 OAuth MCPs need `opencode mcp auth <name>` before first use.
+
+### Vision-tool kernel (see docs/architecture/VISION-TOOL-MCP-DOCUMENTATION.md for depth)
+
+Two global plugins coexist: `opencode-auto-vision` (intercepts pasted images → routes to MCP `analyze_image` tool) + `opencode-eyesight` (fallback for vision-capable models). `DEFAULT_MODEL=gemini-3.5-flash-lite` is read from AppData `vision-tool/config.json` on every call. Per-backend 24h cooldown persists to AppData `backend_memory.json`. `vision_watchdog.vbs` runs in background at Windows Startup.
 
 ## Plugins (7 total: 4 workspace + 3 global, auto-load)
 
@@ -364,6 +368,39 @@ the auto-trigger condition — do not duplicate skill inventories in this file.
 - **ENTERPRISE_OPENCODE_SETUP.md** (1737 lines) - interactive setup guide for re-deploying this workspace on another machine. Contains templates, questionnaires, and placeholders. Not loaded by opencode; reference only. Snapshot date 2026-07-19 — predates the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`, vision-tool MCP addition, `google` provider addition, the 2026-07-30 context-compression tuning (GLM-5.2 context 128K→200K, V1 compaction block enabled), and the 2026-08-02 opencode v1.18.11 upgrade + parallel subagent verification (fixes v1.18.10 zero-output bug, env var `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true` restored, regression table removed, 2-task parallel test passed); figures in Sections 1-16 (the setup template) may need adjustment before re-deployment. Sections 17-21 reflect the 2026-07-19 production snapshot and are stale relative to those subsequent changes. See ADR-007 (post-snapshot item 12) for the v1.18.11 upgrade details.
 - **skills-lock.json** - integrity hashes for 4 Vercel skills installed via `npx skills add` (deploy, logs, setup, vercel-cli). Validated on skill load.
 - **README.md** — see "Backup hardening v7" section for disaster scenarios, monthly Task Scheduler procedure, manual secrets setup, skills-snapshot refresh, and future hardening (git bundle, quarterly GitHub Export, BFG).
+
+## Documentation index
+
+Deep-reference docs are organized under `docs/`. Read on demand.
+
+### Architecture Decision Records (`docs/adrs/`)
+
+| ADR     | Date       | Decision                                  |
+| ------- | ---------- | ----------------------------------------- |
+| ADR-001 | 2026-07-27 | Subagent migration to hcnsec/Kimi-K2.6    |
+| ADR-002 | 2026-07-28 | Compaction V1 sane-max tuning             |
+| ADR-003 | 2026-07-31 | vision-tool MCP addition                  |
+| ADR-004 | 2026-07-31 | Remove addy- prefix from agent names      |
+| ADR-005 | 2026-07-31 | TokenRouter Tier-3 experimental provider  |
+| ADR-006 | 2026-08-01 | Fetch MCP `--with mcp<2` pin (SSRF fix)   |
+| ADR-007 | virtual    | 2026-08-02 v1.18.11 post-snapshot item 12 |
+
+### Operational history (`docs/operational-history/`)
+
+- **POST-INSTALL-NOTE-2026-07-27-subagents.md** — subagent migration to Kimi K2.6
+- **POST-INSTALL-NOTE-2026-07-27-vision-default.md** — Gemini 3.5-flash-lite default model + hot-swap runbook
+- **POST-INSTALL-NOTE-2026-08-02-v1.18.11-upgrade.md** — v1.18.11 upgrade + 2-task parallel test + regression table removed
+- **FINAL-VERIFICATION-REPORT-vision-tool-2026-07-27.md** — 8-layer vision-tool verification results
+
+### Architecture deep-dives (`docs/architecture/`)
+
+- **VISION-TOOL-MCP-DOCUMENTATION.md** — full vision-tool pipeline, cooldowns, troubleshooting, don'ts
+
+### Other reference files (root)
+
+- **ENTERPRISE_OPENCODE_SETUP.md** — re-deployment setup template (1737 lines; snapshot 2026-07-19; Sections 17-21 are stale)
+- **skills-lock.json** — integrity hashes for 4 Vercel skills
+- **README.md** — backup hardening v7 + disaster recovery procedures
 
 ### Skill precedence rule
 
