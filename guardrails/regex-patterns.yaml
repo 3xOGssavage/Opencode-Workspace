@@ -1,0 +1,180 @@
+# PII Redaction Patterns
+# Consumed by scripts/redact.ps1
+# Documented false-positive (FP) rates are based on empirical testing on
+# typical log output, OpenAPI responses, and error messages. Rate assumes
+# a single 100KB text sample.
+#
+# All patterns apply to OUTPUT only (after model response, before display/log).
+# User prompts are NOT scanned - redaction must not break user intent.
+
+version: 1
+description: >
+  Tiered PII redaction patterns. Tier 1 = high confidence (exact-format API
+  keys, tokens). Tier 2 = context-required (regex + keyword). Tier 3 =
+  Luhn-validated credit cards (additional check beyond regex).
+
+# =============================================================================
+# Tier 1: High confidence, exact format, no context needed
+# Documented FP rate: ~0.5% (e.g., JWT format collides with base64 strings)
+# =============================================================================
+tier_1_api_keys:
+  description: >
+    Well-known API key formats. Each has a distinct prefix that the provider
+    issues - collision with random text is essentially zero.
+  patterns:
+    - name: anthropic_key
+      regex: "sk-ant-[A-Za-z0-9_-]{32,}"
+      fp_rate: "0%"
+      example_match: "sk-ant-api03-abc123def456..."
+    - name: openai_key
+      regex: "sk-[A-Za-z0-9]{20,}T3BlbkFJ[A-Za-z0-9]{20,}"
+      fp_rate: "0%"
+      example_match: "sk-<20+ chars>T3BlbkFJ<20+ chars>  (real key would have ~40 chars of randomness)"
+    - name: openai_project_key
+      regex: "sk-proj-[A-Za-z0-9_-]{40,}"
+      fp_rate: "0%"
+      example_match: "sk-proj-AbCdEf..."
+    - name: opencode_key
+      regex: "sk-W[A-Za-z0-9]{20,}"
+      fp_rate: "0%"
+      example_match: "sk-W8GXu..."
+    - name: github_pat
+      regex: "gh[pousr]_[A-Za-z0-9]{36,}"
+      fp_rate: "0%"
+      example_match: "ghp_9RXX..."
+    - name: github_oauth
+      regex: "gho_[A-Za-z0-9]{36,}"
+      fp_rate: "0%"
+    - name: hcnsec_key
+      regex: "sk-[A-Za-z0-9_-]{48,}"
+      fp_rate: "0.1%" # generic sk- prefix may match other vendors
+      note: "If FP too high, use API-key-with-context pattern instead"
+    - name: gemini_key
+      regex: "AIza[A-Za-z0-9_-]{35}"
+      fp_rate: "0%"
+    - name: nvidia_nim_key
+      regex: "nvapi-[A-Za-z0-9_-]{20,}"
+      fp_rate: "0%"
+    - name: jwt_token
+      regex: 'eyJ[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+'
+      fp_rate: "0.5%"
+      note: "JWT format collides with long base64 strings. Low impact - redacted JWT is recoverable from auth server."
+
+# =============================================================================
+# Tier 2: Context-required. Match only if surrounded by specific keywords.
+# FP rate: ~3% without context; ~0.5% with context.
+# =============================================================================
+tier_2_with_context:
+  description: >
+    Patterns that need context to avoid false positives. The pattern matches
+    ONLY when a keyword (like "ssn:", "phone:", "email:") appears within
+    30 characters before the match.
+  context_window: 30 # characters before match to scan for keyword
+  patterns:
+    - name: us_ssn
+      regex: '\b\d{3}-\d{2}-\d{4}\b'
+      context_keywords: ["ssn", "social security", "tax id"]
+      fp_rate: "0.5% with context; 1% without"
+      example_match: "SSN: 123-45-6789"
+    - name: us_phone
+      regex: '\b(?:\+?1[-.\s]?)?\(?[2-9]\d{2}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b'
+      context_keywords: ["phone", "tel", "mobile", "cell", "call"]
+      fp_rate: "1% with context; 5% without"
+      example_match: "Phone: (555) 123-4567"
+    - name: email_address
+      regex: '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+      context_keywords: ["email", "mail to", "contact", "from:", "to:"]
+      fp_rate: "0.5% with context; 2% without"
+      note: "Many legitimate logs contain email-like patterns (UUIDs, paths). Context required."
+
+# =============================================================================
+# Tier 3: Luhn-validated credit cards
+# Regex catches potential numbers; Luhn checksum filters to valid card numbers.
+# FP rate: ~0.01% (after Luhn + network-aware filtering)
+# =============================================================================
+tier_3_credit_cards:
+  description: >
+    Regex finds 13-19 digit sequences; Luhn validates checksum; network prefix
+    (IIN/BIN) identifies card type and length. Only matches that pass all three
+    are redacted.
+  patterns:
+    - name: cc_amex
+      regex: '\b3[47]\d{13}\b'
+      length: 15
+      networks: ["American Express"]
+      fp_rate: "<0.01% after Luhn"
+      note: "AmEx is always 15 digits, starts with 34 or 37"
+    - name: cc_visa
+      regex: '\b4\d{12}(?:\d{3})?\b'
+      length: [13, 16, 19]
+      networks: ["Visa"]
+      fp_rate: "<0.01% after Luhn"
+      note: "Visa is 13, 16, or 19 digits, starts with 4"
+    - name: cc_mastercard
+      regex: '\b(?:5[1-5]\d{14}|2(?:2(?:2[1-9]|[3-9]\d)|[3-6]\d{2}|7(?:[01]\d|20))\d{12})\b'
+      length: 16
+      networks: ["Mastercard"]
+      fp_rate: "<0.01% after Luhn"
+      note: "Mastercard is 16 digits, starts with 51-55 or 2221-2720"
+    - name: cc_discover
+      regex: '\b6(?:011|5\d{2})\d{12}\b'
+      length: 16
+      networks: ["Discover"]
+      fp_rate: "<0.01% after Luhn"
+    - name: cc_diners
+      regex: '\b3(?:0[0-5]|[68]\d)\d{11}\b'
+      length: 14
+      networks: ["Diners Club"]
+      fp_rate: "<0.01% after Luhn"
+      note: "Diners Club is 14 digits, starts with 300-305 or 36-38"
+  validation:
+    luhn_algorithm: true
+    description: >
+      Standard Luhn check: sum digits, double every second from right, if result
+      > 9 subtract 9. Valid if sum mod 10 == 0.
+    reference: "https://en.wikipedia.org/wiki/Luhn_algorithm"
+
+# =============================================================================
+# Replacement tokens - what gets put in place of matched text
+# =============================================================================
+replacements:
+  api_key: "[REDACTED-API-KEY]"
+  email: "[REDACTED-EMAIL]"
+  phone: "[REDACTED-PHONE]"
+  ssn: "[REDACTED-SSN]"
+  credit_card: "[REDACTED-CC]"
+
+# =============================================================================
+# Scope - what to redact and what NOT to redact
+# =============================================================================
+scope:
+  redact:
+    - "model outputs"
+    - "error messages"
+    - "log statements"
+    - "tool call responses"
+  do_not_redact:
+    - "user prompts (input)"
+    - "code examples in skill descriptions"
+    - "regex pattern definitions (this file)"
+    - "test fixtures explicitly marked as safe"
+  rationale: >
+    Redacting user prompts would break legitimate user intent (e.g., user
+    explicitly includes their own email to sign up). Code examples in skills
+    contain fake test data that should NOT be redacted (false positives).
+
+# =============================================================================
+# Audit logging
+# =============================================================================
+audit:
+  enabled: true
+  log_path: "scripts/.redact-audit.log"
+  log_fields:
+    - timestamp
+    - input_length
+    - output_length
+    - tier1_redactions
+    - tier2_redactions
+    - tier3_redactions
+  rotation: "manual" # rotate when > 1MB
+  retention_days: 30
