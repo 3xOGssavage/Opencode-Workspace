@@ -76,6 +76,15 @@ try {
     # 4. Stage every untracked/modified file (heuristic: workspace state changes only)
     Step "stage all changes" { git add -A }
 
+    # 4b. Force-include the gitignored memory file (workspace state that matters)
+    #     .opencode/memory.jsonl is intentionally gitignored in main, but the
+    #     backup branch is a snapshot — losing memory across backups defeats the
+    #     purpose. Force-add only for this branch's commit.
+    $memoryFile = Join-Path $WorkspaceRoot ".opencode\memory.jsonl"
+    if (Test-Path $memoryFile) {
+        Step "force-add memory file to this backup only" { git add -f $memoryFile | Out-Null }
+    }
+
     # 5. Commit if there's anything to commit
     $stagedCount = (git diff --cached --numstat | Measure-Object -Line).Lines
     if ($stagedCount -eq 0) {
@@ -119,10 +128,22 @@ try {
 
     # 8. Write .last-backup marker (gitignored - local only)
     if (-not $DryRun) {
+        # Compute SHA256 of memory file (if present) as integrity check
+        $memoryChecksum = "n/a"
+        if (Test-Path $memoryFile) {
+            try {
+                $memoryChecksum = (Get-FileHash -LiteralPath $memoryFile -Algorithm SHA256 -ErrorAction Stop).Hash
+                Write-Host "Memory file SHA256: $memoryChecksum" -ForegroundColor Green
+            } catch {
+                $memoryChecksum = "error: $($_.Exception.Message)"
+            }
+        }
+
         $marker = Join-Path $WorkspaceRoot "scripts\.last-backup"
-        "lastBackupDate: $(Get-Date -Format o)"  | Set-Content $marker
+        "lastBackupDate: $(Get-Date -Format o)"   | Set-Content $marker
         "lastBackupBranch: $branchName"           | Add-Content $marker
         "lastBackupCommit: $commitHash"           | Add-Content $marker
+        "memoryFileChecksum: $memoryChecksum"     | Add-Content $marker
         Write-Host "Wrote marker: $marker" -ForegroundColor Green
     }
 
