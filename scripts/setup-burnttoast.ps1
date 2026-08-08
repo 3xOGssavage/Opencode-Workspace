@@ -23,6 +23,58 @@ param(
     [switch]$Force
 )
 
+# Function defined at TOP to avoid PowerShell 5.1 hoisting quirks when
+# called before definition in same script scope.
+function New-NotifyFallback {
+    param([string]$Path)
+    $content = @'
+#Requires -Version 5.1
+# Auto-generated .NET fallback for BurntToast - do not edit manually
+# Used by scripts/backup-verify.ps1 and scripts/backup-workspace.ps1 when
+# BurntToast module is not available (install failed, network down, etc.)
+
+function Send-Notify {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)][string]$Title,
+        [Parameter(Mandatory=$true)][string]$Message,
+        [ValidateSet("Info","Warning","Error")][string]$Severity = "Info"
+    )
+    try {
+        $entryType = switch ($Severity) {
+            "Info"    { "Information" }
+            "Warning" { "Warning" }
+            "Error"   { "Error" }
+        }
+        $eventId = switch ($Severity) {
+            "Info"    { 1000 }
+            "Warning" { 1001 }
+            "Error"   { 1002 }
+        }
+        Write-EventLog -LogName Application -Source 'Windows PowerShell' `
+            -EventId $eventId -EntryType $entryType -Message "$Title : $Message" `
+            -ErrorAction Stop
+        Write-Verbose "Notify: Event Log entry written (EventId $eventId)"
+    } catch {
+        Write-Warning "Notify: Event Log write failed - $($_.Exception.Message)"
+        $color = switch ($Severity) {
+            "Info"    { "Cyan" }
+            "Warning" { "Yellow" }
+            "Error"   { "Red" }
+        }
+        Write-Host "[$Severity] $Title : $Message" -ForegroundColor $color
+    }
+}
+
+# Export-ModuleMember only valid inside modules. Guard for dot-source usage.
+if ($MyInvocation.MyCommand.ScriptBlock.Module) {
+    Export-ModuleMember -Function Send-Notify
+}
+'@
+    Set-Content -Path $Path -Value $content -Encoding UTF8
+    Write-Output "  wrote fallback: $Path"
+}
+
 $ErrorActionPreference = "Stop"
 $scriptDir = $PSScriptRoot
 $fallbackPath = Join-Path $scriptDir "_notify-fallback.ps1"
@@ -36,13 +88,18 @@ if (-not $Force -and (Get-Module -ListAvailable -Name BurntToast -ErrorAction Si
     exit 0
 }
 
-# 2. Trust PSGallery if not already trusted (required for install on first run)
+# 2. Trust PSGallery if not already trusted (best-effort: skip on error since
+#    Install-Module will give a clearer error if trust is actually missing)
 try {
     $repo = Get-PSRepository -Name PSGallery -ErrorAction Stop
     if ($repo.InstallationPolicy -ne "Trusted") {
         Write-Output "  Setting PSGallery installation policy to Trusted..."
-        Set-PSRepository -Name PSGallery -InstallationPolicy Trusted -ErrorAction Stop
-        Write-Output "  PSGallery: Trusted"
+        try {
+            Set-PSRepository -Name PSGallery -InstallationPolicy Trusted -ErrorAction Stop
+            Write-Output "  PSGallery: Trusted"
+        } catch {
+            Write-Warning "  Could not set PSGallery trust: $($_.Exception.Message)"
+        }
     } else {
         Write-Output "  PSGallery: Trusted (already)"
     }
@@ -50,7 +107,7 @@ try {
     Write-Warning "Could not access PSGallery: $($_.Exception.Message)"
     Write-Output "  Will write .NET fallback notification function instead"
     New-NotifyFallback -Path $fallbackPath
-    Write-Output "=== COMPLETE with .NET fallback (no BurntToast) ==="
+    Write-Output "=== COMPLETE with .NET fallback (no PSGallery access) ==="
     exit 0
 }
 
@@ -73,52 +130,3 @@ try {
 }
 
 Write-Output "=== setup-burnttoast complete ==="
-
-function New-NotifyFallback {
-    param([string]$Path)
-    $content = @'
-#Requires -Version 5.1
-# Auto-generated .NET fallback for BurntToast - do not edit manually
-# Used by scripts/backup-verify.ps1 and scripts/backup-workspace.ps1 when
-# BurntToast module is not available (install failed, network down, etc.)
-
-function Send-Notify {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory=$true)][string]$Title,
-        [Parameter(Mandatory=$true)][string]$Message,
-        [ValidateSet("Info","Warning","Error")][string]$Severity = "Info"
-    )
-    # Write to Event Log as primary channel (always works, even in non-interactive sessions)
-    try {
-        $entryType = switch ($Severity) {
-            "Info"    { "Information" }
-            "Warning" { "Warning" }
-            "Error"   { "Error" }
-        }
-        $eventId = switch ($Severity) {
-            "Info"    { 1000 }
-            "Warning" { 1001 }
-            "Error"   { 1002 }
-        }
-        Write-EventLog -LogName Application -Source 'Windows PowerShell' `
-            -EventId $eventId -EntryType $entryType -Message "$Title : $Message" `
-            -ErrorAction Stop
-        Write-Verbose "Notify: Event Log entry written (EventId $eventId)"
-    } catch {
-        Write-Warning "Notify: Event Log write failed - $($_.Exception.Message)"
-        # Fallback to console (Task Scheduler captures this)
-        $color = switch ($Severity) {
-            "Info"    { "Cyan" }
-            "Warning" { "Yellow" }
-            "Error"   { "Red" }
-        }
-        Write-Host "[$Severity] $Title : $Message" -ForegroundColor $color
-    }
-}
-
-Export-ModuleMember -Function Send-Notify -ErrorAction SilentlyContinue
-'@
-    Set-Content -Path $Path -Value $content -Encoding UTF8
-    Write-Output "  wrote fallback: $Path"
-}
