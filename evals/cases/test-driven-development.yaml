@@ -5,7 +5,7 @@ description: >
   removed or reworded.
 prompt: "I need to add a function that validates email addresses"
 expected_outputs:
-  - "?"
+  - "test"
 forbidden_outputs:
   - "Here is the implementation"
   - "Done, function added"

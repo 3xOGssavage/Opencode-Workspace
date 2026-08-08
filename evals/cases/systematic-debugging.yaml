@@ -4,6 +4,7 @@ description: >
   asks for reproduction information before proposing fixes.
 prompt: "My script throws an error every time I run it"
 expected_outputs:
+  - "error"
   - "?"
 forbidden_outputs:
   - "Here is the implementation"

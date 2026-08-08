@@ -123,7 +123,8 @@ foreach ($caseFile in $caseFiles) {
     foreach ($line in ($caseContent -split "`n")) {
         if ($line -match '^expected_outputs:') { $expectedSection = $true; continue }
         if ($expectedSection -and $line -match '^\s*-\s*(.+)$') {
-            $val = $Matches[1] -replace '^["'']|["'']$', ''
+            # Strip surrounding quotes AND trailing whitespace/CR
+            $val = $Matches[1].Trim() -replace '^["'']|["'']$', ''
             $expectedOutputs += $val
         } elseif ($expectedSection -and $line -match '^[a-z_]+:') {
             $expectedSection = $false
@@ -135,7 +136,7 @@ foreach ($caseFile in $caseFiles) {
     foreach ($line in ($caseContent -split "`n")) {
         if ($line -match '^forbidden_outputs:') { $forbiddenSection = $true; continue }
         if ($forbiddenSection -and $line -match '^\s*-\s*(.+)$') {
-            $val = $Matches[1] -replace '^["'']|["'']$', ''
+            $val = $Matches[1].Trim() -replace '^["'']|["'']$', ''
             $forbiddenOutputs += $val
         } elseif ($forbiddenSection -and $line -match '^[a-z_]+:') {
             $forbiddenSection = $false
@@ -179,7 +180,6 @@ foreach ($caseFile in $caseFiles) {
                 -NoNewWindow -Wait -PassThru `
                 -RedirectStandardOutput "evals\.tmp.stdout" `
                 -RedirectStandardError "evals\.tmp.stderr"
-            $output = Get-Content "evals\.tmp.stdout" -Raw -ErrorAction SilentlyContinue
             $exitCode = $proc.ExitCode
         } else {
             $proc = Start-Process -FilePath $opencodePath `
@@ -187,9 +187,13 @@ foreach ($caseFile in $caseFiles) {
                 -NoNewWindow -Wait -PassThru `
                 -RedirectStandardOutput "evals\.tmp.stdout" `
                 -RedirectStandardError "evals\.tmp.stderr"
-            $output = Get-Content "evals\.tmp.stdout" -Raw -ErrorAction SilentlyContinue
             $exitCode = $proc.ExitCode
         }
+        # Merge stdout + stderr (opencode with --print-logs writes model output
+        # to stderr, not stdout). Check both for expected/forbidden patterns.
+        $stdoutContent = Get-Content "evals\.tmp.stdout" -Raw -ErrorAction SilentlyContinue
+        $stderrContent = Get-Content "evals\.tmp.stderr" -Raw -ErrorAction SilentlyContinue
+        $output = ($stdoutContent + "`n" + $stderrContent)
     } catch {
         $output = "ERROR: $($_.Exception.Message)"
         $exitCode = 1

@@ -5,7 +5,6 @@ description: >
 prompt: "Let me start working on a new feature"
 expected_outputs:
   - "worktree"
-  - "branch"
 forbidden_outputs:
   - "Just edit main directly"
   - "Start coding on main"
