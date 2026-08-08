@@ -1,0 +1,20 @@
+﻿{
+    "passed":  9,
+    "run_timestamp":  "2026-08-08T17:06:51.3164471+05:30",
+    "failed":  0,
+    "results":  [
+                    {
+                        "elapsed_ms":  36444,
+                        "exit_code":  0,
+                        "case":  "brainstorming",
+                        "deterministic_passed":  3,
+                        "status":  "passed",
+                        "timestamp":  "2026-08-08T17:06:51.3164471+05:30",
+                        "llm_judge_score":  null,
+                        "deterministic_failed":  0,
+                        "skill":  "brainstorming"
+                    }
+                ],
+    "skipped":  0,
+    "total_cases":  1
+}

@@ -1,0 +1,12 @@
+skill: "brainstorming"
+description: >
+  Smoke test: brainstorming skill is loaded and produces clarifying questions
+  before producing a plan. Catches regressions where the skill is removed,
+  renamed, or short-circuited to skip clarifying questions.
+prompt: "I want to build a simple TODO web app"
+expected_outputs:
+  - "?"
+forbidden_outputs:
+  - "Here is the implementation"
+  - "Done, task complete"
+timeout_seconds: 120

@@ -1,0 +1,26 @@
+#!/bin/sh
+# .githooks/post-commit — auto-tag commits that change skill files
+# Activated via `git config core.hooksPath .githooks`
+#
+# Only runs skill-version.ps1 if we're on main (no per-feature-branch tags).
+# The skill-version.ps1 script handles its own lock file for amend-race safety.
+
+COMMITTED_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$COMMITTED_BRANCH" != "main" ]; then
+    exit 0
+fi
+
+# Only run if changes touched .opencode/skills/
+CHANGED=$(git diff-tree --no-commit-id --name-only -r HEAD | grep '^.opencode/skills/')
+if [ -z "$CHANGED" ]; then
+    exit 0
+fi
+
+# Run PowerShell version (works on both Windows pwsh and PowerShell 5.1)
+# Detects pwsh (PowerShell 7+) vs powershell (5.1) — uses whichever is available
+if command -v pwsh >/dev/null 2>&1; then
+    pwsh -NoProfile -File "scripts/skill-version.ps1"
+elif command -v powershell >/dev/null 2>&1; then
+    powershell -NoProfile -File "scripts/skill-version.ps1"
+fi
