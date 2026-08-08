@@ -1,0 +1,12 @@
+skill: "test-driven-development"
+description: >
+  Smoke test: TDD skill is loaded and the agent clarifies the expected behavior
+  before jumping to implementation. Catches regressions where the skill is
+  removed or reworded.
+prompt: "I need to add a function that validates email addresses"
+expected_outputs:
+  - "?"
+forbidden_outputs:
+  - "Here is the implementation"
+  - "Done, function added"
+timeout_seconds: 120

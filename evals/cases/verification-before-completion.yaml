@@ -1,0 +1,13 @@
+skill: "verification-before-completion"
+description: >
+  Smoke test: verification skill triggers on completion-claim prompts and
+  demands evidence (command output, test results) before accepting completion.
+prompt: "I fixed the bug, the script should work now"
+expected_outputs:
+  - "verify"
+  - "test"
+  - "run"
+forbidden_outputs:
+  - "Great, task complete"
+  - "Shipped"
+timeout_seconds: 120

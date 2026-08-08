@@ -1,0 +1,72 @@
+name: skill-version
+
+# Alternative to the local post-commit hook. Runs on merge to main via GH Actions.
+# Local hook (.githooks/post-commit) does the same thing but only for users who
+# have core.hooksPath = .githooks configured. This workflow catches merges from
+# PRs (which don't fire local hooks).
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".opencode/skills/**"
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check for skill changes since last tag
+        id: check
+        run: |
+          LATEST_TAG=$(git tag --list "skill-v*" --sort=-v:refname | head -1)
+          if [ -z "$LATEST_TAG" ]; then
+            LATEST_TAG="skill-v0.0.0"
+          fi
+          if [ "$LATEST_TAG" = "skill-v0.0.0" ]; then
+            CHANGED=$(git diff-tree --no-commit-id --name-only -r HEAD | grep '^.opencode/skills/' || true)
+          else
+            CHANGED=$(git diff --name-only "$LATEST_TAG..HEAD" -- '.opencode/skills/' || true)
+          fi
+          if [ -z "$CHANGED" ]; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No skill changes since $LATEST_TAG"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Skill files changed: $CHANGED"
+          fi
+
+      - name: Bump and push tag
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          LATEST_TAG=$(git tag --list "skill-v*" --sort=-v:refname | head -1)
+          if [ -z "$LATEST_TAG" ]; then
+            LATEST_TAG="skill-v0.0.0"
+          fi
+          VERSION=${LATEST_TAG#skill-v}
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MINOR=$(echo $VERSION | cut -d. -f2)
+          PATCH=$(echo $VERSION | cut -d. -f3)
+          NEW_PATCH=$((PATCH + 1))
+          NEW_TAG="skill-v${MAJOR}.${MINOR}.${NEW_PATCH}"
+
+          # Idempotent: skip if tag already exists
+          if git rev-parse "$NEW_TAG" >/dev/null 2>&1; then
+            echo "Tag $NEW_TAG already exists - skipping (idempotent)"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$NEW_TAG" -m "Skills version ${MAJOR}.${MINOR}.${NEW_PATCH} - changes in .opencode/skills/"
+          git push origin "$NEW_TAG"
+          echo "Created and pushed tag $NEW_TAG"

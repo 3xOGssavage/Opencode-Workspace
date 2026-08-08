@@ -1,0 +1,11 @@
+skill: "systematic-debugging"
+description: >
+  Smoke test: systematic-debugging skill triggers on bug-related prompts and
+  asks for reproduction information before proposing fixes.
+prompt: "My script throws an error every time I run it"
+expected_outputs:
+  - "?"
+forbidden_outputs:
+  - "Here is the implementation"
+  - "Just add a try/catch"
+timeout_seconds: 120

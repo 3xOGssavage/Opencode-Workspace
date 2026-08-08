@@ -1,0 +1,14 @@
+# CODEOWNERS — root path for all files
+# Solo developer: @3xOGssavage is automatically requested as reviewer on every PR
+# Place this file at the repo root (GitHub looks for it in repo root, .github/, or docs/)
+
+*       @3xOGssavage
+
+# Documentation subfolder: stricter review (any doc change needs explicit approval)
+/docs/ @3xOGssavage
+
+# Security-critical files: stricter review
+/.github/workflows/ @3xOGssavage
+/scripts/setup-branch-protection-curl.ps1 @3xOGssavage
+/scripts/redact.ps1 @3xOGssavage
+/SECURITY.md @3xOGssavage

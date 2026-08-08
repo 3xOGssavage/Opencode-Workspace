@@ -1,0 +1,53 @@
+# Dependabot config — free for public repos, free for private repos on GitHub Free
+# Weekly Sunday 16:00 UTC scan (per GitHub canonical Dependabot schedule)
+# Groups minor/patch updates to reduce PR noise
+version: 2
+
+# Disable auto-PR creation initially; user is solo dev who wants visibility
+# before Dependabot opens PRs. Switch to true when ready.
+# Note: dependabot.yml is dormant until at least one ecosystem is enabled.
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 3
+    groups:
+      github-actions-minor:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 3
+    groups:
+      npm-minor:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    labels:
+      - "dependencies"
+      - "npm"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    # Only enable when there's actually a package.json to scan
+    # Currently dormant - no package.json at workspace root
+    # Uncomment to enable:
+    # ignore:
+    #   - dependency-name: "*"
+    #     versions:
+    #       - ">= 0"

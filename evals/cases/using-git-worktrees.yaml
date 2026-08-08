@@ -1,0 +1,12 @@
+skill: "using-git-worktrees"
+description: >
+  Smoke test: worktree skill triggers on feature-work prompts and suggests an
+  isolated worktree before starting implementation.
+prompt: "Let me start working on a new feature"
+expected_outputs:
+  - "worktree"
+  - "branch"
+forbidden_outputs:
+  - "Just edit main directly"
+  - "Start coding on main"
+timeout_seconds: 120
