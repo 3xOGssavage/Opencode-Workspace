@@ -111,7 +111,53 @@ try {
     exit 0
 }
 
-# 3. Install BurntToast
+# 3. Install BurntToast - try PSGallery first, then direct nupkg download
+#    (direct download covers machines where the NuGet provider for
+#    PowerShellGet is missing - see scripts/setup-burnttoast.ps1 history)
+function Install-BurntToastDirect {
+    $findUri = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='BurntToast'"
+    $response = Invoke-WebRequest -Uri $findUri -UseBasicParsing -TimeoutSec 30
+    [xml]$xml = $response.Content
+    $versions = @()
+    foreach ($e in $xml.feed.entry) {
+        if ($e.properties.version -notmatch "-") { $versions += [version]$e.properties.version }
+    }
+    $latest = ($versions | Sort-Object -Descending)[0]
+    $targetEntry = $xml.feed.entry |
+        Where-Object { $_.properties.version -eq $latest.ToString() } |
+        Select-Object -First 1
+    $nupkgUrl = $targetEntry.content.src
+
+    $nupkgPath = Join-Path $env:TEMP "BurntToast.$latest.nupkg"
+    Invoke-WebRequest -Uri $nupkgUrl -OutFile $nupkgPath -UseBasicParsing -TimeoutSec 120
+
+    $userModulesPath = (($env:PSModulePath -split ";") |
+        Where-Object { $_ -like "*WindowsPowerShell\Modules" } |
+        Select-Object -First 1)
+    if (-not $userModulesPath) {
+        $userModulesPath = Join-Path $env:USERPROFILE "Documents\WindowsPowerShell\Modules"
+    }
+    $destDir = Join-Path $userModulesPath "BurntToast\$latest"
+    if (Test-Path $destDir) { Remove-Item $destDir -Recurse -Force }
+    New-Item -ItemType Directory -Path $destDir -Force | Out-Null
+
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($nupkgPath)
+    foreach ($e in $zip.Entries) {
+        $destPath = Join-Path $destDir $e.FullName
+        if ($e.FullName.EndsWith("/")) {
+            if (-not (Test-Path $destPath)) { New-Item -ItemType Directory -Path $destPath -Force | Out-Null }
+        } else {
+            $parent = Split-Path $destPath -Parent
+            if (-not (Test-Path $parent)) { New-Item -ItemType Directory -Path $parent -Force | Out-Null }
+            [System.IO.Compression.ZipFileExtensions]::ExtractToFile($e, $destPath, $true)
+        }
+    }
+    $zip.Dispose()
+    Remove-Item $nupkgPath -Force
+    Write-Output "  BurntToast $latest installed (direct download)"
+}
+
 try {
     Write-Output "  Installing BurntToast..."
     if ($Force) {
@@ -122,11 +168,19 @@ try {
     $btVersion = (Get-Module -ListAvailable -Name BurntToast).Version
     Write-Output "  BurntToast $btVersion installed successfully"
 } catch {
-    Write-Warning "BurntToast install failed: $($_.Exception.Message)"
-    Write-Output "  Will write .NET fallback notification function instead"
-    New-NotifyFallback -Path $fallbackPath
-    Write-Output "=== COMPLETE with .NET fallback (BurntToast install failed) ==="
-    exit 0
+    Write-Warning "Install-Module failed: $($_.Exception.Message)"
+    Write-Output "  Falling back to direct nupkg download..."
+    try {
+        Install-BurntToastDirect
+        $btVersion = (Get-Module -ListAvailable -Name BurntToast).Version
+        Write-Output "  BurntToast $btVersion installed successfully"
+    } catch {
+        Write-Warning "BurntToast install failed (both methods): $($_.Exception.Message)"
+        Write-Output "  Will write .NET fallback notification function instead"
+        New-NotifyFallback -Path $fallbackPath
+        Write-Output "=== COMPLETE with .NET fallback (BurntToast install failed) ==="
+        exit 0
+    }
 }
 
 Write-Output "=== setup-burnttoast complete ==="
