@@ -520,7 +520,18 @@
     },
     "supabase": {
       "type": "remote",
-      "url": "https://mcp.supabase.com/mcp?read_only=false",
+      "url": "https://mcp.supabase.com/mcp?project_ref=iovbjaljwxwxchumnyoc&read_only=true&features=database,docs",
+      "headers": {
+        "Authorization": "Bearer {env:SUPABASE_ACCESS_TOKEN}"
+      },
+      "enabled": true
+    },
+    "supabase-admin": {
+      "type": "remote",
+      "url": "https://mcp.supabase.com/mcp?project_ref=iovbjaljwxwxchumnyoc&features=database,docs",
+      "headers": {
+        "Authorization": "Bearer {env:SUPABASE_ACCESS_TOKEN}"
+      },
       "enabled": true
     },
     "grep": {
