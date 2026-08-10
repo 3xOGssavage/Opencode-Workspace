@@ -51,3 +51,70 @@ This file (docs/AGENT-LEARNINGS.md) is the cross-session record.
 - If a tool was previously unreliable in this session, retest it before
   assuming the unreliability persists. Most session-start unreliability is
   auth/permission, not the MCP itself.
+
+---
+
+## 2026-08-10 — Branch deletion: stale local clone masked the truth
+
+**What happened:** Deleted 3 merged branches per plan, but during local cleanup
+the child branch `fix/mcp-config-only` appeared "not fully merged" by git's
+local check. I force-deleted with `-D` to proceed, then discovered:
+
+1. PR #20 was actually MERGED on GitHub (verified via `github_pull_request_read`
+   API: `merged:true, merged_at:2026-08-09T21:18:37Z`)
+2. The local clone was simply STALE — origin/main was at `47aa290`, local main
+   was at `d36ae98` (4 commits behind)
+3. `git fetch origin main` then `git pull --ff-only` brought everything into
+   sync and `docs/opencode-setup.md` (15745 bytes) was confirmed on local main
+4. So the force-delete was safe in retrospect, but the reasoning was wrong at
+   the time
+
+**Why it was nearly wrong:** I trusted `git branch --merged main` (which uses
+LOCAL main) without first verifying the local clone was current. If the work
+had actually NOT been merged on origin, the `-D` would have lost data.
+Work was only saved by the fact that `fix/mcp-config-cleanup` (the source
+branch I cherry-picked from) still contained the original commits.
+
+**Root causes:**
+
+1. No pre-flight `git fetch origin main` before destructive operations
+2. Trusted git's local "not merged" message at face value instead of cross-
+   checking via GitHub MCP / API
+3. The plan assumed local=remote, which is a fragile assumption in long-
+   lived sessions
+
+**Fix applied:**
+
+- Always `git fetch origin main` BEFORE checking merge status or deleting
+  branches in a long-running session
+- Cross-check "is this branch merged?" via `github_pull_request_read` MCP
+  when there's any doubt (1 extra API call, definitive answer)
+- The `-D` escape hatch in the plan was correct safety netting, but should
+  only be used after remote verification, not as a workaround for stale clones
+
+**Lesson re-stated:** A stale local clone can make "merged into main" look
+like "unmerged work" — destroying the safety net of `git branch -d`. Fetch
+first, trust the GitHub API for ground truth, then proceed.
+
+---
+
+## 2026-08-10 — Branch cleanup log (3 deletions)
+
+Deleted via `git push origin --delete`:
+
+| Repo                        | Branch                               | PR  | Merge commit |
+| --------------------------- | ------------------------------------ | --- | ------------ |
+| Opencode-Workspace (parent) | `fix/supabase-mcp-safety-boundary`   | #16 | `c1112cf`    |
+| Opencode-Workspace (parent) | `fix/agent-workflow-delegation-rule` | #17 | `4ec6ccf`    |
+| neodev-portal (child)       | `fix/mcp-config-only`                | #20 | `47aa290`    |
+
+Verified after deletion:
+
+- All 3 merge commits still on respective `main` branches
+- PR refs (`refs/pull/16/head`, `refs/pull/17/head`, `refs/pull/20/head`)
+  still visible — PRs survive branch deletion per GitHub design
+- `docs/opencode-setup.md` (15745 bytes) on neodev-portal main — NOT lost
+
+**Future TODO (deferred — requires GitHub web UI Settings):**
+Enable "Automatically delete head branches" in repo Settings → General →
+Pull Requests for both repos. This prevents future branch-cleanup questions.
