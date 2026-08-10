@@ -542,6 +542,40 @@ When starting a NEW project (no existing repo):
 5. Clone to `F:/CD/Opencode/Projects/<project-name>/`
 6. Report to user: "Created repo: <url>"
 
+## Workflow delegation — when the MCP acts vs. when the user acts
+
+**Added 2026-08-10** after a session where I made the user click "Create pull request" twice when `github_create_pull_request` MCP was available. Lesson: the AGENTS.md rule book is _loaded_, not _re-checked at every decision point_. The default drifted to "I push commits, user clicks Create" instead of "I push commits, I call `create_pull_request`, user clicks Merge."
+
+### The rule
+
+When a registered MCP, CLI tool, or skill can perform an action, **the tool performs it. The user is reserved for:**
+
+| Action class                                                      | Who does it                                                                                         |
+| ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Create PR, create issue, create repo, create branch, push commits | **MCP/tool** (`github_create_pull_request`, `github_issue_write`, `github_create_repository`, etc.) |
+| Merge PR, close PR, revert merge                                  | **User** — rule 8 of Enterprise Workflow (user reviews preview, then merges)                        |
+| Deploy to production                                              | **User** — rule 9 of Enterprise Workflow (only preview auto-deploys)                                |
+| Apply migrations, DDL, RLS writes, irreversible schema changes    | **User** — MasterPlan Decision #34 (supabase-admin MCP exists, but agent must ask first)            |
+| Force-push, skip hooks, amend published commits                   | **User** — git-workflow-and-versioning rules                                                        |
+| Anything else a CLI/MCP/skill can do                              | **MCP/tool**                                                                                        |
+
+### The trap this prevents
+
+During long execution chains (>10 sub-steps), a "I did my part, here's the URL for your part" pattern can drift in. Symptoms:
+
+- Telling user to click "Create pull request" instead of calling `github_create_pull_request`
+- Telling user to "run `npx vercel`" instead of using the vercel MCP
+- Telling user to "edit this file" instead of using the `edit` tool
+- Telling user to "open this URL" instead of fetching the page
+
+**Self-check at every transition to user**: _"Is there a registered MCP, CLI tool, or skill that can do this instead?"_ If yes, use it.
+
+### Exception: when to ask the user anyway
+
+- The action is genuinely irreversible (prod deploy, force-push, schema write) — confirm first.
+- The MCP/tool was previously unreliable in this session — but **retest before assuming**; the unreliability may have been a separate root cause (e.g., auth not MCP itself).
+- The user explicitly asked to do it manually (rare; they usually want automation).
+
 ## Communication Style for Non-Coder Users
 
 1. NEVER use technical jargon without explaining it.
