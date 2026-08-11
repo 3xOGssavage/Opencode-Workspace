@@ -38,3 +38,7 @@ desktop.ini
 
 # Local backup state (marker file written by backup-workspace.ps1)
 /scripts/.last-backup
+
+# Memory MCP knowledge graph (snapshot in git history; future writes are local-only.
+# To update the snapshot: git add -f .opencode/memory.jsonl)
+/.opencode/memory.jsonl
