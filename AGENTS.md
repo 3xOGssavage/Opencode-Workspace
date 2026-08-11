@@ -594,6 +594,45 @@ During long execution chains (>10 sub-steps), a "I did my part, here's the URL f
 - No commits/PRs unless explicitly asked.
 - Mimic surrounding code style.
 
+## Commit policy — line endings + runtime state
+
+This repo uses [`.gitattributes`](.gitattributes) to enforce line endings (overrides per-user `core.autocrlf`):
+
+- `* text=auto` — auto-detect text files, normalize to LF in repo
+- `*.bat text eol=crlf` — Windows batch files stay CRLF (DOS convention)
+- `*.cmd text eol=crlf` — Windows command files stay CRLF
+- `*.vbs text eol=crlf` — VBScript stays CRLF
+
+PowerShell 5.1 (`*.ps1`) accepts both LF and CRLF, so no explicit rule. Files at HEAD are LF; working tree is LF; this matches.
+
+### What's tracked vs untracked vs runtime
+
+**Tracked (committable real config/docs/tooling):**
+
+- Configs: `opencode.json`, `.opencode/agents/`, `.opencode/commands/`, `.opencode/skills/`, `global-config/`
+- Scripts: `scripts/*.ps1`
+- Docs: `docs/`, `*.md`, `docs/adrs/ADR-*.md`
+- Hooks + CI: `.githooks/`, `.github/`
+- Skill integrity: `skills-lock.json`
+- Vision-tool files: `.opencode/tools/vision-tool/` (kept tracked for restoration)
+
+**Gitignored (not tracked, but locally relevant):**
+
+- `.opencode/memory.jsonl` — Memory MCP knowledge graph (snapshot in git history; future session writes are local-only. To update the snapshot: `git add -f .opencode/memory.jsonl`)
+- Vendored skill packs: `.opencode/agent-skills/`, `.opencode/anthropic-skills/`, `.opencode/last30day-skill/`, `.opencode/vercel-agent-skills/`, `.opencode/playwright-bp-skill/`, `.opencode/github-mcp-server/`, `.opencode/node_modules/`, `.agents/`
+- Workspace backups: `.opencode/backups/` (historical snapshots, not for editing)
+
+**Runtime (gitignored by category, ephemeral):**
+
+- `*.log`, `*.tmp`, `*.bak` (only via explicit copy to `.opencode/backups/` if needed)
+- `__pycache__/`, language caches, OS cruft (`.DS_Store`, `Thumbs.db`, `desktop.ini`)
+
+### Rule of thumb
+
+If a file is "real config/docs/tooling" → commit before ending the session.
+If unsure, ask: "would another agent on another machine need this file?" If yes, commit. If no, gitignore.
+If it's "knowledge graph data" (like `memory.jsonl`) → gitignore + explicit snapshot commits when meaningful.
+
 ## Environment / gotchas
 
 - **Windows + PowerShell 5.1**: chain with `;` and `if ($?)`, not `&&`. Quote
