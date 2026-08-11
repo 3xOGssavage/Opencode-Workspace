@@ -633,6 +633,25 @@ If a file is "real config/docs/tooling" → commit before ending the session.
 If unsure, ask: "would another agent on another machine need this file?" If yes, commit. If no, gitignore.
 If it's "knowledge graph data" (like `memory.jsonl`) → gitignore + explicit snapshot commits when meaningful.
 
+### `git rm --cached` hazard (2026-08-11)
+
+When you `git rm --cached <file>` and commit, the file is removed from git's index but stays on disk **in your current clone**. However:
+
+- The next checkout in your clone will **delete the working-tree copy** (because the new HEAD no longer has it tracked).
+- This includes fast-forward merges: pulling a commit that removes a tracked file will delete the local file.
+- Fresh clones after the merge won't have the file at all (it was never committed to disk).
+
+**Always back up before `git rm --cached`.** Then if the working-tree file gets deleted during a subsequent merge/checkout, restore from backup. The pattern that works:
+
+1. Backup the file (e.g., to `.opencode/backups/pre-<change>-<ts>/`)
+2. `git rm --cached <file>` (remove from index, file still on disk)
+3. Edit `.gitignore` to ignore it (prevent future re-tracking)
+4. Commit + push + PR + merge
+5. After merge, **restore the working-tree copy from backup** if the file had valuable state
+6. Verify it parses/loads correctly
+
+This applies to any tracked file you want to untrack while preserving on-disk state: `memory.jsonl`, runtime files, build artifacts, etc.
+
 ## Environment / gotchas
 
 - **Windows + PowerShell 5.1**: chain with `;` and `if ($?)`, not `&&`. Quote
