@@ -681,3 +681,15 @@ This applies to any tracked file you want to untrack while preserving on-disk st
 - Backup files for `AGENTS.md` and `opencode.json` (from setup iteration) live in
   `.opencode/backups/` — do not edit them; they are historical snapshots.
 - **opencode v2 forward-path**: V2 beta is live (opencode.ai/v2/docs/migrate-v1). AGENTS.md and `.opencode/` files keep working (intentional compatibility). However, `compaction.tail_turns` (this workspace uses `tail_turns:3`) is removed in v2 — replace with `compaction.keep.tokens` on v2 upgrade. `small_model` and `enabled_providers`/`disabled_providers` top-level fields also removed. Defer v2 migration until a quiet slot — track the v2 stable release at opencode.ai/v2/docs/migrate-v1.
+
+## Browser-Use (human-like vision + keyboard/mouse browsing)
+
+Added 2026-08-14 (ADR-008; research: `docs/research/browser-use-aug-2026.md`). Dual-mode stealth browsing for web tasks (lead/job/listing/directory sites, ecom, social):
+
+- **Mode B (default, headless):** `scripts/camoufox-harvest.ps1 -Url <url> -Name <site>` — Camoufox headless (0% detection benchmark), Bezier human input, per-site identity profiles, block-detection + backoff, fresh-identity retries (≤3). Exit 2 = blocked → add `-Escalate` to hand off to Mode A.
+- **Mode A (headed, interactive):** `scripts/browser-use-run.ps1 -Task "<natural language task>" -Name <site>` — browser-use 0.13.5 agent + Gemini vision (existing `GEMINI_API_KEY`) attached via CDP to a headed Patchright Chrome (stealth-engine; headed-only, headless is detectable).
+- **Captcha ladder (all free):** avoid (stealth+pacing) → `ddddocr` MCP (legacy image/slider only) → SeleniumBase UC `uc_gui_click_captcha()` (Turnstile/reCAPTCHA/hCaptcha/DataDome) → wait+backoff+retry fresh identity → **ask user in chat** (user clicks once).
+- **Verification:** `scripts/browser-use-botscore.ps1 [-Engine camoufox|patchright-headed|patchright-headless]` — CreepJS/BrowserScan + 10-site matrix → `logs/botscore-*.md`.
+- **Setup (one-time):** `scripts/setup-browser-use.ps1` (venv `.opencode/browser_use/.venv`, pinned browser-use==0.13.5 + patchright + camoufox + ddddocr + seleniumbase + pyautogui + mcp). Marker `.opencode/browser_use/.setup-done`.
+- **Guardrails:** per-site volume caps (≤20-30 actions/min, ≤5 sessions/day), identity persistence (one profile per site), block kill-switch, home IP only (no proxies at $0), no automated signup (user creates throwaway accounts manually), robots.txt/ToS respected. Never claim stealth success — cite bot-score results.
+- **Rollback:** delete `.opencode/browser_use/`, `ddddocr-mcp-server.py`, revert `opencode.json`/`AGENTS.md`, drop Task Scheduler entries. No services installed; venv is self-contained.
