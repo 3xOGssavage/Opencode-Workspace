@@ -50,3 +50,7 @@ desktop.ini
 /.opencode/browser_use/agent_runner.log
 /.opencode/tools/__pycache__/
 /.opencode/browser_use/.setup-done
+
+# MCP runtime cache
+/.playwright-mcp/
+
