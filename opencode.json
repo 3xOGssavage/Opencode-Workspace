@@ -86,6 +86,19 @@
       "Clear-Content *": "ask",
       "python *": "allow",
       "F:\\CD\\Opencode\\.opencode\\browser_use\\.venv\\Scripts\\python.exe *": "allow",
+      "& *python.exe*": "allow",
+      "Get-CimInstance *": "allow",
+      "Get-Process *": "allow",
+      "tasklist *": "allow",
+      "Stop-Process *": "allow",
+      "Start-Process *": "allow",
+      "taskkill *": "allow",
+      "Get-NetTCPConnection *": "allow",
+      "Get-NetUDPEndpoint *": "allow",
+      "Invoke-WebRequest *": "allow",
+      "iwr *": "allow",
+      "Set-Content *": "allow",
+      "Add-Type *": "allow",
       "pip *": "allow",
       "pip3 *": "allow",
       "uv *": "allow",
@@ -114,6 +127,7 @@
     "webfetch": "allow",
     "external_directory": {
       "F:\\CD\\**": "allow",
+      "C:\\Users\\user\\AppData\\Local\\Temp\\opencode\\**": "allow",
       "*": "ask"
     }
   },

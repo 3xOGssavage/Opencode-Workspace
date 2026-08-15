@@ -35,7 +35,7 @@ def is_blocked(page):
         body = page.locator("body").inner_text(timeout=4000) or ""
     except Exception:
         return True
-    text = (page.title() + " " + body).lower()
+    text = (page.title() + " " + body[:1000]).lower()
     return any(m in text for m in BLOCK_MARKERS)
 
 
@@ -46,14 +46,9 @@ def _launch(profile_dir):
         "os": "windows",
     }
     if profile_dir:
+        kwargs["persistent_context"] = True
         kwargs["user_data_dir"] = profile_dir
-    try:
-        return Camoufox(**kwargs)
-    except TypeError:
-        if "user_data_dir" in kwargs:
-            kwargs.pop("user_data_dir")
-            return Camoufox(**kwargs)
-        raise
+    return Camoufox(**kwargs)
 
 
 def harvest(url, profile_dir, output, max_scrolls):
