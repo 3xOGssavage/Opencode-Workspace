@@ -1,6 +1,6 @@
 # Opencode-Workspace
 
-Enterprise opencode workspace backup — 17 agents, 16 MCPs, 117 skills, parallel subagent dispatch. Snapshot dated 2026-08-02. See `ENTERPRISE_OPENCODE_SETUP.md` for the full interactive re-deployment guide, and `AGENTS.md` for the operating manual.
+Enterprise opencode workspace backup — 17 agents, 16 MCPs, 117 skills, parallel subagent dispatch. Snapshot dated 2026-08-02. See `AGENTS.md` for the operating manual.
 
 ---
 
@@ -9,7 +9,6 @@ Enterprise opencode workspace backup — 17 agents, 16 MCPs, 117 skills, paralle
 | Path                                        | Purpose                                                                                                                    |
 | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `AGENTS.md`                                 | Operating manual (auto-loaded by opencode every session)                                                                   |
-| `ENTERPRISE_OPENCODE_SETUP.md`              | 1737-line interactive re-deployment guide                                                                                  |
 | `VISION-TOOL-MCP-DOCUMENTATION.md`          | Reference doc for the vision-tool MCP                                                                                      |
 | `skills-lock.json`                          | Integrity hashes for 4 Vercel skills                                                                                       |
 | `opencode.json`                             | Main workspace config (17 agents, 16 MCPs, 81 bash perms, 2 LSPs, compaction, formatter)                                   |

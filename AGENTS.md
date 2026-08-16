@@ -366,7 +366,6 @@ the auto-trigger condition — do not duplicate skill inventories in this file.
 
 ## Workspace reference files
 
-- **ENTERPRISE_OPENCODE_SETUP.md** (1737 lines) - interactive setup guide for re-deploying this workspace on another machine. Contains templates, questionnaires, and placeholders. Not loaded by opencode; reference only. Snapshot date 2026-07-19 — predates the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`, vision-tool MCP addition, `google` provider addition, the 2026-07-30 context-compression tuning (GLM-5.2 context 128K→200K, V1 compaction block enabled), and the 2026-08-02 opencode v1.18.11 upgrade + parallel subagent verification (fixes v1.18.10 zero-output bug, env var `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true` restored, regression table removed, 2-task parallel test passed); figures in Sections 1-16 (the setup template) may need adjustment before re-deployment. Sections 17-21 reflect the 2026-07-19 production snapshot and are stale relative to those subsequent changes. See ADR-007 (post-snapshot item 12) for the v1.18.11 upgrade details.
 - **skills-lock.json** - integrity hashes for 4 Vercel skills installed via `npx skills add` (deploy, logs, setup, vercel-cli). Validated on skill load.
 - **README.md** — see "Backup hardening v7" section for disaster scenarios, monthly Task Scheduler procedure, manual secrets setup, skills-snapshot refresh, and future hardening (git bundle, quarterly GitHub Export, BFG).
 
@@ -399,7 +398,6 @@ Deep-reference docs are organized under `docs/`. Read on demand.
 
 ### Other reference files (root)
 
-- **ENTERPRISE_OPENCODE_SETUP.md** — re-deployment setup template (1737 lines; snapshot 2026-07-19; Sections 17-21 are stale)
 - **skills-lock.json** — integrity hashes for 4 Vercel skills
 - **README.md** — backup hardening v7 + disaster recovery procedures
 
@@ -446,8 +444,6 @@ When starting a new project under `F:\CD\Opencode\Projects\`:
 **Verifying:** Run `powershell -ExecutionPolicy Bypass -File .opencode\verify-inheritance.ps1` from any project root.
 
 **Bypassing inheritance for isolated work:** `$env:OPENCODE_CONFIG=""; $env:OPENCODE_CONFIG_DIR=""; opencode`
-
-**Rollback:** see `ENTERPRISE_OPENCODE_SETUP.md` → "Config Inheritance Architecture → Rollback procedure".
 
 > Future-proofing: opencode team may change inheritance semantics in future releases. Re-verify against current docs before updating.
 
