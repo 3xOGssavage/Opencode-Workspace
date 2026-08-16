@@ -42,3 +42,15 @@ desktop.ini
 # Memory MCP knowledge graph (snapshot in git history; future writes are local-only.
 # To update the snapshot: git add -f .opencode/memory.jsonl)
 /.opencode/memory.jsonl
+
+# Browser-use stack (ADR-008)
+/.opencode/browser_use/.venv/
+/.opencode/browser_use/profiles/
+/.opencode/browser_use/__pycache__/
+/.opencode/browser_use/agent_runner.log
+/.opencode/tools/__pycache__/
+/.opencode/browser_use/.setup-done
+
+# MCP runtime cache
+/.playwright-mcp/
+
