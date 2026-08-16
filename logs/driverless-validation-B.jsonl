@@ -1,0 +1,26 @@
+{"ts": "2026-08-16T12:19:34+00:00", "variant": "B", "n": 1, "url": "https://example.com/", "nav_ms": 204.0, "title": "example.com", "ok": true, "err": null, "rss_mb": 799.0}
+{"ts": "2026-08-16T12:19:34+00:00", "variant": "B", "n": 2, "url": "https://www.iana.org/help/example-domains", "nav_ms": 219.0, "title": "iana.org/help/example-domains", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:36+00:00", "variant": "B", "n": 3, "url": "https://httpbin.org/html", "nav_ms": 2187.0, "title": "httpbin.org/html", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:36+00:00", "variant": "B", "n": 4, "url": "https://www.wikipedia.org/", "nav_ms": 329.0, "title": "wikipedia.org", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:37+00:00", "variant": "B", "n": 5, "url": "https://news.ycombinator.com/", "nav_ms": 953.0, "title": "news.ycombinator.com", "ok": true, "err": null, "rss_mb": 1185.8}
+{"ts": "2026-08-16T12:19:37+00:00", "variant": "B", "n": 6, "url": "https://example.com/", "nav_ms": 16.0, "title": "example.com", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:37+00:00", "variant": "B", "n": 7, "url": "https://www.iana.org/help/example-domains", "nav_ms": 16.0, "title": "iana.org/help/example-domains", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:37+00:00", "variant": "B", "n": 8, "url": "https://httpbin.org/html", "nav_ms": 31.0, "title": "httpbin.org/html", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:37+00:00", "variant": "B", "n": 9, "url": "https://www.wikipedia.org/", "nav_ms": 15.0, "title": "wikipedia.org", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:37+00:00", "variant": "B", "n": 10, "url": "https://news.ycombinator.com/", "nav_ms": 16.0, "title": "news.ycombinator.com", "ok": true, "err": null, "rss_mb": 1411.1}
+{"ts": "2026-08-16T12:19:37+00:00", "variant": "B", "n": 11, "url": "https://example.com/", "nav_ms": 0.0, "title": "example.com", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:37+00:00", "variant": "B", "n": 12, "url": "https://www.iana.org/help/example-domains", "nav_ms": 15.0, "title": "iana.org/help/example-domains", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:37+00:00", "variant": "B", "n": 13, "url": "https://httpbin.org/html", "nav_ms": 32.0, "title": "httpbin.org/html", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 14, "url": "https://www.wikipedia.org/", "nav_ms": 15.0, "title": "wikipedia.org", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 15, "url": "https://news.ycombinator.com/", "nav_ms": 31.0, "title": "news.ycombinator.com", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 16, "url": "https://example.com/", "nav_ms": 16.0, "title": "example.com", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 17, "url": "https://www.iana.org/help/example-domains", "nav_ms": 16.0, "title": "iana.org/help/example-domains", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 18, "url": "https://httpbin.org/html", "nav_ms": 15.0, "title": "httpbin.org/html", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 19, "url": "https://www.wikipedia.org/", "nav_ms": 32.0, "title": "wikipedia.org", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 20, "url": "https://news.ycombinator.com/", "nav_ms": 15.0, "title": "news.ycombinator.com", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 21, "url": "https://example.com/", "nav_ms": 16.0, "title": "example.com", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 22, "url": "https://www.iana.org/help/example-domains", "nav_ms": 31.0, "title": "iana.org/help/example-domains", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 23, "url": "https://httpbin.org/html", "nav_ms": 16.0, "title": "httpbin.org/html", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 24, "url": "https://www.wikipedia.org/", "nav_ms": 31.0, "title": "wikipedia.org", "ok": true, "err": null}
+{"ts": "2026-08-16T12:19:38+00:00", "variant": "B", "n": 25, "url": "https://news.ycombinator.com/", "nav_ms": 31.0, "title": "news.ycombinator.com", "ok": true, "err": null, "rss_mb": 2248.2}
+{"ts": "2026-08-16T12:20:10+00:00", "variant": "B", "type": "summary", "total": 25, "failures": 0, "chrome_start": "version-read-failed: Command '['C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe', '--version']' timed out after 30 seconds", "chrome_end": "version-read-failed: Command '['C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe', '--version']' timed out after 30 seconds"}
