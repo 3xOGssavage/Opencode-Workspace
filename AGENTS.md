@@ -430,6 +430,19 @@ When starting a new project under `F:\CD\Opencode\Projects\`:
 6. Run `openspec init` for spec-driven development workflow.
 7. Save project conventions to `memory` MCP.
 
+### Projects/ is local-only
+
+`Projects/` is **2.95 GB of personal sub-repos with their own remotes** and must
+never be committed to this workspace repo. Four independent guards prevent
+leakage (defense-in-depth):
+
+- **Layer A** (`.githooks/pre-commit`): local git hook rejects staged `Projects/*` paths before commit (except `Projects/.gitignore` and `Projects/.gitkeep`).
+- **Layer C** (`.github/workflows/projects-guard.yml`): CI job rejects PRs that touch `Projects/` paths.
+- **Layer D** (`.gitignore` line 1): the `/Projects/*` rule itself + comment explaining all 4 layers.
+- **Layer E** (this subsection): documentation so the policy is discoverable.
+
+If you legitimately need to track a project file under `Projects/`, all four layers must be intentionally bypassed — which is a strong signal you should reconsider. Sub-repos with their own `git/` will push to their own remotes, not the workspace.
+
 ### Project inheritance
 
 **CORRECTED (2026-07-22):** Projects in `F:/CD/Opencode/Projects/` do NOT inherit parent `opencode.json` automatically — each project's `.git` directory stops opencode's config walk-up at the project boundary (opencode discovery stops at the nearest git worktree per `ConfigPaths.files → fs.up({ stop: worktree })`).

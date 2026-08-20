@@ -1,5 +1,39 @@
 #!/bin/sh
-# Pre-commit hook: runs local secret scanner before each commit.
+# Pre-commit hook: runs local secret scanner + Projects/ leak guard.
 # Enable with: git config core.hookspath .githooks
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/audit-secrets.ps1
-exit $?
+#
+# Layer A of the 4-layer Projects/ leak guard:
+#   A: this hook (rejects staged Projects/* paths)
+#   C: .github/workflows/projects-guard.yml (fails PR if Projects/ diff)
+#   D: .gitignore comment block above the /Projects/* rule
+#   E: AGENTS.md "Projects/ is local-only" subsection
+
+EXIT=0
+
+# --- Secret scan (audit-secrets.ps1) ---
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/audit-secrets.ps1 || EXIT=1
+
+# --- Projects/ leak guard (Layer A) ---
+LEAKS=""
+for f in $(git diff --cached --name-only -- 'Projects/'); do
+  case "$f" in
+    "Projects/.gitignore"|"Projects/.gitkeep") ;;  # only 2 tracked files allowed
+    *) LEAKS="$LEAKS
+  $f" ;;
+  esac
+done
+
+if [ -n "$LEAKS" ]; then
+  echo "============================================================="
+  echo " BLOCKED: Projects/ is local-only (Layer A). Rejecting:$LEAKS"
+  echo ""
+  echo " Projects/ contains 2.95GB of personal sub-repos with their own"
+  echo " remotes. Only Projects/.gitignore and Projects/.gitkeep are tracked."
+  echo ""
+  echo " Bypass with: git commit --no-verify  (NOT recommended;"
+  echo " Layer C CI will also block the PR.)"
+  echo "============================================================="
+  EXIT=1
+fi
+
+exit $EXIT
