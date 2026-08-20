@@ -430,6 +430,19 @@ When starting a new project under `F:\CD\Opencode\Projects\`:
 6. Run `openspec init` for spec-driven development workflow.
 7. Save project conventions to `memory` MCP.
 
+### Projects/ is local-only
+
+`Projects/` is **2.95 GB of personal sub-repos with their own remotes** and must
+never be committed to this workspace repo. Four independent guards prevent
+leakage (defense-in-depth):
+
+- **Layer A** (`.githooks/pre-commit`): local git hook rejects staged `Projects/*` paths before commit (except `Projects/.gitignore` and `Projects/.gitkeep`).
+- **Layer C** (`.github/workflows/projects-guard.yml`): CI job rejects PRs that touch `Projects/` paths.
+- **Layer D** (`.gitignore` line 1): the `/Projects/*` rule itself + comment explaining all 4 layers.
+- **Layer E** (this subsection): documentation so the policy is discoverable.
+
+If you legitimately need to track a project file under `Projects/`, all four layers must be intentionally bypassed — which is a strong signal you should reconsider. Sub-repos with their own `git/` will push to their own remotes, not the workspace.
+
 ### Project inheritance
 
 **CORRECTED (2026-07-22):** Projects in `F:/CD/Opencode/Projects/` do NOT inherit parent `opencode.json` automatically — each project's `.git` directory stops opencode's config walk-up at the project boundary (opencode discovery stops at the nearest git worktree per `ConfigPaths.files → fs.up({ stop: worktree })`).
@@ -662,6 +675,7 @@ This applies to any tracked file you want to untrack while preserving on-disk st
 - `HCNSEC_API_KEY` (51 chars, `sk-...`) is set as a User env var — the hcnsec reseller key backing all `hcnsec/*` models in `/models`.
 - `GEMINI_API_KEY` (53 chars, `AQ.Ab8R...`) is set as a User env var — backs the `google` provider in `auth.json`, used by the `vision-tool` MCP (Gemini 3.5-flash-lite vision backend) and the `opencode-eyesight` fallback plugin.
 - `TOKENROUTER_API_KEY` (51 chars, `sk-2NW2...73er`) is set as a User env var — backs both `tokenrouter/*` models in `/models`. TokenRouter provider is in `opencode.json:provider`, NOT in `auth.json`.
+- `AIHUBMIX_API_KEY` (51 chars, `sk-...`) is set as a User env var — backs the `aihubmix/*` provider in `opencode.json` (44 models after `glm-5.2-free` exclusion via `scripts/sync-aihubmix-models.ps1`).
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` and `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` are set as User env vars (see "Project inheritance" below) — these propagate the parent workspace's config into every child-project session.
 - `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS` is set to `true` as a User env var (via `setx`) — gates the `background` parameter on the `task` tool, enabling parallel subagent dispatch via the orchestrator. Requires opencode restart to take effect.
 - `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `ANTHROPIC_API_KEY`, `OPENCODE_API_KEY` are **not** set as User env vars. Either set them per-project or add via `setx` if you want OpenAI / OpenRouter / Anthropic / opencode-cloud providers visible globally.
@@ -689,3 +703,17 @@ Added 2026-08-14 (ADR-008; research: `docs/research/browser-use-aug-2026.md`). D
 - **Setup (one-time):** `scripts/setup-browser-use.ps1` (venv `.opencode/browser_use/.venv`, pinned browser-use==0.13.5 + patchright + camoufox + ddddocr + seleniumbase + pyautogui + mcp). Marker `.opencode/browser_use/.setup-done`.
 - **Guardrails:** per-site volume caps (≤20-30 actions/min, ≤5 sessions/day), identity persistence (one profile per site), block kill-switch, home IP only (no proxies at $0), no automated signup (user creates throwaway accounts manually), robots.txt/ToS respected. Never claim stealth success — cite bot-score results.
 - **Rollback:** delete `.opencode/browser_use/`, `ddddocr-mcp-server.py`, revert `opencode.json`/`AGENTS.md`, drop Task Scheduler entries. No services installed; venv is self-contained.
+
+## Repository Map
+
+A codemap is regenerable on demand via the `codemap` skill. Ask the agent:
+"generate a codemap for this repo" (or "generate a codemap for <folder>") —
+the output `codemap.md` is gitignored as a regenerable artifact (see `.gitignore`).
+
+Before working on any task, generate or read the codemap to understand:
+
+- Project architecture and entry points
+- Directory responsibilities and design patterns
+- Data flow and integration points between modules
+
+For deep work on a specific folder, generate a codemap for that folder.

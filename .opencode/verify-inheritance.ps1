@@ -3,14 +3,19 @@
 # Confirms OPENCODE_CONFIG + OPENCODE_CONFIG_DIR env vars are set correctly
 # and child project configs don't override inherited blocks.
 #
-# Usage: powershell -ExecutionPolicy Bypass -File F:\CD\Opencode\.opencode\verify-inheritance.ps1
+# Usage: powershell -ExecutionPolicy Bypass -File .opencode/verify-inheritance.ps1
+# Or:    pwsh .opencode/verify-inheritance.ps1
 #
 # Exits 0 if all checks pass, 1 if any check fails.
+# Paths are auto-detected from $PSScriptRoot (cross-platform; works on any clone path).
 
 $ErrorActionPreference = "Stop"
-$EXPECTED_OC  = "F:\CD\Opencode\opencode.json"
-$EXPECTED_OCD = "F:\CD\Opencode\.opencode"
-$PROJECTS_ROOT = "F:\CD\Opencode\Projects"
+
+# ponytail: derive paths relative to this script so the file works on any clone path
+$WorkspaceRoot  = Split-Path $PSScriptRoot -Parent
+$EXPECTED_OC    = Join-Path $WorkspaceRoot 'opencode.json'
+$EXPECTED_OCD   = $PSScriptRoot
+$PROJECTS_ROOT  = Join-Path $WorkspaceRoot 'Projects'
 
 $failures = 0
 

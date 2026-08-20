@@ -1,0 +1,59 @@
+name: Projects/ Leak Guard (Layer C)
+
+# Trigger: PR to main + tag pushes. Layer C of the 4-layer guard:
+# A: .githooks/pre-commit (local reject) ; C: this CI job (PR reject)
+# D: .gitignore comment ; E: AGENTS.md "Projects/ is local-only" note
+on:
+  pull_request:
+    branches: [main]
+  push:
+    tags: ["v*"]
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # need full history for diff against base
+
+      - name: Reject Projects/ non-tracked file changes
+        run: |
+          set -e
+          # Determine the diff base: for PRs, compare origin/main...HEAD.
+          # For tag pushes (push event), compare to the previous tag (or skip).
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            BASE=origin/main
+          else
+            BASE="HEAD^"
+          fi
+
+          echo "Diffing $BASE...HEAD for Projects/ paths..."
+          LEAKS=$(git diff "$BASE...HEAD" --name-only -- 'Projects/' || echo "")
+
+          if [ -z "$LEAKS" ]; then
+            echo "OK: no Projects/ files in diff"
+            exit 0
+          fi
+
+          echo "============================================================"
+          echo "BLOCKED: Projects/ is local-only (Layer C CI guard)"
+          echo "============================================================"
+          echo "Diff touches Projects/:"
+          echo "$LEAKS"
+          echo ""
+          # Allow only Projects/.gitignore and Projects/.gitkeep
+          BAD=""
+          for f in $LEAKS; do
+            case "$f" in
+              "Projects/.gitignore"|"Projects/.gitkeep") ;;
+              *) BAD="$BAD $f" ;;
+            esac
+          done
+
+          if [ -n "$BAD" ]; then
+            echo "FATAL: non-tracked Projects/ paths in diff:$BAD"
+            exit 1
+          fi
+          echo "OK: only Projects/.gitignore + Projects/.gitkeep changed"
+          exit 0
