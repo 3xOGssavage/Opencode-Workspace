@@ -9,19 +9,18 @@ on:
     tags: ["v*"]
 
 jobs:
-  # Linux smoke — runs the cross-platform scripts only (cheaper than Windows).
+  # Linux smoke - runs the cross-platform scripts only (cheaper than Windows).
   # Windows-only scripts (setup-env-vars, set-secrets) are skipped; OS
   # detection branches inside verify-setup + verify-inheritance emit WARN
   # (not FAIL) when env vars are absent in the CI runner.
+  #
+  # Note: ubuntu-latest ships pwsh preinstalled in PATH (PowerShell 7.x via
+  # apt as part of the base image); no install action needed. The previous
+  # `supercharge/powershell-action` reference 404'd (repo moved/deleted).
   linux-smoke:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install PowerShell 7
-        uses: supercharge/powershell-action@v1
-        with:
-          pwsh-version: "7.4.6"
 
       - name: Setup Node 18
         uses: actions/setup-node@v4
@@ -32,23 +31,28 @@ jobs:
         run: npm install -g opencode-ai@1.18.19
 
       - name: Run check-prerequisites.ps1
-        run: pwsh -NoProfile -File scripts/check-prerequisites.ps1
+        shell: pwsh
+        run: scripts/check-prerequisites.ps1
 
       - name: Run verify-inheritance.ps1 (expect warn, no fail)
-        run: pwsh -NoProfile -File .opencode/verify-inheritance.ps1
+        shell: pwsh
+        run: .opencode/verify-inheritance.ps1
         continue-on-error: true # CI has no env vars set; verify-inheritance warns not fails
 
       - name: Run verify-setup.ps1 (soft-skip on missing env vars)
-        run: pwsh -NoProfile -File scripts/verify-setup.ps1
+        shell: pwsh
+        run: scripts/verify-setup.ps1
         continue-on-error: true # CI has no secrets/MCP auth; verify-setup warns not fails
 
       - name: Run install-user-skills.ps1 -DryRun
-        run: pwsh -NoProfile -File scripts/install-user-skills.ps1 -DryRun
+        shell: pwsh
+        run: scripts/install-user-skills.ps1 -DryRun
 
       - name: Summary
-        run: echo "linux-smoke passed (cross-platform scripts parse + idempotent)"
+        shell: pwsh
+        run: Write-Host "linux-smoke passed (cross-platform scripts parse + idempotent)"
 
-  # Windows smoke — runs the full set including setup-env-vars (setx works on Win).
+  # Windows smoke - runs the full set including setup-env-vars (setx works on Win).
   windows-smoke:
     runs-on: windows-latest
     steps:
@@ -69,7 +73,7 @@ jobs:
       - name: Run setup-env-vars.ps1 (idempotent on Windows runner)
         shell: pwsh
         run: scripts/setup-env-vars.ps1
-        # setx in CI sets User scope for the runner user — does not persist past job
+        # setx in CI sets User scope for the runner user - does not persist past job
 
       - name: Run verify-inheritance.ps1
         shell: pwsh

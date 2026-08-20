@@ -159,10 +159,15 @@ if ($PSVersionTable.Platform -eq 'Unix') {
 
 # Optional but recommended: GitHub SSH key (for sub-repos in Projects/)
 Write-Host "[8] Checking SSH key for GitHub (optional)..." -ForegroundColor Yellow
-$sshDir = Join-Path $env:HOME '.ssh'
-if (-not $sshDir) { $sshDir = Join-Path $env:USERPROFILE '.ssh' }
+# Cross-platform home dir: $env:HOME is null on Windows runners (which use
+# $env:USERPROFILE); $env:USERPROFILE is null on Linux. Resolve before Join-Path
+# so Join-Path never receives a null first argument (would throw on PS 5.1/7).
+$homeDir = if ($env:HOME) { $env:HOME }
+           elseif ($env:USERPROFILE) { $env:USERPROFILE }
+           else { [Environment]::GetFolderPath('UserProfile') }
+$sshDir = if ($homeDir) { Join-Path $homeDir '.ssh' } else { $null }
 $sshKey = $null
-if (Test-Path $sshDir) {
+if ($sshDir -and (Test-Path $sshDir)) {
     $sshKey = Get-ChildItem $sshDir -Filter 'id_*' -File -ErrorAction SilentlyContinue |
               Where-Object { $_.Name -notmatch '\.pub$' -and $_.Name -notmatch 'known_hosts' } |
               Select-Object -First 1
@@ -171,7 +176,8 @@ if ($sshKey) {
     Write-Host "    [OK] SSH key found at $($sshKey.FullName)" -ForegroundColor Green
     Write-Host "         Required for cloning sub-repos in Projects/ (git@github.com:...)" -ForegroundColor DarkGray
 } else {
-    Write-Host "    [WARN] No SSH key found in $sshDir" -ForegroundColor Yellow
+    $sshDirDisplay = if ($sshDir) { $sshDir } else { '<HOME>/.ssh (HOME not set on this runner)' }
+    Write-Host "    [WARN] No SSH key found in $sshDirDisplay" -ForegroundColor Yellow
     Write-Host "           Sub-repos in Projects/ use SSH; generate: ssh-keygen -t ed25519 -C 'you@'" -ForegroundColor Yellow
     $warnings++
 }
