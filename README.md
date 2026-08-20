@@ -4,6 +4,14 @@ Enterprise opencode workspace backup — 17 agents, 16 MCPs, 117 skills, paralle
 
 ---
 
+## Onboarding / Quickstart
+
+New team member? See **`ONBOARDING.md`** for the 9-step happy path (clone → `check-prerequisites.ps1` → `setup-env-vars.ps1` → `install-user-skills.ps1` → `clone-vendored-skill-packs.ps1` → `set-secrets.ps1` → `auth-mcp-servers.ps1` → restore `auth.json` → `verify-setup.ps1`). Total time on a fresh machine: ~30 min.
+
+For disaster recovery / backup scenarios, keep reading below.
+
+---
+
 ## What's in this repo
 
 | Path                                        | Purpose                                                                                                                    |
@@ -539,14 +547,43 @@ git push
 
 ### Acceptance criteria (this v7 release)
 
-- ✅ `backup-workspace.ps1` syntactically valid PowerShell (parser lint passes)
-- ✅ `backup-workspace.ps1 -DryRun -SkipPush` prints all steps without writing
-- ✅ `scripts/.last-backup` is NOT created by `-DryRun`
-- ✅ `scripts/skills-snapshot.json` valid JSON (22 KB, 56 skills)
-- ✅ Clone repo to `$env:TEMP\opencode-restore-test` → `setup-env-vars.ps1 -DryRun` runs cleanly
-- ✅ Diff clone vs live workspace: no missing tracked files
-- ✅ Gitleaks CI runs green on this PR
-- ✅ Hardcoded `3xOGssavage` absent from `scripts/*.ps1` (decoupled via `git remote get-url origin`)
+- ✓ `backup-workspace.ps1` syntactically valid PowerShell (parser lint passes)
+- ✓ `backup-workspace.ps1 -DryRun -SkipPush` prints all steps without writing
+- ✓ `scripts/.last-backup` is NOT created by `-DryRun`
+- ✓ `scripts/skills-snapshot.json` valid JSON (22 KB, 56 skills)
+- ✓ Clone repo to `$env:TEMP\opencode-restore-test` → `setup-env-vars.ps1 -DryRun` runs cleanly
+- ✓ Diff clone vs live workspace: no missing tracked files
+- ✓ Gitleaks CI runs green on this PR
+- ✓ Hardcoded `3xOGssavage` absent from `scripts/*.ps1` (decoupled via `git remote get-url origin`)
+
+### Rollback (workspace reproducibility overhaul)
+
+If the reproducibility overhaul (PR with "feat(workspace): reproducibility scripts + ONBOARDING + CI smoke") breaks a team member's setup or burns too many Actions minutes:
+
+**Per-script revert** — delete individual scripts and they're gone:
+
+```powershell
+git rm scripts/<broken-script>.ps1
+git commit -m "chore: revert <script>"
+```
+
+**Bulk rollback** — find the merge commit of the overhaul PR and revert it:
+
+```powershell
+git log --merges --oneline | Select-String 'workspace reproducibility'
+git revert <merge-commit-hash> --no-edit
+git push
+```
+
+**Projects/ 4-layer guard piece-meal rollback**:
+
+- Delete the Layer A block (the `# --- Projects/ leak guard ---` section) in `.githooks/pre-commit`
+- Delete `.github/workflows/projects-guard.yml` (Layer C)
+- Strip the Layer D comment block from `.gitignore` (keep the actual `/Projects/*` rule)
+- Strip the "Projects/ is local-only" subsection from AGENTS.md (Layer E)
+- `git commit -m "chore: rollback Projects/ leak guard Layers A, C, D, E"`
+
+**Actions minutes burn**: private repos get 2,000 min/month free, then $0.008/min. The onboarding-smoke-test.yml + projects-guard.yml workflows fire only on PR-to-main + tag pushes (≈3-10 min/PR × ~36 free PRs/mo → plenty). If you're burning more, narrow the triggers in both `.github/workflows/*.yml` files.
 
 ## License
 
