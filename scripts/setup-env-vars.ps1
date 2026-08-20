@@ -95,9 +95,10 @@ Write-Host ""
 # --- 5. Print manual steps ---
 Write-Host "[5/5] Manual steps remaining (cannot be automated):" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "  A. Set 6 API-key env vars (User scope):" -ForegroundColor White
+Write-Host "  A. Set 7 API-key env vars (User scope):" -ForegroundColor White
 Write-Host "     HCNSEC_API_KEY                  => hcnsec.cn (51-char sk-... key)"
 Write-Host "     TOKENROUTER_API_KEY              => tokenrouter.com (51-char sk-... key)"
+Write-Host "     AIHUBMIX_API_KEY                 => aihubmix.com (51-char sk-... key)"
 Write-Host "     GEMINI_API_KEY                   => Google AI Studio (53-char AQ.... key)"
 Write-Host "     TAVILY_API_KEY                   => tavily.com"
 Write-Host "     SENTRY_AUTH_TOKEN                => sentry.io"
