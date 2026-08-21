@@ -4,11 +4,12 @@ Organized reference material. Read on demand; AGENTS.md has the daily-use summar
 
 ## Folder layout
 
-| Folder                 | Files                       | Purpose                                                                                                |
-| ---------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `adrs/`                | 6 (ADR-001 through ADR-006) | Architecture Decision Records — _why_ past decisions were made                                         |
-| `operational-history/` | 4                           | Post-install notes + verification reports — _what was done and when_ (rollback recipes live here)      |
-| `architecture/`        | 1                           | VISION-TOOL-MCP-DOCUMENTATION.md — full vision-tool architecture, pipeline, cooldowns, troubleshooting |
+| Folder                 | Files                                | Purpose                                                                                                |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `adrs/`                | 7 (ADR-001 through ADR-006, ADR-008) | Architecture Decision Records — _why_ past decisions were made                                         |
+| `operational-history/` | 4                                    | Post-install notes + verification reports — _what was done and when_ (rollback recipes live here)      |
+| `architecture/`        | 1                                    | VISION-TOOL-MCP-DOCUMENTATION.md — full vision-tool architecture, pipeline, cooldowns, troubleshooting |
+| `research/`            | 3                                    | browser-use research — deep-dive findings, fix validation, smoke-test summary                          |
 
 ## When to read what
 
