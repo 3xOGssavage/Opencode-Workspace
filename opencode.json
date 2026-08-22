@@ -682,24 +682,10 @@
       "type": "local",
       "command": [
         "node",
-        "F:\\CD\\Opencode\\.opencode\\tools\\tavily-rotator\\server.mjs"
+        "F:\\CD\\Opencode\\.opencode\\tools\\tavily-rotator\\launcher.mjs"
       ],
       "enabled": true,
-      "env": {
-        "TAVILY_API_KEY_1": "{env:TAVILY_API_KEY_1}",
-        "TAVILY_API_KEY_2": "{env:TAVILY_API_KEY_2}",
-        "TAVILY_API_KEY_3": "{env:TAVILY_API_KEY_3}",
-        "TAVILY_API_KEY_4": "{env:TAVILY_API_KEY_4}",
-        "TAVILY_API_KEY_5": "{env:TAVILY_API_KEY_5}"
-      }
-    },
-    "tavily-official": {
-      "type": "local",
-      "command": ["npx", "-y", "tavily-mcp@latest"],
-      "enabled": false,
-      "env": {
-        "TAVILY_API_KEY": "{env:TAVILY_API_KEY}"
-      }
+      "timeout": 30000
     },
     "fetch": {
       "type": "local",
