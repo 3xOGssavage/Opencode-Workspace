@@ -308,50 +308,182 @@
         "apiKey": "{env:AIHUBMIX_API_KEY}"
       },
       "models": {
-        "coding-glm-4.6-free": {"limit":{"output":128000,"context":200000},"name":"Coding GLM 4.6 (free)"},
-        "coding-glm-4.7-free": {"limit":{"output":128000,"context":200000},"name":"Coding GLM 4.7 (free)"},
-        "coding-glm-5.1-free": {"limit":{"output":131072,"context":200000},"name":"Coding GLM 5.1 (free)"},
-        "coding-glm-5.2-free": {"limit":{"output":131072,"context":1000000},"name":"Coding GLM 5.2 (free)"},
-        "coding-glm-5-free": {"limit":{"output":131072,"context":200000},"name":"Coding GLM 5 (free)"},
-        "coding-kimi-k3-free": {"limit":{"output":1048576,"context":1048576},"name":"Coding Kimi K3 (free)"},
-        "coding-minimax-m2.1-free": {"limit":{"output":13100,"context":204800},"name":"Coding MiniMax M2.1 (free)"},
-        "coding-minimax-m2.5-free": {"limit":{"output":13100,"context":204800},"name":"Coding MiniMax M2.5 (free)"},
-        "coding-minimax-m2.7-free": {"limit":{"output":13100,"context":204800},"name":"Coding MiniMax M2.7 (free)"},
-        "coding-minimax-m2-free": {"limit":{"output":13100,"context":204800},"name":"Coding MiniMax M2 (free)"},
-        "coding-minimax-m3-free": {"limit":{"output":13100,"context":204800},"name":"Coding MiniMax M3 (free)"},
-        "dots-3-note-preview-free": {"limit":{"output":8192,"context":512000},"name":"Dots 3 Note Preview (free)"},
-        "gemini-3.5-flash-lite-free": {"limit":{"output":65536,"context":1048576},"name":"Gemini 3.5 Flash Lite (free)"},
-        "gemini-3.6-flash-free": {"limit":{"output":65536,"context":1048576},"name":"Gemini 3.6 Flash (free)"},
-        "gemini-3.7-flash-free": {"limit":{"output":64000,"context":1000000},"name":"Gemini 3.7 Flash (free)"},
-        "gemini-3-flash-preview-free": {"limit":{"output":65536,"context":1048576},"name":"Gemini 3 Flash Preview (free)"},
-        "gemma-4-26b-a4b-it-free": {"limit":{"output":8192,"context":262144},"name":"Gemma 4 26B A4B It (free)"},
-        "gemma-4-31b-it-free": {"limit":{"output":8192,"context":262144},"name":"Gemma 4 31B It (free)"},
-        "glm-4.7-flash-free": {"limit":{"output":131072,"context":200000},"name":"GLM 4.7 Flash (free)"},
-        "gpt-4.1-free": {"limit":{"output":32768,"context":1047576},"name":"GPT 4.1 (free)"},
-        "gpt-4.1-mini-free": {"limit":{"output":32768,"context":1047576},"name":"GPT 4.1 Mini (free)"},
-        "gpt-4.1-nano-free": {"limit":{"output":32768,"context":1047576},"name":"GPT 4.1 Nano (free)"},
-        "gpt-4o-free": {"limit":{"output":32768,"context":1047576},"name":"GPT 4o (free)"},
-        "gpt-5.5-free": {"limit":{"output":128000,"context":1050000},"name":"GPT 5.5 (free)"},
-        "gpt-oss-20b-free": {"limit":{"output":131072,"context":131072},"name":"GPT Oss 20B (free)"},
-        "k2.6-code-preview-free": {"limit":{"output":256000,"context":256000},"name":"K2.6 Code Preview (free)"},
-        "kimi-for-coding-free": {"limit":{"output":256000,"context":256000},"name":"Kimi For Coding (free)"},
-        "laguna-s-2.1-free": {"limit":{"output":8192,"context":262144},"name":"Laguna S 2.1 (free)"},
-        "laguna-xs-2.1-free": {"limit":{"output":8192,"context":262144},"name":"Laguna Xs 2.1 (free)"},
-        "lfm-2.5-2.6b-free": {"limit":{"output":8192,"context":128000},"name":"Lfm 2.5 2.6b (free)"},
-        "ling-3.0-flash-free": {"limit":{"output":8192,"context":262144},"name":"Ling 3.0 Flash (free)"},
-        "mimo-v2-flash-free": {"limit":{"output":256000,"context":256000},"name":"MiMo V2 Flash (free)"},
-        "nemotron-3.5-content-safety-free": {"limit":{"output":8192,"context":128000},"name":"Nemotron 3.5 Content Safety (free)"},
-        "nemotron-3.5-lightning-free": {"limit":{"output":8192,"context":1000000},"name":"Nemotron 3.5 Lightning (free)"},
-        "nemotron-3-nano-30b-a3b-free": {"limit":{"output":8192,"context":256000},"name":"Nemotron 3 Nano 30B A3B (free)"},
-        "nemotron-3-nano-omni-30b-a3b-reasoning-free": {"limit":{"output":8192,"context":256000},"name":"Nemotron 3 Nano Omni 30B A3B (reasoning) (free)"},
-        "nemotron-3-super-120b-a12b-free": {"limit":{"output":8192,"context":1048576},"name":"Nemotron 3 Super 120B A12B (free)"},
-        "nemotron-3-ultra-550b-a55b-free": {"limit":{"output":8192,"context":1000000},"name":"Nemotron 3 Ultra 550B A55B (free)"},
-        "nemotron-nano-12b-v2-vl-free": {"limit":{"output":8192,"context":131072},"name":"Nemotron Nano 12B V2 VL (free)"},
-        "nemotron-nano-9b-v2-free": {"limit":{"output":8192,"context":131072},"name":"Nemotron Nano 9B V2 (free)"},
-        "north-mini-code-free": {"limit":{"output":8192,"context":256000},"name":"North Mini Code (free)"},
-        "qwen3.6-plus-preview-free": {"limit":{"output":65535,"context":1000000},"name":"Qwen3.6 Plus Preview (free)"},
-        "xiaomi-mimo-v2.5-free": {"limit":{"output":8192,"context":256000},"name":"Xiaomi Mimo V2.5 (free)"},
-        "xiaomi-mimo-v2.5-pro-free": {"limit":{"output":8192,"context":256000},"name":"Xiaomi Mimo V2.5 Pro (free)"}
+        "coding-glm-4.6-free": {
+          "limit": { "output": 128000, "context": 200000 },
+          "name": "Coding GLM 4.6 (free)"
+        },
+        "coding-glm-4.7-free": {
+          "limit": { "output": 128000, "context": 200000 },
+          "name": "Coding GLM 4.7 (free)"
+        },
+        "coding-glm-5.1-free": {
+          "limit": { "output": 131072, "context": 200000 },
+          "name": "Coding GLM 5.1 (free)"
+        },
+        "coding-glm-5.2-free": {
+          "limit": { "output": 131072, "context": 1000000 },
+          "name": "Coding GLM 5.2 (free)"
+        },
+        "coding-glm-5-free": {
+          "limit": { "output": 131072, "context": 200000 },
+          "name": "Coding GLM 5 (free)"
+        },
+        "coding-kimi-k3-free": {
+          "limit": { "output": 1048576, "context": 1048576 },
+          "name": "Coding Kimi K3 (free)"
+        },
+        "coding-minimax-m2.1-free": {
+          "limit": { "output": 13100, "context": 204800 },
+          "name": "Coding MiniMax M2.1 (free)"
+        },
+        "coding-minimax-m2.5-free": {
+          "limit": { "output": 13100, "context": 204800 },
+          "name": "Coding MiniMax M2.5 (free)"
+        },
+        "coding-minimax-m2.7-free": {
+          "limit": { "output": 13100, "context": 204800 },
+          "name": "Coding MiniMax M2.7 (free)"
+        },
+        "coding-minimax-m2-free": {
+          "limit": { "output": 13100, "context": 204800 },
+          "name": "Coding MiniMax M2 (free)"
+        },
+        "coding-minimax-m3-free": {
+          "limit": { "output": 13100, "context": 204800 },
+          "name": "Coding MiniMax M3 (free)"
+        },
+        "dots-3-note-preview-free": {
+          "limit": { "output": 8192, "context": 512000 },
+          "name": "Dots 3 Note Preview (free)"
+        },
+        "gemini-3.5-flash-lite-free": {
+          "limit": { "output": 65536, "context": 1048576 },
+          "name": "Gemini 3.5 Flash Lite (free)"
+        },
+        "gemini-3.6-flash-free": {
+          "limit": { "output": 65536, "context": 1048576 },
+          "name": "Gemini 3.6 Flash (free)"
+        },
+        "gemini-3.7-flash-free": {
+          "limit": { "output": 64000, "context": 1000000 },
+          "name": "Gemini 3.7 Flash (free)"
+        },
+        "gemini-3-flash-preview-free": {
+          "limit": { "output": 65536, "context": 1048576 },
+          "name": "Gemini 3 Flash Preview (free)"
+        },
+        "gemma-4-26b-a4b-it-free": {
+          "limit": { "output": 8192, "context": 262144 },
+          "name": "Gemma 4 26B A4B It (free)"
+        },
+        "gemma-4-31b-it-free": {
+          "limit": { "output": 8192, "context": 262144 },
+          "name": "Gemma 4 31B It (free)"
+        },
+        "glm-4.7-flash-free": {
+          "limit": { "output": 131072, "context": 200000 },
+          "name": "GLM 4.7 Flash (free)"
+        },
+        "gpt-4.1-free": {
+          "limit": { "output": 32768, "context": 1047576 },
+          "name": "GPT 4.1 (free)"
+        },
+        "gpt-4.1-mini-free": {
+          "limit": { "output": 32768, "context": 1047576 },
+          "name": "GPT 4.1 Mini (free)"
+        },
+        "gpt-4.1-nano-free": {
+          "limit": { "output": 32768, "context": 1047576 },
+          "name": "GPT 4.1 Nano (free)"
+        },
+        "gpt-4o-free": {
+          "limit": { "output": 32768, "context": 1047576 },
+          "name": "GPT 4o (free)"
+        },
+        "gpt-5.5-free": {
+          "limit": { "output": 128000, "context": 1050000 },
+          "name": "GPT 5.5 (free)"
+        },
+        "gpt-oss-20b-free": {
+          "limit": { "output": 131072, "context": 131072 },
+          "name": "GPT Oss 20B (free)"
+        },
+        "k2.6-code-preview-free": {
+          "limit": { "output": 256000, "context": 256000 },
+          "name": "K2.6 Code Preview (free)"
+        },
+        "kimi-for-coding-free": {
+          "limit": { "output": 256000, "context": 256000 },
+          "name": "Kimi For Coding (free)"
+        },
+        "laguna-s-2.1-free": {
+          "limit": { "output": 8192, "context": 262144 },
+          "name": "Laguna S 2.1 (free)"
+        },
+        "laguna-xs-2.1-free": {
+          "limit": { "output": 8192, "context": 262144 },
+          "name": "Laguna Xs 2.1 (free)"
+        },
+        "lfm-2.5-2.6b-free": {
+          "limit": { "output": 8192, "context": 128000 },
+          "name": "Lfm 2.5 2.6b (free)"
+        },
+        "ling-3.0-flash-free": {
+          "limit": { "output": 8192, "context": 262144 },
+          "name": "Ling 3.0 Flash (free)"
+        },
+        "mimo-v2-flash-free": {
+          "limit": { "output": 256000, "context": 256000 },
+          "name": "MiMo V2 Flash (free)"
+        },
+        "nemotron-3.5-content-safety-free": {
+          "limit": { "output": 8192, "context": 128000 },
+          "name": "Nemotron 3.5 Content Safety (free)"
+        },
+        "nemotron-3.5-lightning-free": {
+          "limit": { "output": 8192, "context": 1000000 },
+          "name": "Nemotron 3.5 Lightning (free)"
+        },
+        "nemotron-3-nano-30b-a3b-free": {
+          "limit": { "output": 8192, "context": 256000 },
+          "name": "Nemotron 3 Nano 30B A3B (free)"
+        },
+        "nemotron-3-nano-omni-30b-a3b-reasoning-free": {
+          "limit": { "output": 8192, "context": 256000 },
+          "name": "Nemotron 3 Nano Omni 30B A3B (reasoning) (free)"
+        },
+        "nemotron-3-super-120b-a12b-free": {
+          "limit": { "output": 8192, "context": 1048576 },
+          "name": "Nemotron 3 Super 120B A12B (free)"
+        },
+        "nemotron-3-ultra-550b-a55b-free": {
+          "limit": { "output": 8192, "context": 1000000 },
+          "name": "Nemotron 3 Ultra 550B A55B (free)"
+        },
+        "nemotron-nano-12b-v2-vl-free": {
+          "limit": { "output": 8192, "context": 131072 },
+          "name": "Nemotron Nano 12B V2 VL (free)"
+        },
+        "nemotron-nano-9b-v2-free": {
+          "limit": { "output": 8192, "context": 131072 },
+          "name": "Nemotron Nano 9B V2 (free)"
+        },
+        "north-mini-code-free": {
+          "limit": { "output": 8192, "context": 256000 },
+          "name": "North Mini Code (free)"
+        },
+        "qwen3.6-plus-preview-free": {
+          "limit": { "output": 65535, "context": 1000000 },
+          "name": "Qwen3.6 Plus Preview (free)"
+        },
+        "xiaomi-mimo-v2.5-free": {
+          "limit": { "output": 8192, "context": 256000 },
+          "name": "Xiaomi Mimo V2.5 (free)"
+        },
+        "xiaomi-mimo-v2.5-pro-free": {
+          "limit": { "output": 8192, "context": 256000 },
+          "name": "Xiaomi Mimo V2.5 Pro (free)"
+        }
       }
     }
   },
@@ -548,8 +680,23 @@
     },
     "tavily": {
       "type": "local",
-      "command": ["npx", "-y", "tavily-mcp@latest"],
+      "command": [
+        "node",
+        "F:\\CD\\Opencode\\.opencode\\tools\\tavily-rotator\\server.mjs"
+      ],
       "enabled": true,
+      "env": {
+        "TAVILY_API_KEY_1": "{env:TAVILY_API_KEY_1}",
+        "TAVILY_API_KEY_2": "{env:TAVILY_API_KEY_2}",
+        "TAVILY_API_KEY_3": "{env:TAVILY_API_KEY_3}",
+        "TAVILY_API_KEY_4": "{env:TAVILY_API_KEY_4}",
+        "TAVILY_API_KEY_5": "{env:TAVILY_API_KEY_5}"
+      }
+    },
+    "tavily-official": {
+      "type": "local",
+      "command": ["npx", "-y", "tavily-mcp@latest"],
+      "enabled": false,
       "env": {
         "TAVILY_API_KEY": "{env:TAVILY_API_KEY}"
       }

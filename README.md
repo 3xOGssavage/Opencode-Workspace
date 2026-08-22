@@ -114,7 +114,7 @@ If migrating to a new machine (different drive letters, no env vars, no auth):
    setx HCNSEC_API_KEY                  "sk-..."                    # hcnsec.cn reseller key (51 chars)
    setx TOKENROUTER_API_KEY              "sk-..."                    # tokenrouter.com (51 chars)
    setx GEMINI_API_KEY                   "AQ...."                    # Google AI Studio (53 chars)
-   setx TAVILY_API_KEY                   "tvly-..."                  # tavily.com
+   setx TAVILY_API_KEY_1                 "tvly-..."                  # tavily.com (repeat for _2.._5; rotator MCP scans TAVILY_API_KEY_N)
    setx SENTRY_AUTH_TOKEN                "sntrys_..."               # sentry.io
    setx GITHUB_PERSONAL_ACCESS_TOKEN     "ghp_..."                   # github.com/settings/tokens (repo scope)
    ```
