@@ -46,6 +46,9 @@ desktop.ini
 # To update the snapshot: git add -f .opencode/memory.jsonl)
 /.opencode/memory.jsonl
 
+# Tavily rotator runtime state (cooldowns + dead marks, key suffixes only)
+/.opencode/tavily-state.json
+
 # Browser-use stack (ADR-008)
 /.opencode/browser_use/.venv/
 /.opencode/browser_use/profiles/
