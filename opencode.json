@@ -147,24 +147,10 @@
             "output": 8192
           }
         },
-        "glm-4.7": {
-          "name": "GLM 4.7",
-          "limit": {
-            "context": 128000,
-            "output": 8192
-          }
-        },
-        "glm-5.2": {
-          "name": "GLM 5.2",
-          "limit": {
-            "context": 200000,
-            "output": 8192
-          }
-        },
         "Kimi-K2.6": {
           "name": "Kimi K2.6",
           "limit": {
-            "context": 256000,
+            "context": 262144,
             "output": 16384
           }
         },
@@ -173,13 +159,6 @@
           "limit": {
             "context": 1000000,
             "output": 16384
-          }
-        },
-        "MiniMax-M2.7": {
-          "name": "MiniMax M2.7",
-          "limit": {
-            "context": 200000,
-            "output": 4096
           }
         },
         "DeepSeek-V4-Flash": {
@@ -196,67 +175,18 @@
             "output": 8192
           }
         },
-        "Qwen3-Coder-Next-FP8": {
-          "name": "Qwen3 Coder Next FP8",
-          "limit": {
-            "context": 128000,
-            "output": 8192
-          }
-        },
-        "Qwen3.5-397B-A17B": {
-          "name": "Qwen 3.5 397B",
-          "limit": {
-            "context": 128000,
-            "output": 8192
-          }
-        },
-        "Qwen3.6-35B-A3B": {
-          "name": "Qwen 3.6 35B",
-          "limit": {
-            "context": 128000,
-            "output": 8192
-          }
-        },
-        "kat-coder-pro-v2": {
-          "name": "Kat Coder Pro v2",
-          "limit": {
-            "context": 128000,
-            "output": 8192
-          }
-        },
         "kat-coder-pro-v2.5": {
           "name": "Kat Coder Pro v2.5",
           "limit": {
             "context": 128000,
-            "output": 8192
-          }
-        },
-        "Spark-X2-Flash": {
-          "name": "Spark X2 Flash",
-          "limit": {
-            "context": 128000,
-            "output": 4096
+            "output": 262144
           }
         },
         "sensenova-6.7-flash-lite": {
           "name": "SenseNova 6.7 Flash Lite",
           "limit": {
             "context": 128000,
-            "output": 4096
-          }
-        },
-        "step-3.5-flash": {
-          "name": "Step 3.5 Flash",
-          "limit": {
-            "context": 128000,
-            "output": 4096
-          }
-        },
-        "step-3.5-flash-2603": {
-          "name": "Step 3.5 Flash 2603",
-          "limit": {
-            "context": 128000,
-            "output": 4096
+            "output": 65536
           }
         },
         "step-3.7-flash": {

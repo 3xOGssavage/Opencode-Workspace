@@ -17,40 +17,40 @@ Each project may have its own `opencode.json` for project-specific overrides.
 ## Models
 
 - **Primary agents** (build, plan): `ollama-cloud/minimax-m3`
-- **All subagents** (15 custom + 8 OMO-Slim): `hcnsec/Kimi-K2.6` (256K context, Moonshot Kimi K2.6 via hcnsec reseller)
-- **3rd provider (hcnsec.cn)**: 20 verified-working models at `https://api.hcnsec.cn/v1` (key in `HCNSEC_API_KEY` env var). Use as alternates via `/models` menu with format `hcnsec/<model-id>`.
+- **All subagents** (15 custom + 8 OMO-Slim): `hcnsec/Kimi-K2.6` (262K context, Moonshot Kimi K2.6 via hcnsec reseller)
+- **3rd provider (hcnsec.cn)**: 10 verified-working models at `https://api.hcnsec.cn/v1` (key in `HCNSEC_API_KEY` env var). Use as alternates via `/models` menu with format `hcnsec/<model-id>`. Pruned 2026-08-23 after live API verification (10 dead/EOL removed — see "DO NOT work" table).
 
-### hcnsec.cn models (verified 2026-07-19)
+### hcnsec.cn models (re-verified 2026-08-23 via live API probes)
 
-All 20 models below respond correctly to `/v1/chat/completions` with `max_tokens >= 200`. Models marked "fast" respond in 1-5s; "slow" in 30-60s. Use `MiniMax-M3` as default flagship.
+All 10 models below responded correctly to `/v1/chat/completions` across 5 probe rounds. Context/output limits verified by error-disclosure and overshoot probing. Use `MiniMax-M3` as default flagship.
 
-| Model ID                   | Notes                                                          | Speed                |
-| -------------------------- | -------------------------------------------------------------- | -------------------- |
-| `auto`                     | Smart routing (agnes-2.0-flash)                                | ~7s                  |
-| `glm-4.7`                  | GLM 4.7                                                        | <1s                  |
-| `glm-5.2`                  | Flagship, slow (200K context; 1M needs `[1m]` opt-in via Z.ai) | ~2-4min              |
-| `Kimi-K2.6`                | Moonshot Kimi K2.6 (256K context)                              | 1.6-26s (median ~3s) |
-| `MiniMax-M3`               | **Recommended flagship**                                       | 2-55s                |
-| `MiniMax-M2.7`             | Older MiniMax                                                  | 1-2s                 |
-| `DeepSeek-V4-Flash`        | Fast                                                           | 1.5-4s               |
-| `DeepSeek-V4-Pro`          | Pro variant (nvidia/nemotron-3-ultra)                          | 1.2s                 |
-| `Qwen3-Coder-Next-FP8`     | Coder model                                                    | 1.4s                 |
-| `Qwen3.5-397B-A17B`        | 397B MoE                                                       | 1.9s                 |
-| `Qwen3.6-35B-A3B`          | 35B MoE                                                        | 1.8s                 |
-| `kat-coder-pro-v2`         | Coder                                                          | 1.2s                 |
-| `kat-coder-pro-v2.5`       | Coder, needs max_tokens >= 100                                 | 1.1s                 |
-| `Spark-X2-Flash`           | iFlytek Spark X2                                               | 4-5s                 |
-| `sensenova-6.7-flash-lite` | SenseNova, needs max_tokens >= 100                             | 1s                   |
-| `step-3.5-flash`           | Step 3.5 Flash                                                 | 1-2s                 |
-| `step-3.5-flash-2603`      | Step 3.5 Flash 2603 build                                      | 1.8s                 |
-| `step-3.7-flash`           | Step 3.7 Flash                                                 | 1-2s                 |
-| `step-router-v1`           | Step router                                                    | 1s                   |
-| `stepaudio-2.5-chat`       | Audio-capable chat model                                       | 0.8-1.3s             |
+| Model ID                   | Notes                                                         | Verified limits                              |
+| -------------------------- | ------------------------------------------------------------- | -------------------------------------------- |
+| `auto`                     | Smart routing (now routes to agnes-2.5-flash)                 | 128K ctx, accepts 2M out                     |
+| `Kimi-K2.6`                | Moonshot Kimi K2.6 (subagent fleet model)                     | 262,144 ctx (YaRN), flaky-timeout under load |
+| `MiniMax-M3`               | **Recommended flagship** (channel flaps occasionally — retry) | 1M ctx, accepts 2M out                       |
+| `DeepSeek-V4-Flash`        | Fast                                                          | 128K ctx, accepts 2M out                     |
+| `DeepSeek-V4-Pro`          | Pro variant (nvidia/nemotron-3-ultra)                         | 128K ctx, accepts 2M out                     |
+| `kat-coder-pro-v2.5`       | Coder, needs max_tokens >= 100                                | 128K ctx, 262,144 out (API-enforced cap)     |
+| `sensenova-6.7-flash-lite` | SenseNova, needs max_tokens >= 100                            | 128K ctx, 65,536 out (API-enforced cap)      |
+| `step-3.7-flash`           | Step 3.7 Flash                                                | 128K ctx, accepts 2M out                     |
+| `step-router-v1`           | Step router                                                   | 128K ctx, accepts 2M out                     |
+| `stepaudio-2.5-chat`       | Audio-capable chat model (intermittent availability)          | 32K ctx, accepts 2M out                      |
 
 ### hcnsec.cn models that DO NOT work (excluded from config)
 
 | Model ID                 | Reason                                                              |
 | ------------------------ | ------------------------------------------------------------------- |
+| `glm-5.2`                | 410 Gone — end-of-life 2026-08-21 (was flagship)                    |
+| `glm-4.7`                | 503 No available channel (dead across 3 probe rounds)               |
+| `MiniMax-M2.7`           | 503 No available channel                                            |
+| `Qwen3-Coder-Next-FP8`   | 503 No available channel                                            |
+| `Qwen3.5-397B-A17B`      | 503 No available channel                                            |
+| `Qwen3.6-35B-A3B`        | 503 No available channel                                            |
+| `kat-coder-pro-v2`       | 503 No available channel                                            |
+| `Spark-X2-Flash`         | 503 No available channel                                            |
+| `step-3.5-flash`         | 503 No available channel                                            |
+| `step-3.5-flash-2603`    | 503 No available channel                                            |
 | `glm-5.1`                | 503 Server Unavailable (server-side, persistent)                    |
 | `sensenova-u1-fast`      | 404 Not Found at `/v1/chat/completions`                             |
 | `step-image-edit-2`      | 404 — image generation model, no chat endpoint                      |
@@ -60,7 +60,7 @@ All 20 models below respond correctly to `/v1/chat/completions` with `max_tokens
 
 ### Why some "empty response" models need max_tokens >= 200
 
-Several hcnsec models (`kat-coder-pro-v2.5`, `MiniMax-M2.7`, `sensenova-6.7-flash-lite`, `step-3.5-flash`, `step-3.7-flash`, `step-router-v1`, `step-3.5-flash-2603`) emit leading formatting tokens (newlines, whitespace) before the actual content. With `max_tokens <= 5`, they exhaust the budget on formatting and return empty content with `finish_reason: "length"`. The opencode.json config includes `limit.output` values (4096-16384) so opencode requests adequate output tokens automatically.
+Several hcnsec models (`kat-coder-pro-v2.5`, `sensenova-6.7-flash-lite`, `step-3.7-flash`, `step-router-v1`) emit leading formatting tokens (newlines, whitespace) before the actual content. With `max_tokens <= 5`, they exhaust the budget on formatting and return empty content with `finish_reason: "length"`. The opencode.json config includes `limit.output` values (4096-16384) so opencode requests adequate output tokens automatically.
 
 ### Additional providers in auth.json
 
@@ -440,7 +440,7 @@ If you legitimately need to track a project file under `Projects/`, all four lay
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` — loads parent's full config (provider, mcp, permission, lsp, formatter, agent, plugin, skills.paths, tool_output, compaction) into every session at precedence layer 3 (between global and project walk-up). Per-project `opencode.json` overrides still win (layer 4, deep merge). The compaction block is V1-tuned (see "Compaction configuration" below for the rationale and the lossless plugin ecosystem deferred to spike PRs).
 - `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` — adds parent's `.opencode` directory to the scan list for agents, commands, modes, skills, plugins discovery. Loaded LAST, so parent's agents/commands override project's same-named ones (intended for enterprise uniformity).
 
-**Result:** HuanCheng (hcnsec) provider with 20 models becomes visible in every child project session; 16 MCP servers; 81 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
+**Result:** HuanCheng (hcnsec) provider with 10 models becomes visible in every child project session; 16 MCP servers; 81 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
 
 **Verifying:** Run `powershell -ExecutionPolicy Bypass -File .opencode\verify-inheritance.ps1` from any project root.
 
