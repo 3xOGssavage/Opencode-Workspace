@@ -282,24 +282,6 @@
         }
       }
     },
-    "tokenrouter": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "TokenRouter",
-      "options": {
-        "baseURL": "https://api.tokenrouter.com/v1",
-        "apiKey": "{env:TOKENROUTER_API_KEY}"
-      },
-      "models": {
-        "moonshotai/kimi-k3-free": {
-          "name": "Kimi K3 Free",
-          "limit": { "context": 1048576, "output": 131072 }
-        },
-        "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free": {
-          "name": "Nemotron 3 Nano Omni 30B Free",
-          "limit": { "context": 256000, "output": 65536 }
-        }
-      }
-    },
     "aihubmix": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "AIHubMix",
@@ -309,11 +291,11 @@
       },
       "models": {
         "coding-glm-4.6-free": {
-          "limit": { "output": 128000, "context": 200000 },
+          "limit": { "output": 131072, "context": 200000 },
           "name": "Coding GLM 4.6 (free)"
         },
         "coding-glm-4.7-free": {
-          "limit": { "output": 128000, "context": 200000 },
+          "limit": { "output": 131072, "context": 200000 },
           "name": "Coding GLM 4.7 (free)"
         },
         "coding-glm-5.1-free": {
@@ -333,23 +315,23 @@
           "name": "Coding Kimi K3 (free)"
         },
         "coding-minimax-m2.1-free": {
-          "limit": { "output": 13100, "context": 204800 },
+          "limit": { "output": 196608, "context": 204800 },
           "name": "Coding MiniMax M2.1 (free)"
         },
         "coding-minimax-m2.5-free": {
-          "limit": { "output": 13100, "context": 204800 },
+          "limit": { "output": 196608, "context": 204800 },
           "name": "Coding MiniMax M2.5 (free)"
         },
         "coding-minimax-m2.7-free": {
-          "limit": { "output": 13100, "context": 204800 },
+          "limit": { "output": 196608, "context": 204800 },
           "name": "Coding MiniMax M2.7 (free)"
         },
         "coding-minimax-m2-free": {
-          "limit": { "output": 13100, "context": 204800 },
+          "limit": { "output": 196608, "context": 204800 },
           "name": "Coding MiniMax M2 (free)"
         },
         "coding-minimax-m3-free": {
-          "limit": { "output": 13100, "context": 204800 },
+          "limit": { "output": 524288, "context": 204800 },
           "name": "Coding MiniMax M3 (free)"
         },
         "dots-3-note-preview-free": {

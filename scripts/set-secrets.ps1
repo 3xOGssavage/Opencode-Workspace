@@ -1,5 +1,5 @@
 # set-secrets.ps1
-# Interactive prompts for 7 User-scope env var API keys. Windows-focused:
+# Interactive prompts for 6 User-scope env var API keys. Windows-focused:
 # setx persists to User scope + [Environment]::SetEnvironmentVariable to
 # Process scope so the current shell sees them. Linux/macOS team members should
 # set the same keys in their shell rc file (see README Scenario B).
@@ -21,7 +21,6 @@ $ErrorActionPreference = "Stop"
 # (key, label, expected-prefix-or-shape, expected-min-length, expected-max-length)
 $secretSpec = @(
     @{ Key='HCNSEC_API_KEY';                Label='hcnsec.cn AI provider';     Shape='sk-';   MinLen=40; MaxLen=80 },
-    @{ Key='TOKENROUTER_API_KEY';           Label='tokenrouter.com (Tier-3)';  Shape='sk-';   MinLen=40; MaxLen=80 },
     @{ Key='AIHUBMIX_API_KEY';              Label='aihubmix.com (43 models)';  Shape='sk-';   MinLen=40; MaxLen=80 },
     @{ Key='GEMINI_API_KEY';                Label='Google AI Studio';          Shape='AQ.';    MinLen=40; MaxLen=80 },
     @{ Key='TAVILY_API_KEY';                Label='tavily.com (web search)';   Shape='tvly-';  MinLen=20; MaxLen=80 },
