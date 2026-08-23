@@ -50,9 +50,9 @@ foreach ($var in $envVars) {
     }
 }
 
-# Check 5-11 in batch: 7 secret API keys (no values printed)
-Write-Host "[5-11] Checking 7 secret env vars (no values printed)..." -ForegroundColor Yellow
-$secretVars = @('HCNSEC_API_KEY', 'TOKENROUTER_API_KEY', 'AIHUBMIX_API_KEY', 'GEMINI_API_KEY', 'TAVILY_API_KEY', 'SENTRY_AUTH_TOKEN', 'GITHUB_PERSONAL_ACCESS_TOKEN')
+# Check 5-10 in batch: 6 secret API keys (no values printed)
+Write-Host "[5-10] Checking 6 secret env vars (no values printed)..." -ForegroundColor Yellow
+$secretVars = @('HCNSEC_API_KEY', 'AIHUBMIX_API_KEY', 'GEMINI_API_KEY', 'TAVILY_API_KEY', 'SENTRY_AUTH_TOKEN', 'GITHUB_PERSONAL_ACCESS_TOKEN')
 foreach ($var in $secretVars) {
     if ($IsWin) {
         $v = [Environment]::GetEnvironmentVariable($var, 'User')

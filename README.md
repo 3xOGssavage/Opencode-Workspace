@@ -108,11 +108,10 @@ If migrating to a new machine (different drive letters, no env vars, no auth):
    - Run `npm install` in that target dir
    - Regex-replace the old `F:\CD\Opencode` path in `opencode.json` with `<your-path>` (so the 12 absolute paths in skills.paths / permission.edit.deny / mcp.command resolve correctly)
 
-3. **Set 6 API-key env vars** (User scope — persists across restarts):
+3. **Set 5 API-key env vars** (User scope — persists across restarts):
 
    ```powershell
    setx HCNSEC_API_KEY                  "sk-..."                    # hcnsec.cn reseller key (51 chars)
-   setx TOKENROUTER_API_KEY              "sk-..."                    # tokenrouter.com (51 chars)
    setx GEMINI_API_KEY                   "AQ...."                    # Google AI Studio (53 chars)
    setx TAVILY_API_KEY_1                 "tvly-..."                  # tavily.com — router picks engine by key count: 1 key = official MCP, _1.._5 = multi-key rotator
    setx SENTRY_AUTH_TOKEN                "sntrys_..."               # sentry.io
@@ -265,7 +264,6 @@ When you need to recreate secrets, this table shows each credential's source, sh
 | GitHub PAT (classic) | github.com → Settings → Developer settings → Personal access tokens (classic) | `ghp_xxxx…` (40 chars)   | yes — regex `ghp_[0-9A-Za-z]{36}`                                          |
 | Anthropic API key    | console.anthropic.com → API keys                                              | `sk-ant…` (~100 chars)   | yes — regex `sk-[0-9A-Za-z]{20,}`                                          |
 | hcnsec key           | hcnsec.cn reseller dashboard                                                  | `sk-xxxx…` (51 chars)    | yes — same regex as above                                                  |
-| TokenRouter key      | tokenrouter.com → dashboard                                                   | `sk-xxxx…` (51 chars)    | yes — same regex                                                           |
 | Google / Gemini      | aistudio.google.com → API key                                                 | `AIza…` (39 chars)       | yes — regex `AIza[0-9A-Za-z_-]{35}`                                        |
 | Tavily key           | app.tavily.com → API key                                                      | `tvly-xxxx…`             | no — scanner gap; manual discipline + GitHub Push Protection (server-side) |
 | Sentry auth token    | sentry.io → Settings → Auth tokens                                            | `sntrys_xxxx…`           | no — scanner gap; manual discipline + GitHub Push Protection               |
@@ -483,11 +481,10 @@ After cloning the repo and running `scripts\setup-env-vars.ps1`:
    opencode mcp auth supabase
    opencode mcp auth vercel
    ```
-3. **6 env vars** via `setx` (User scope):
+3. **5 env vars** via `setx` (User scope):
    ```
    setx HCNSEC_API_KEY "sk-..."
    setx GEMINI_API_KEY "AQ.Ab8R..."
-   setx TOKENROUTER_API_KEY "sk-..."
    setx TAVILY_API_KEY "tvly-..."
    setx SENTRY_AUTH_TOKEN "sntryu_..."
    setx GITHUB_PERSONAL_ACCESS_TOKEN "ghp_..."   # scopes: repo, workflow, audit_log

@@ -1,0 +1,2411 @@
+{
+  "data": [
+    {
+      "id": "auto",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "glm-5.3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-glm-5.3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "gemini-3.7-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "ox-alpha",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Stealth"
+    },
+    {
+      "id": "dots-3-note-preview-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Dots Studio"
+    },
+    {
+      "id": "gemini-3.7-flash-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "glm-5.2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "deepseek-v4-flash-0731",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "deepseek-v4-flash-vision-exp",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "deepseek-v4-pro-0813",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "grok-4.6",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "mai-thinking-1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
+    },
+    {
+      "id": "deepseek-v4-flash-0731-fast",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "gpt-5.6-sol-disc",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.6-sol",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.6-terra",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "agnes-2.5-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Agnes"
+    },
+    {
+      "id": "agnes-2.5-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Agnes"
+    },
+    {
+      "id": "agnes-2.5-pro-alpha",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Agnes"
+    },
+    {
+      "id": "grok-4.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "lfm-2.5-2.6b-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Liquid"
+    },
+    {
+      "id": "muse-glimmer-30b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Meta"
+    },
+    {
+      "id": "nemotron-lightning-3.5-30b-a3b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "qwen3.8-2.4t-a95b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "ling-3.0-tiny-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Inclusionai"
+    },
+    {
+      "id": "nemotron-3.5-lightning-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "qwen3.8-max",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "claude-opus-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "gemini-3.6-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "claude-sonnet-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "kimi-k3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "ling-3.0-flash-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "InclusionAI"
+    },
+    {
+      "id": "muse-spark-1.2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Meta"
+    },
+    {
+      "id": "qwen3.8-max-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "muse-spark-1.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Meta"
+    },
+    {
+      "id": "gemini-3.1-flash-lite-image",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-3.5-flash-lite",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-3.5-flash-lite-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-3.6-flash-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "glm-5.2-fast-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "claude-fable-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-opus-4-8",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "hy3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Hunyuan"
+    },
+    {
+      "id": "doubao-seed-2-1-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "ByteDance"
+    },
+    {
+      "id": "doubao-seed-2-1-turbo",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "ByteDance"
+    },
+    {
+      "id": "mai-image-2.5-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
+    },
+    {
+      "id": "grok-build-0.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "mai-image-2.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
+    },
+    {
+      "id": "mai-image-2.5-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
+    },
+    {
+      "id": "gemini-3.5-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "coding-kimi-k3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "coding-glm-5.2-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-kimi-k3-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "gemini-3.1-flash-image",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gpt-oss-20b-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Openai"
+    },
+    {
+      "id": "kimi-k2.7-code",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "kimi-k2.7-code-highspeed",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "longcat-2.0",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Meituan"
+    },
+    {
+      "id": "nemotron-nano-9b-v2-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "gemini-3-pro-image",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gpt-4o-transcribe-diarize",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-audio-1.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "hy3-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Hunyuan"
+    },
+    {
+      "id": "minimax-m3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "nemotron-nano-12b-v2-vl-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "qwen3.7-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3.7-plus",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "step-3.7-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "StepFun"
+    },
+    {
+      "id": "nemotron-3-super-120b-a12b-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "claude-opus-4-8-think",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "nemotron-3-nano-omni-30b-a3b-reasoning-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "nemotron-3-ultra-550b-a55b-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "qwen3.7-max",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "nemotron-3.5-content-safety-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "gpt-image-2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "coding-glm-5.2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "ernie-5.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "gemini-3.1-flash-lite",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-3.1-flash-lite-nothink",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "grok-4.3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "north-mini-code-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "laguna-xs-2.1-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Poolside"
+    },
+    {
+      "id": "gpt-5.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.5-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "deepseek-v4-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "gemma-4-31b-it-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "command-a-plus-05-2026",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "ernie-5.0",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "kimi-k2.6",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "laguna-s-2.1-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Poolside"
+    },
+    {
+      "id": "qwen3.6-max-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "xiaomi-mimo-v2.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "xiaomi-mimo-v2.5-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "nemotron-3-nano-30b-a3b-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "qwen3.6-27b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3.6-35b-a3b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3.6-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "claude-opus-4-7",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-opus-4-7-think",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "gpt-chat-latest",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gemma-4-26b-a4b-it-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "grok-4-20-non-reasoning",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "grok-4-20-reasoning",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "qwen3.6-plus",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "coding-minimax-m3-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "glm-5.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "gemma-4-26b-a4b-it",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemma-4-31b-it",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gpt-5.4",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "claude-sonnet-4-6",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "coding-xiaomi-mimo-v2.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "coding-xiaomi-mimo-v2.5-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "doubao-seed-2-0-lite-260428",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "doubao-seed-2-0-mini-260428",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "gemini-3.1-flash-image-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-3.1-pro-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-3.1-pro-preview-customtools",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-3.1-pro-preview-search",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gpt-5.4-mini",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.4-nano",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.5-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "qwen3.5-plus",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3.5-122b-a10b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3.5-27b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3.5-35b-a3b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3.5-397b-a17b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3.5-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "claude-sonnet-4-6-think",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "coding-xiaomi-mimo-v2-omni",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "coding-xiaomi-mimo-v2-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "gpt-5.3-chat-latest",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.3-codex",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-image-2-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "coding-glm-5.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "doubao-seed-2-0-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "gpt-5.4-high",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.4-low",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.4-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "qwen3-coder-next",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "xiaomi-mimo-v2-omni-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "xiaomi-mimo-v2-pro-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "xiaomi-mimo-v2.5-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "xiaomi-mimo-v2.5-pro-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "minimax-m2.7",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "claude-opus-4-6",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "coding-glm-5.1-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-minimax-m2.7-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "glm-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "glm-5v-turbo",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "claude-opus-4-6-think",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "coding-glm-5-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-glm-5-turbo-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-minimax-m2.5-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "doubao-seed-2-0-code-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "doubao-seed-2-0-lite-260215",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "doubao-seed-2-0-mini",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "gemini-3-flash-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-3-flash-preview-search",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "glm-5-turbo",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "cc-glm-5.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "claude-opus-4-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-opus-4-5-think",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "mimo-v2-omni",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "mimo-v2-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "cohere-command-a",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "gemini-3-flash-preview-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "cc-minimax-m3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "coding-minimax-m3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "gpt-4.1-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4.1-mini-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4.1-nano-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4o-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "coding-glm-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-glm-5-turbo",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "glm-4.7",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "glm-4.7-flash-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-glm-4.7-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "gemini-3-pro-image-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "deepinfra-gemma-4-26b-a4b-it",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gpt-5.2-codex",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.2-chat-latest",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.2-high",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.2-low",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.2-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.1-codex-max",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "doubao-seed-1-8",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "gpt-5.1-chat-latest",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.1-codex",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5.1-codex-mini",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "claude-haiku-4-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-sonnet-4-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-sonnet-4-5-think",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "grok-4.20-multi-agent-0309",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "mistral-large-3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Mistral"
+    },
+    {
+      "id": "grok-4-1-fast-non-reasoning",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "grok-4-1-fast-reasoning",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "grok-code-fast-1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "k2.6-code-preview-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "mimo-v2-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "qwen3.6-plus-preview-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "zai-glm-5-turbo",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "cc-glm-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "cc-glm-5-turbo",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "cloudflare-glm-5.2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "gemini-2.5-flash-image",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gpt-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "deepseek-v3.2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "deepseek-v3.2-think",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "gpt-5-codex",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "DeepSeek-V3.1-Terminus",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "DeepSeek-V3.1-Think",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "gpt-5-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5-mini",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5-nano",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-5-chat-latest",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "claude-opus-4-1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "kimi-k2.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "qwen3-max-2026-01-23",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-vl-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-vl-flash-2026-01-22",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-vl-plus",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "minimax-m2.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "minimax-m2.5-highspeed",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "mm-minimax-m2.7-highspeed",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "cc-minimax-m2.7",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "cc-minimax-m2.7-highspeed",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "coding-minimax-m2.7",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "coding-minimax-m2.7-highspeed",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "cc-minimax-m2.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "cc-minimax-m2.5-highspeed",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "coding-minimax-m2.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "coding-minimax-m2.5-highspeed",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "cc-minimax-m2.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "coding-glm-4.7",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-minimax-m2.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "coding-minimax-m2.1-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "gpt-4o-audio-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4o-mini-audio-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "minimax-m2.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "o3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "kimi-for-coding-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "o3-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "step-3.5-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "StepFun"
+    },
+    {
+      "id": "coding-glm-4.6",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-glm-4.6-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "coding-minimax-m2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "coding-minimax-m2-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "gemini-2.5-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "glm-4.6",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "glm-4.6v",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "gemini-2.5-pro-search",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "kimi-k2-thinking",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "gemini-2.5-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash-preview-09-2025",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "glm-4.5v",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
+    },
+    {
+      "id": "gemini-2.5-flash-lite",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash-lite-nothink",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash-lite-preview-09-2025",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash-lite-preview-09-2025-nothink",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash-nothink",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash-search",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash-preview-05-20-nothink",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash-preview-05-20-search",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "DeepSeek-V3-Fast",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "o4-mini",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "grok-4",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "grok-4-fast-non-reasoning",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "grok-4-fast-reasoning",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "kimi-k2-0711",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "kimi-k2-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "kimi-k2-turbo-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "qwen3-vl-235b-a22b-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-vl-235b-a22b-thinking",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-vl-30b-a3b-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-vl-30b-a3b-thinking",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "DeepSeek-OCR",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "ernie-5.0-thinking-exp",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "gpt-4.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "aihubmix-router",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4.1-mini",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4.1-nano",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gemini-2.5-pro-preview-05-06",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-pro-preview-03-25",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-pro-preview-05-06-search",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gemini-2.5-pro-preview-03-25-search",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "qwen3-max-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-max",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-next-80b-a3b-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-next-80b-a3b-thinking",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-235b-a22b-instruct-2507",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-235b-a22b-thinking-2507",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-coder-30b-a3b-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-coder-480b-a35b-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-235b-a22b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-coder-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-coder-plus",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-coder-plus-2025-07-22",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "DeepSeek-V3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "gemini-2.5-pro-preview-06-05-search",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "ernie-5.0-thinking-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "inclusionAI/Ling-1T",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "InclusionAI"
+    },
+    {
+      "id": "inclusionAI/Ring-1T",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "InclusionAI"
+    },
+    {
+      "id": "inclusionAI/Ling-flash-2.0",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "InclusionAI"
+    },
+    {
+      "id": "inclusionAI/Ling-mini-2.0",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "InclusionAI"
+    },
+    {
+      "id": "inclusionAI/Ring-flash-2.0",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "InclusionAI"
+    },
+    {
+      "id": "jina-deepsearch-v1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Jina AI"
+    },
+    {
+      "id": "llama-4-maverick",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Llama"
+    },
+    {
+      "id": "llama-4-scout",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Llama"
+    },
+    {
+      "id": "qwen-mt-plus",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen-mt-turbo",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "codex-mini-latest",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "ernie-4.5-turbo-latest",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "DeepSeek-R1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "gpt-4o-search-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4o-mini-search-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "claude-3-7-sonnet",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "ernie-4.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "ernie-4.5-turbo-vl",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "mimo-v2-flash-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "o3-mini",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "doubao-seed-1-6",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "doubao-seed-1-6-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "doubao-seed-1-6-lite",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "doubao-seed-1-6-thinking",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "gpt-oss-120b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gemini-2.5-pro-preview-06-05",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "Qwen/Qwen2.5-VL-72B-Instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "o1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "o1-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "ByteDance-Seed/Seed-OSS-36B-Instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Doubao"
+    },
+    {
+      "id": "cc-minimax-m2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "deepseek-r1-distill-llama-70b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "o1-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4o-2024-11-20",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4o",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-4o-mini",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "ERNIE-X1.1-Preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "Qwen/QwQ-32B",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "minimax-m2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "kat-dev",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "nvidia-nemotron-3-super-120b-a12b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "qwen2.5-vl-72b-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "Qwen/Qwen2.5-VL-32B-Instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "baidu/ERNIE-4.5-300B-A47B",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "ernie-4.5-0.3b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "ernie-4.5-turbo-128k-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "ernie-x1-turbo",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "gpt-4o-zh",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "qwen-plus-latest",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen-turbo-latest",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "AiHubmix-Phi-4-mini-reasoning",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
+    },
+    {
+      "id": "aihub-Phi-4-multimodal-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
+    },
+    {
+      "id": "aihub-Phi-4-mini-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
+    },
+    {
+      "id": "aihub-Phi-4",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
+    },
+    {
+      "id": "qwen3-14b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-8b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-4b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-1.7b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-0.6b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen-turbo-2025-04-28",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "command-a-03-2025",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "qwen-plus-2025-04-28",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "grok-4.20-beta-0309-non-reasoning",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "grok-4.20-beta-0309-reasoning",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "grok-4.20-multi-agent-beta-0309",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "o1-2024-12-17",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "bai-qwen3-vl-235b-a22b-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "cc-MiniMax-M2",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "cc-deepseek-v3.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "DeepSeek"
+    },
+    {
+      "id": "cc-ernie-4.5-300b-a47b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Baidu"
+    },
+    {
+      "id": "cc-kimi-k2-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "cc-kimi-k2-instruct-0905",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Moonshot AI"
+    },
+    {
+      "id": "ahm-Phi-3-5-vision-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
+    },
+    {
+      "id": "aihubmix-Cohere-command-r",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "aihubmix-command-r-08-2024",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "aihubmix-command-r-plus",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "aihubmix-command-r-plus-08-2024",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "anthropic-opus-4-6",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-3-haiku-20240229",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-3-haiku-20240307",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-3-haiku@20240307",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-3-sonnet-20240229",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "command",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "command-r",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "command-r-08-2024",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "command-r-plus",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "command-r-plus-08-2024",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Cohere"
+    },
+    {
+      "id": "gemini-2.5-pro-exp-03-25",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Google"
+    },
+    {
+      "id": "gpt-4o-mini-2024-07-18",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-oss-20b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "grok-2-vision-1212",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "grok-vision-beta",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "llama2-70b-4096",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Llama"
+    },
+    {
+      "id": "llama2-70b-40960",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Llama"
+    },
+    {
+      "id": "qwen-turbo",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen-turbo-2024-11-01",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    }
+  ],
+  "object": "list"
+}
