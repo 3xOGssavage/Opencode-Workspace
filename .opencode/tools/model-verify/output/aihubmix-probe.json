@@ -1,0 +1,258 @@
+[
+  {
+    "id": "coding-glm-4.6-free",
+    "configured": {
+      "limit": {
+        "output": 128000,
+        "context": 200000
+      },
+      "name": "Coding GLM 4.6 (free)"
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026082307531280440575875827596)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+    }
+  },
+  {
+    "id": "coding-glm-4.7-free",
+    "configured": {
+      "limit": {
+        "output": 128000,
+        "context": 200000
+      },
+      "name": "Coding GLM 4.7 (free)"
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026082307533172065013485566200)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+    }
+  },
+  {
+    "id": "coding-glm-5.1-free",
+    "configured": {
+      "limit": {
+        "output": 131072,
+        "context": 200000
+      },
+      "name": "Coding GLM 5.1 (free)"
+    },
+    "cache": {
+      "id": "coding-glm-5.1-free",
+      "name": "Coding GLM 5.1 (free)",
+      "description": "Flagship GLM model for hybrid reasoning, coding, and agentic engineering",
+      "family": "glm-free",
+      "attachment": false,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "toggle"
+        }
+      ],
+      "tool_call": true,
+      "interleaved": {
+        "field": "reasoning_content"
+      },
+      "structured_output": true,
+      "temperature": true,
+      "release_date": "2026-04-11",
+      "last_updated": "2026-04-11",
+      "modalities": {
+        "input": [
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "open_weights": true,
+      "limit": {
+        "context": 200000,
+        "output": 128000
+      },
+      "cost": {
+        "input": 0,
+        "output": 0
+      }
+    },
+    "live": true,
+    "probe": {
+      "status": 200,
+      "ok": true,
+      "usage": {
+        "prompt_tokens": 13,
+        "completion_tokens": 203,
+        "total_tokens": 216,
+        "prompt_tokens_details": {
+          "cached_tokens": 12
+        }
+      },
+      "model_returned": "glm-5.1"
+    }
+  },
+  {
+    "id": "coding-glm-5.2-free",
+    "configured": {
+      "limit": {
+        "output": 131072,
+        "context": 1000000
+      },
+      "name": "Coding GLM 5.2 (free)"
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 200,
+      "ok": true,
+      "usage": {
+        "prompt_tokens": 13,
+        "completion_tokens": 186,
+        "total_tokens": 199,
+        "prompt_tokens_details": {
+          "cached_tokens": 12
+        }
+      },
+      "model_returned": "glm-5.2"
+    }
+  },
+  {
+    "id": "coding-glm-5-free",
+    "configured": {
+      "limit": {
+        "output": 131072,
+        "context": 200000
+      },
+      "name": "Coding GLM 5 (free)"
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026082307541631353178996042168)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+    }
+  },
+  {
+    "id": "coding-kimi-k3-free",
+    "configured": {
+      "limit": {
+        "output": 1048576,
+        "context": 1048576
+      },
+      "name": "Coding Kimi K3 (free)"
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 403,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Sorry, there are currently insufficient promotional resources for the Kim series models. Please try again later or use the official stable API, kimi-k3, kimi-k2.7-code. (tid: 2026082307543483425992210695245)\",\"type\":\"permission_error\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "coding-minimax-m2.1-free",
+    "configured": {
+      "limit": {
+        "output": 13100,
+        "context": 204800
+      },
+      "name": "Coding MiniMax M2.1 (free)"
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.1] does not support max tokens > 196608 (2013) (tid: 2026082307543724346683369484575)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "coding-minimax-m2.5-free",
+    "configured": {
+      "limit": {
+        "output": 13100,
+        "context": 204800
+      },
+      "name": "Coding MiniMax M2.5 (free)"
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026082307543843214656985782156)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "coding-minimax-m2.7-free",
+    "configured": {
+      "limit": {
+        "output": 13100,
+        "context": 204800
+      },
+      "name": "Coding MiniMax M2.7 (free)"
+    },
+    "cache": {
+      "id": "coding-minimax-m2.7-free",
+      "name": "Coding MiniMax M2.7 (Free)",
+      "description": "MiniMax model for chat, coding, office work, and agentic tasks",
+      "family": "minimax-free",
+      "attachment": false,
+      "reasoning": true,
+      "reasoning_options": [],
+      "tool_call": true,
+      "interleaved": {
+        "field": "reasoning_content"
+      },
+      "structured_output": true,
+      "temperature": true,
+      "release_date": "2026-03-18",
+      "last_updated": "2026-03-18",
+      "modalities": {
+        "input": [
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "open_weights": true,
+      "limit": {
+        "context": 204800,
+        "output": 128100
+      },
+      "cost": {
+        "input": 0,
+        "output": 0
+      }
+    },
+    "live": true,
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.7] does not support max tokens > 196608 (2013) (tid: 2026082307543964120784430061786)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "coding-minimax-m2-free",
+    "configured": {
+      "limit": {
+        "output": 13100,
+        "context": 204800
+      },
+      "name": "Coding MiniMax M2 (free)"
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026082307544085195458934966496)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+    }
+  }
+]
