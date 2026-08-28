@@ -111,3 +111,12 @@ Projects/ 4-layer guard piece-meal rollback:
 - `setup-env-vars.ps1` and `set-secrets.ps1` are Windows-focused (use `setx`).
   Linux/macOS team members: read README Scenario B for the equivalent
   `export KEY=VALUE` lines to append to `~/.bashrc`/`~/.zshrc`.
+
+### Step 5b - Agent-expansion CLI tools (2026-08-29)
+
+- Skills: covered by install-user-skills.ps1 (snapshot now includes blader/humanizer + OthmanAdi/planning-with-files).
+- 
+pm install -g @nanonets/graft then graft telemetry disable; optional per-repo graft build.
+- pip install crawl4ai + crawl4ai-setup (CLI: crwl).
+- obscura: download obscura-x86_64-windows-stealth.zip v0.2.1, verify SHA-256 05872180fd4c5bbb765e232b0d3bb3b183b47aaa25699dc017d622278a59d597, extract to %LOCALAPPDATA%\Programs\obscura, add to user PATH.
+- agent-reach: py -3 -m venv %USERPROFILE%\.agent-reach-venv + pip install from GitHub main.zip; zero-config channels only (Web/YouTube/RSS/V2EX/Bilibili); yt-dlp config --js-runtimes node.
