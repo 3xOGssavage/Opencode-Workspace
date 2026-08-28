@@ -21,7 +21,7 @@ $ErrorActionPreference = "Stop"
 # (key, label, expected-prefix-or-shape, expected-min-length, expected-max-length)
 $secretSpec = @(
     @{ Key='HCNSEC_API_KEY';                Label='hcnsec.cn AI provider';     Shape='sk-';   MinLen=40; MaxLen=80 },
-    @{ Key='AIHUBMIX_API_KEY';              Label='aihubmix.com (43 models)';  Shape='sk-';   MinLen=40; MaxLen=80 },
+    @{ Key='AIHUBMIX_API_KEY';              Label='aihubmix.com (44 models)';  Shape='sk-';   MinLen=40; MaxLen=80 },
     @{ Key='GEMINI_API_KEY';                Label='Google AI Studio';          Shape='AQ.';    MinLen=40; MaxLen=80 },
     @{ Key='TAVILY_API_KEY';                Label='tavily.com (web search)';   Shape='tvly-';  MinLen=20; MaxLen=80 },
     @{ Key='SENTRY_AUTH_TOKEN';             Label='sentry.io (production)';    Shape='sntrys_'; MinLen=20; MaxLen=120 },

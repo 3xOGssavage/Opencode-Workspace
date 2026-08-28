@@ -65,7 +65,7 @@ overrides you may need:
   https://github.com/settings/keys.
 - **GitHub Personal Access Token**: needs `repo`, `workflow`, `read:org`,
   `read:user`, `gist` scopes for the github MCP server.
-- **AIHUBMIX API access**: this workspace uses 43 models on `api.aihubmix.com`.
+- **AIHUBMIX API access**: this workspace uses 44 models on `api.aihubmix.com`.
   Get a key at https://aihubmix.com — required for `aihubmix/*` provider.
 
 ## What's NOT restored by automation (manual — by design)
@@ -115,8 +115,7 @@ Projects/ 4-layer guard piece-meal rollback:
 ### Step 5b - Agent-expansion CLI tools (2026-08-29)
 
 - Skills: covered by install-user-skills.ps1 (snapshot now includes blader/humanizer + OthmanAdi/planning-with-files).
-- 
-pm install -g @nanonets/graft then graft telemetry disable; optional per-repo graft build.
-- pip install crawl4ai + crawl4ai-setup (CLI: crwl).
+- graft: `npm install -g @nanonets/graft`, then `graft telemetry disable`. The graft MCP self-provisions via `npx -y @nanonets/graft mcp` even without the global install — the global CLI is only needed for `graft build` (per-repo code-graph generation).
+- crawl4ai: `pip install crawl4ai` + `crawl4ai-setup` (CLI: `crwl`).
 - obscura: download obscura-x86_64-windows-stealth.zip v0.2.1, verify SHA-256 05872180fd4c5bbb765e232b0d3bb3b183b47aaa25699dc017d622278a59d597, extract to %LOCALAPPDATA%\Programs\obscura, add to user PATH.
 - agent-reach: py -3 -m venv %USERPROFILE%\.agent-reach-venv + pip install from GitHub main.zip; zero-config channels only (Web/YouTube/RSS/V2EX/Bilibili); yt-dlp config --js-runtimes node.
