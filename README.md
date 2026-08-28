@@ -1,6 +1,6 @@
 # Opencode-Workspace
 
-Enterprise opencode workspace backup — 17 agents, 16 MCPs, 117 skills, parallel subagent dispatch. Snapshot dated 2026-08-02. See `AGENTS.md` for the operating manual.
+Enterprise opencode workspace backup — 17 agents, 18 MCPs, ~140 skills (verified 2026-08-29), parallel subagent dispatch. Snapshot dated 2026-08-02. See `AGENTS.md` for the operating manual.
 
 ---
 
@@ -17,19 +17,19 @@ For disaster recovery / backup scenarios, keep reading below.
 | Path                                        | Purpose                                                                                                                    |
 | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `AGENTS.md`                                 | Operating manual (auto-loaded by opencode every session)                                                                   |
-| `VISION-TOOL-MCP-DOCUMENTATION.md`          | Reference doc for the vision-tool MCP                                                                                      |
+| `docs/architecture/VISION-TOOL-MCP-DOCUMENTATION.md` | Reference doc for the vision-tool MCP                                                                                      |
 | `skills-lock.json`                          | Integrity hashes for 4 Vercel skills                                                                                       |
-| `opencode.json`                             | Main workspace config (17 agents, 16 MCPs, 81 bash perms, 2 LSPs, compaction, formatter)                                   |
+| `opencode.json`                             | Main workspace config (17 agents, 18 MCPs, 94 bash perms, 2 LSPs, compaction, formatter)                                   |
 | `.opencode/agents/`                         | 7 custom agent definitions (architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) |
-| `.opencode/commands/`                       | 5 command definitions (/ship, /verify, /test, etc.)                                                                        |
-| `.opencode/skills/`                         | 2 workspace skills (enterprise-pipeline, playwright-best-practices)                                                        |
-| `.opencode/memory.jsonl`                    | Knowledge graph (20 entities, 25 KB) — preserves accumulated decisions                                                     |
+| `.opencode/commands/`                       | 6 command definitions (/ship, /verify, /test, /commit, /context, /codemap)                                                                        |
+| `.opencode/skills/`                         | 5 workspace skills (enterprise-pipeline, playwright-best-practices, agent-reach, redact-output, structured-log)                                                        |
+| `.opencode/memory.jsonl`                    | Knowledge graph (53 entities + 17 relations) — preserves accumulated decisions                                                     |
 | `.opencode/memory-mcp-wrapper.bat`          | Launches memory MCP with `MEMORY_FILE_PATH` override                                                                       |
 | `.opencode/opencode-auto-vision.json`       | Auto-vision plugin config                                                                                                  |
 | `.opencode/verify-inheritance.ps1`          | Verifies config inheritance is active                                                                                      |
 | `.opencode/tools/vision-tool/`              | Vendored vision MCP server (Python) — demo media + `__pycache__` gitignored                                                |
 | `.agents/skills/`                           | 4 workspace-local skills (deploy, logs, setup, vercel-cli) — gitignored, auto-reinstallable                                |
-| `docs/adrs/`                                | 6 Architecture Decision Records (ADR-001 through ADR-006)                                                                  |
+| `docs/adrs/`                                | 8 Architecture Decision Records (ADR-001–006, ADR-008, ADR-009; ADR-007 virtual)                                                                  |
 | `global-config/`                            | Snapshot of `~/.config/opencode/` — 5 files that activate OMO-Slim + 3 plugins                                             |
 | `scripts/setup-env-vars.ps1`                | Idempotent setup script (env vars, global-config copy, npm install, path normalization)                                    |
 | `Projects/.gitkeep` + `Projects/.gitignore` | Preserves the `Projects/` folder; contents gitignored (each project has its own repo)                                      |
@@ -53,7 +53,7 @@ For disaster recovery / backup scenarios, keep reading below.
 | `~/.local/share/opencode/mcp-auth.json`                                                               | 4 OAuth MCP tokens — SECRET. Re-auth via `opencode mcp auth <name>`.      |
 | `~/.local/share/opencode/opencode.db` (1.43 GB)                                                       | Chat history — not portable.                                              |
 | `~/.cache/opencode/` (766 MB)                                                                         | Binaries + cached packages — auto-regenerated.                            |
-| `~/.agents/skills/` (56 skills)                                                                       | User-installed skills outside workspace — reinstall via `npx skills add`. |
+| `~/.agents/skills/` (58 skills)                                                                       | User-installed skills outside workspace — reinstall via `npx skills add`. |
 | `~/.config/opencode/skills/` (19 skills)                                                              | User-installed skills outside workspace — reinstall via `npx skills add`. |
 
 ---
@@ -108,7 +108,7 @@ If migrating to a new machine (different drive letters, no env vars, no auth):
    - Run `npm install` in that target dir
    - Regex-replace the old `F:\CD\Opencode` path in `opencode.json` with `<your-path>` (so the 12 absolute paths in skills.paths / permission.edit.deny / mcp.command resolve correctly)
 
-3. **Set 5 API-key env vars** (User scope — persists across restarts):
+3. **Set 7 API-key env vars** (User scope — persists across restarts; 6 via `scripts\set-secrets.ps1`, `SUPABASE_ACCESS_TOKEN` manual):
 
    ```powershell
    setx HCNSEC_API_KEY                  "sk-..."                    # hcnsec.cn reseller key (51 chars)
@@ -116,6 +116,8 @@ If migrating to a new machine (different drive letters, no env vars, no auth):
    setx TAVILY_API_KEY_1                 "tvly-..."                  # tavily.com — router picks engine by key count: 1 key = official MCP, _1.._5 = multi-key rotator
    setx SENTRY_AUTH_TOKEN                "sntrys_..."               # sentry.io
    setx GITHUB_PERSONAL_ACCESS_TOKEN     "ghp_..."                   # github.com/settings/tokens (repo scope)
+   setx AIHUBMIX_API_KEY                "sk-..."                    # aihubmix.com (44 models)
+   setx SUPABASE_ACCESS_TOKEN           "sbp_..."                   # supabase.com → account → access tokens
    ```
 
 4. **Re-auth 4 OAuth MCP servers** (interactive — opens browser):
@@ -177,6 +179,7 @@ If migrating to a new machine (different drive letters, no env vars, no auth):
    npx skills add go-codemod
    npx skills add go-linters
    npx skills add http_mcp_headers
+   npx skills add blader/humanizer
    npx skills add javascript-refactoring
    npx skills add jqschema
    npx skills add logs
@@ -184,6 +187,7 @@ If migrating to a new machine (different drive letters, no env vars, no auth):
    npx skills add optimize-agentic-workflow
    npx skills add otel-queries
    npx skills add pinokio
+   npx skills add OthmanAdi/planning-with-files
    npx skills add playwright-cli
    npx skills add pr-finisher
    npx skills add pr-to-go-linter
@@ -449,7 +453,7 @@ This section appends on top of the v6 init (the rest of this README). v7 adds:
 
 | Scenario                                     | v7 coverage                                     | Recovery procedure                                                                                                                                                                                            |
 | -------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Disk failure (F: drive dies)                 | ✅ Re-clone from GitHub                         | `git clone https://github.com/3xOGssavage/Opencode-Workspace.git F:\CD\Opencode` → run `scripts\setup-env-vars.ps1` → re-install 56 skills (see "Refreshing skills-snapshot.json" below for the source list). |
+| Disk failure (F: drive dies)                 | ✅ Re-clone from GitHub                         | `git clone https://github.com/3xOGssavage/Opencode-Workspace.git F:\CD\Opencode` → run `scripts\setup-env-vars.ps1` → re-install 58 skills (see "Refreshing skills-snapshot.json" below for the source list). |
 | GitHub outage (hours)                        | ✅ Work locally                                 | All work continues against the local clone. Push when GitHub returns. Nothing is lost.                                                                                                                        |
 | GitHub 2FA device lost                       | ⚠️ Recoverable ONLY with backup codes           | Use one of the 16 saved `github-recovery-codes.txt` (store offline). If those are also lost → GitHub Support verification (SLOW, days).                                                                       |
 | GitHub account permanent ban                 | ⚠️ Code preserved locally; Issues/PRs/Wiki lost | Clone to a fresh account. Quarterly "Export account data" tar.gz (Settings → Account → Export) covers Issues/PRs/Wiki — see "Future hardening" below.                                                         |
@@ -464,7 +468,7 @@ This section appends on top of the v6 init (the rest of this README). v7 adds:
 | `opencode.db` (1.43 GB chat history) | Runtime state, not portable            | Fresh one created on first opencode run                                           |
 | `auth.json` (4 provider API keys)    | Secrets — never committed              | Re-issue from each provider (hcnsec, opencode-go, nvidia, google)                 |
 | `mcp-auth.json` (4 OAuth tokens)     | Secrets — never committed              | `opencode mcp auth sentry\|composio\|supabase\|vercel`                            |
-| 6 User API-key env vars              | Secrets — never committed              | `setx HCNSEC_API_KEY ...`, etc. (see "Secrets setup" below)                       |
+| 7 User API-key env vars              | Secrets — never committed              | `setx HCNSEC_API_KEY ...`, etc. (see "Secrets setup" below)                       |
 | `smoke-test`, `website` projects     | Disposable sandboxes (per user choice) | Recreatable from the opencode enterprise setup                                    |
 | `~/.cache/opencode/` (776 MB)        | Auto-regenerated                       | Run opencode; cache rebuilds itself                                               |
 | GitHub Issues/PRs/Wiki/Releases      | Not in git objects                     | `Settings → Account → Export` tar.gz (manual, quarterly — see "Future hardening") |
