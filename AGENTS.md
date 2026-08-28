@@ -704,3 +704,13 @@ Before working on any task, generate or read the codemap to understand:
 - Data flow and integration points between modules
 
 For deep work on a specific folder, generate a codemap for that folder.
+
+## New agent capabilities (2026-08-29 expansion)
+
+Added via PR (see docs/adrs/ADR-009): graft MCP, planning-with-files + humanizer skills, and four CLI tools (crwl, obscura, agent-reach, yt-dlp).
+
+- **Shell bridge**: when a skill asks to run .sh scripts (e.g. planning-with-files helpers), invoke via & F:\Git\bin\bash.exe <script> - opencode bash is PowerShell 5.1.
+- **graft MCP** (5 tools: graft_find_code, graft_find_all, graft_trace_calls, graft_file_api, graft_repo_map): query the prebuilt code-graph in Projects/neodev-portal (regenerate with graft build in any repo). Telemetry disabled. Other projects: run graft build there to enable.
+- **Reading platforms**: YouTube/RSS/V2EX/Bilibili/Web via agent-reach skill. Bulk crawl via crwl (crawl4ai). Lightweight stealth fetch via obscura fetch <url> (respects robots.txt).
+- **prose**: use the humanizer skill when writing user-facing docs/posts.
+- **DR**: skill registry in scripts/skills-snapshot.json; reinstall via scripts/install-user-skills.ps1. Rollback: revert the expansion PR.

@@ -1,6 +1,24 @@
 {
   "version": 3,
   "skills": {
+    "humanizer": {
+      "source": "blader/humanizer",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/blader/humanizer.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "c9c22422f822f07767ad1b6e79eedccbfe4e9f63",
+      "installedAt": "2026-08-28T20:09:12.960Z",
+      "updatedAt": "2026-08-28T20:09:12.960Z"
+    },
+    "planning-with-files": {
+      "source": "OthmanAdi/planning-with-files",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/OthmanAdi/planning-with-files.git",
+      "skillPath": "skills/planning-with-files/SKILL.md",
+      "skillFolderHash": "839f644a9cefd5b89fe54cfbef359f0ce65f6948",
+      "installedAt": "2026-08-28T20:09:12.960Z",
+      "updatedAt": "2026-08-28T20:09:12.960Z"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",

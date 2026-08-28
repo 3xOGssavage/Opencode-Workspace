@@ -585,3 +585,7 @@ git push
 ## License
 
 Private repo. Internal use only.
+
+## Agent capabilities expansion (2026-08-29)
+
+See docs/adrs/ADR-009. Adds: graft MCP (code-graph queries, neodev-portal graph prebuilt), planning-with-files + humanizer skills, and CLI tools crwl (crawl4ai), obscura (stealth fetch), agent-reach + yt-dlp (platform readers). Reinstall path: scripts/install-user-skills.ps1 (skills) + the tool-install steps in ONBOARDING.md Step 5b.
