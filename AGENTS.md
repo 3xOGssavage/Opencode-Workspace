@@ -5,7 +5,7 @@ Instructions for opencode sessions working from this workspace.
 ## Role
 
 You are a **senior developer** with a full engineering team at your disposal
-(17 agents, ~117 skills, 16 MCP servers, LSP, persistent memory, 7 plugins).
+(17 agents, ~140 skills (verified 2026-08-29), 18 MCP servers, LSP, persistent memory, 7 plugins).
 Operate autonomously — use the right tool without being told. Plan non-trivial
 tasks. Research when unsure. Verify before claiming success.
 
@@ -17,7 +17,7 @@ Each project may have its own `opencode.json` for project-specific overrides.
 ## Models
 
 - **Primary agents** (build, plan): `ollama-cloud/minimax-m3`
-- **All subagents** (15 custom + 8 OMO-Slim): `hcnsec/Kimi-K2.6` (262K context, Moonshot Kimi K2.6 via hcnsec reseller)
+- **All subagents** (14: 7 workspace-defined + 7 OMO-Slim): `hcnsec/Kimi-K2.6` (262K context, Moonshot Kimi K2.6 via hcnsec reseller)
 - **3rd provider (hcnsec.cn)**: 10 verified-working models at `https://api.hcnsec.cn/v1` (key in `HCNSEC_API_KEY` env var). Use as alternates via `/models` menu with format `hcnsec/<model-id>`. Pruned 2026-08-23 after live API verification (10 dead/EOL removed — see "DO NOT work" table).
 
 ### hcnsec.cn models (re-verified 2026-08-23 via live API probes)
@@ -74,7 +74,7 @@ The `auth.json` file at `C:/Users/user/.local/share/opencode/auth.json` contains
 
 These remain in `auth.json` for active project use. The `opencode-zen` provider referenced in earlier snapshots is **not** present in the current `auth.json` (it was removed during the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`); any stale reference to it is outdated.
 
-## MCP servers (16, auto-start)
+## MCP servers (18, auto-start)
 
 | MCP                   | Type                | Purpose                                                                                                                                                                                                                                                                     |
 | --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -94,6 +94,8 @@ These remain in `auth.json` for active project use. The `opencode-zen` provider 
 | `github`              | local (binary)      | GitHub API: issues, PRs, repos, actions, code security                                                                                                                                                                                                                      |
 | `vercel`              | remote (OAuth)      | Deploy projects, logs, domains, env vars, agent runs                                                                                                                                                                                                                        |
 | `vision-tool`         | local (vendored)    | Vision analysis via Gemini 3.5-flash-lite (500 RPD free tier). AppData config sets `DEFAULT_MODEL`. See `docs/architecture/VISION-TOOL-MCP-DOCUMENTATION.md`. Pairs with `opencode-auto-vision` + `opencode-eyesight` plugins.                                              |
+| `graft`              | local               | Code-graph queries over prebuilt per-repo graphs — 5 tools: `graft_find_code`, `graft_find_all`, `graft_trace_calls`, `graft_file_api`, `graft_repo_map`. Graph via `graft build` per repo (neodev-portal prebuilt). Telemetry disabled (`DO_NOT_TRACK=1`). |
+| `ddddocr`             | local (vendored)    | Legacy image/slider captcha reader (browser-use captcha ladder). |
 
 OAuth MCPs need `opencode mcp auth <name>` before first use.
 
@@ -107,7 +109,7 @@ Two global plugins coexist: `opencode-auto-vision` (intercepts pasted images →
 
 | Plugin                                                    | Purpose                                                                                           |
 | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `superpowers@git+https://github.com/obra/superpowers.git` | 10 active process skills (brainstorming, TDD, debugging, planning, subagent-dev, verification...) |
+| `superpowers@git+https://github.com/obra/superpowers.git` | 14 active process skills (brainstorming, TDD, debugging, planning, subagent-dev, verification...) |
 | `opencode-notify`                                         | Desktop notifications when sessions complete or need input                                        |
 | `envsitter-guard`                                         | Scans `.env` files, never exposes secrets, validates syntax                                       |
 | `@dietrichgebert/ponytail`                                | Lazy senior-dev mode — enforces YAGNI / stdlib-first / shortest-diff across every response        |
@@ -136,7 +138,7 @@ the _what_ — these handle the _when_ and _why_.
 
 ### 2. Before acting
 
-- **Check if a skill applies** (~117 skills auto-trigger by intent). If one
+- **Check if a skill applies** (~140 skills auto-trigger by intent). If one
   matches, load it via the `skill` tool and follow its workflow. Skills
   override default system behavior where they conflict.
 - **Check LSP** for types, definitions, and references before modifying code.
@@ -176,7 +178,7 @@ done (below). Never claim success without evidence.
 
 ## Agent roster
 
-All subagents run on `hcnsec/Kimi-K2.6` (Moonshot Kimi K2.6 via hcnsec reseller, 256K context). Primary agents use
+All subagents run on `hcnsec/Kimi-K2.6` (Moonshot Kimi K2.6 via hcnsec reseller, 262,144-token context). Primary agents use
 `ollama-cloud/minimax-m3`. Subagents consume Kimi quota — dispatch sequentially to avoid hcnsec rate limits; parallel fan-out risks 429s.
 
 **Primary (3):**
@@ -185,7 +187,7 @@ All subagents run on `hcnsec/Kimi-K2.6` (Moonshot Kimi K2.6 via hcnsec reseller,
 - `plan` — planning before coding.
 - `orchestrator` — multi-agent parallel dispatch (Tab-accessible). Uses OMO-Slim `stripOrchestratorModel: true` to preserve runtime `/model` selection. Switch to it via Tab when you need parallel subagent work; `build` remains default for normal coding.
 
-**Custom subagents (7 in `.opencode/agent/`):**
+**Workspace-defined subagents (7 in `.opencode/agents/`):**
 
 - `architect` — design, boundaries, tradeoffs. Read-only.
 - `reviewer` — strict review against conventions. Read-only.
@@ -195,7 +197,7 @@ All subagents run on `hcnsec/Kimi-K2.6` (Moonshot Kimi K2.6 via hcnsec reseller,
 - `test-engineer` — test strategy, coverage analysis.
 - `web-perf-auditor` — Core Web Vitals audit.
 
-**OMO-Slim agents (8):**
+**OMO-Slim agents (8 — `orchestrator` is primary, the other 7 are subagents):**
 
 - `orchestrator`, `oracle`, `council`, `librarian`, `explorer`, `designer`,
   `fixer`, `observer`.
@@ -279,6 +281,11 @@ Practical implications:
 | Need to check security issues             | `security-auditor` agent                                       |
 | Need to audit web performance             | `web-perf-auditor` agent                                       |
 | Need to research tools/approaches         | `last30days` skill                                             |
+| Need code-graph queries (find code, trace calls, repo map) | `graft` MCP (graft_find_code, graft_trace_calls, graft_repo_map) |
+| Need to read YouTube/RSS/V2EX/Bilibili    | `agent-reach` skill                                             |
+| Need a legacy image/slider captcha read   | `ddddocr` MCP (browser-use captcha ladder)                      |
+| Need a bulk site crawl                    | `crwl` (crawl4ai CLI)                                           |
+| Need a stealth fetch of a blocked page    | `obscura fetch <url>` (respects robots.txt)                     |
 | Need to interact with SaaS apps           | `composio` MCP                                                 |
 | Need database queries / schema management | `supabase` MCP                                                 |
 | Need to debug production errors           | `sentry` MCP                                                   |
@@ -325,6 +332,8 @@ If any step fails, fix it before declaring done. Never claim success without evi
 | `github`              | GitHub actions: PRs, issues, files, branches, actions | MCP tool (local binary, PAT) |
 | `vercel`              | Deploy projects, logs, domains, env vars, agent runs  | MCP tool (remote, OAuth)     |
 | `vision-tool`         | Analyze pasted images via Gemini vision backend       | MCP tool (local, vendored)   |
+| `graft`              | Code-graph queries before exploring unfamiliar repos  | MCP tool                     |
+| `ddddocr`             | Legacy image/slider captchas (browser-use ladder)     | MCP tool                     |
 | LSP                   | Before code changes (types, defs, refs)               | Built-in `lsp` tool          |
 | Prettier              | Auto-formats TS/JS/CSS/HTML/JSON/MD/YAML              | Built-in formatter           |
 | Black / ruff / mypy   | Python formatting + linting                           | Pre-approved in `bash`       |
@@ -345,12 +354,12 @@ the auto-trigger condition — do not duplicate skill inventories in this file.
 - **vercel-deploy-claude-code-plugin** (3) — deploy, logs, setup (`~/.opencode/.agents/skills/` via `npx skills add`)
 - **vercel-cli** (1) — Vercel CLI usage (`~/.opencode/.agents/skills/` via `npx skills add`)
 - **anthropics/skills** (17 installed, 6 active) — frontend-design, webapp-testing, mcp-builder, etc. (`~/.opencode/anthropic-skills/skills`)
-- **superpowers** (10 active, 4 folders lack SKILL.md) — brainstorming → subagent dev → verification (loaded from plugin cache)
+- **superpowers** (14 active) — brainstorming → subagent dev → verification (loaded from plugin cache)
 - **playwright-best-practices** (1) — Playwright patterns (`~/.opencode/skills/playwright-best-practices`)
-- **User skills** (56) — design-md, enhance-prompt, shadcn-ui, stitch-\*, ui-ux-pro-max, pinokio, gepeto, react-components, remotion, find-skills, customize-opencode (`C:\Users\user\.agents\skills`)
+- **User skills** (58) — design-md, enhance-prompt, shadcn-ui, stitch-\*, ui-ux-pro-max, pinokio, gepeto, react-components, remotion, find-skills, customize-opencode (`C:\Users\user\.agents\skills`)
 - **Config skills** (19) — clonedeps, codemap, deepwork, oh-my-opencode-slim, reflect, simplify, worktrees, design-taste-frontend, gsap-\*, seo, transitions-\* (`C:\Users\user\.config\opencode\skills`)
 
-**~117 unique skills / 121 active across 9 packs.** 11 anthropic folders lack SKILL.md (algorithmic-art, brand-guidelines, canvas-design, doc-coauthoring, docx, internal-comms, pdf, pptx, slack-gif-creator, theme-factory, xlsx) and 4 superpowers folders lack SKILL.md (requesting-code-review, systematic-debugging, test-driven-development, writing-plans) — these are inert.
+**~140 unique skills / 141 active (verified 2026-08-29; 9 packs + superpowers + ponytail).** 11 anthropic folders lack SKILL.md (algorithmic-art, brand-guidelines, canvas-design, doc-coauthoring, docx, internal-comms, pdf, pptx, slack-gif-creator, theme-factory, xlsx) — these are inert. All 14 superpowers skills and all 6 ponytail skills load.
 
 ## Workspace reference files
 
@@ -372,6 +381,8 @@ Deep-reference docs are organized under `docs/`. Read on demand.
 | ADR-005 | 2026-07-31 | TokenRouter Tier-3 experimental provider  |
 | ADR-006 | 2026-08-01 | Fetch MCP `--with mcp<2` pin (SSRF fix)   |
 | ADR-007 | virtual    | 2026-08-02 v1.18.11 post-snapshot item 12 |
+| ADR-008 | 2026-08-14 | Browser-use stealth browsing (camoufox + patchright) |
+| ADR-009 | 2026-08-29 | Agent capabilities expansion (graft MCP, humanizer, planning-with-files, crwl, obscura, agent-reach) |
 
 ### Operational history (`docs/operational-history/`)
 
@@ -440,7 +451,7 @@ If you legitimately need to track a project file under `Projects/`, all four lay
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` — loads parent's full config (provider, mcp, permission, lsp, formatter, agent, plugin, skills.paths, tool_output, compaction) into every session at precedence layer 3 (between global and project walk-up). Per-project `opencode.json` overrides still win (layer 4, deep merge). The compaction block is V1-tuned (see "Compaction configuration" below for the rationale and the lossless plugin ecosystem deferred to spike PRs).
 - `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` — adds parent's `.opencode` directory to the scan list for agents, commands, modes, skills, plugins discovery. Loaded LAST, so parent's agents/commands override project's same-named ones (intended for enterprise uniformity).
 
-**Result:** HuanCheng (hcnsec) provider with 10 models becomes visible in every child project session; 16 MCP servers; 81 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
+**Result:** HuanCheng (hcnsec) provider with 10 models becomes visible in every child project session; 18 MCP servers; 94 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
 
 **Verifying:** Run `powershell -ExecutionPolicy Bypass -File .opencode\verify-inheritance.ps1` from any project root.
 
