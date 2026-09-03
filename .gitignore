@@ -79,3 +79,9 @@ secrets.local.json
 # Skill install / reinstall artifacts (regenerable by install-user-skills.ps1)
 /.opencode/skill-reinstall-artifacts/
 
+# Root junk guards (root-anchored): backup allowlist is primary; these stop sweep-ups
+# Proven zero collateral damage against all committed files.
+/tmp_*
+/smoke-*/
+/check_*.py
+

@@ -63,18 +63,26 @@ try {
     $ghUser = ($remoteUrl -split '/')[-2]
     Write-Host "Parsed GitHub user from origin: $ghUser"
 
-    # 3. Create dated backup branch
+    # 3. Create dated backup branch — always from main, never from whatever state was left behind
     $date = Get-Date -Format "yyyy-MM-dd"
     $branchName = "chore/auto-backup-$date"
     $existing = git for-each-ref --format='%(refname:short)' "refs/heads/$branchName"
     if ($existing) {
         Write-Host "Backup branch $branchName already exists locally - reusing" -ForegroundColor Yellow
     } else {
-        Step "create backup branch $branchName" { git checkout -b $branchName | Out-Null }
+        Step "create backup branch $branchName (from main)" { git checkout -b $branchName main | Out-Null }
     }
 
-    # 4. Stage every untracked/modified file (heuristic: workspace state changes only)
-    Step "stage all changes" { git add -A }
+    # 4. Stage ONLY allowlisted config paths (never the whole floor). First clear the
+    #    index: an interrupted previous run can leave hundreds of foreign files staged.
+    Step "clear stale index entries (interrupted-run safety)" { git reset -q }
+    Step "stage allowlisted config paths" {
+        $allow = @('AGENTS.md','README.md','ONBOARDING.md','SECURITY.md','CODEOWNERS',
+                   'skills-lock.json','opencode.json','.gitignore','.gitattributes','.ignore',
+                   '.opencode','scripts','docs','evals','global-config','guardrails',
+                   '.github','.githooks','Projects/.gitignore','Projects/.gitkeep')
+        foreach ($p in $allow) { if (Test-Path $p) { git add -- $p } }
+    }
 
     # 4b. Force-include the gitignored memory file (workspace state that matters)
     #     .opencode/memory.jsonl is intentionally gitignored in main, but the
@@ -83,6 +91,14 @@ try {
     $memoryFile = Join-Path $WorkspaceRoot ".opencode\memory.jsonl"
     if (Test-Path $memoryFile) {
         Step "force-add memory file to this backup only" { git add -f $memoryFile | Out-Null }
+    }
+
+    # 4c. Deny-check: even the allowlist could one day contain a fat-fingered path.
+    #     Refuse to snapshot anything matching known junk/secret patterns.
+    $stagedPaths = git diff --cached --name-only
+    $badStaged = $stagedPaths | Where-Object { $_ -match '(^|/)tmp_|^smoke-|(^|/)check_.*\.py$|jwts|\.tmp$' }
+    if ($badStaged) {
+        throw "Refusing to backup: staged paths match junk patterns -> $($badStaged -join ', ')"
     }
 
     # 5. Commit if there's anything to commit
