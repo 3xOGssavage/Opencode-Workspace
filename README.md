@@ -14,25 +14,25 @@ For disaster recovery / backup scenarios, keep reading below.
 
 ## What's in this repo
 
-| Path                                        | Purpose                                                                                                                    |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `AGENTS.md`                                 | Operating manual (auto-loaded by opencode every session)                                                                   |
+| Path                                                 | Purpose                                                                                                                    |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `AGENTS.md`                                          | Operating manual (auto-loaded by opencode every session)                                                                   |
 | `docs/architecture/VISION-TOOL-MCP-DOCUMENTATION.md` | Reference doc for the vision-tool MCP                                                                                      |
-| `skills-lock.json`                          | Integrity hashes for 4 Vercel skills                                                                                       |
-| `opencode.json`                             | Main workspace config (17 agents, 18 MCPs, 94 bash perms, 2 LSPs, compaction, formatter)                                   |
-| `.opencode/agents/`                         | 7 custom agent definitions (architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) |
-| `.opencode/commands/`                       | 6 command definitions (/ship, /verify, /test, /commit, /context, /codemap)                                                                        |
-| `.opencode/skills/`                         | 5 workspace skills (enterprise-pipeline, playwright-best-practices, agent-reach, redact-output, structured-log)                                                        |
-| `.opencode/memory.jsonl`                    | Knowledge graph (53 entities + 17 relations) — preserves accumulated decisions                                                     |
-| `.opencode/memory-mcp-wrapper.bat`          | Launches memory MCP with `MEMORY_FILE_PATH` override                                                                       |
-| `.opencode/opencode-auto-vision.json`       | Auto-vision plugin config                                                                                                  |
-| `.opencode/verify-inheritance.ps1`          | Verifies config inheritance is active                                                                                      |
-| `.opencode/tools/vision-tool/`              | Vendored vision MCP server (Python) — demo media + `__pycache__` gitignored                                                |
-| `.agents/skills/`                           | 4 workspace-local skills (deploy, logs, setup, vercel-cli) — gitignored, auto-reinstallable                                |
-| `docs/adrs/`                                | 8 Architecture Decision Records (ADR-001–006, ADR-008, ADR-009; ADR-007 virtual)                                                                  |
-| `global-config/`                            | Snapshot of `~/.config/opencode/` — 5 files that activate OMO-Slim + 3 plugins                                             |
-| `scripts/setup-env-vars.ps1`                | Idempotent setup script (env vars, global-config copy, npm install, path normalization)                                    |
-| `Projects/.gitkeep` + `Projects/.gitignore` | Preserves the `Projects/` folder; contents gitignored (each project has its own repo)                                      |
+| `skills-lock.json`                                   | Integrity hashes for 4 Vercel skills                                                                                       |
+| `opencode.json`                                      | Main workspace config (17 agents, 18 MCPs, 94 bash perms, 2 LSPs, compaction, formatter)                                   |
+| `.opencode/agents/`                                  | 7 custom agent definitions (architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) |
+| `.opencode/commands/`                                | 6 command definitions (/ship, /verify, /test, /commit, /context, /codemap)                                                 |
+| `.opencode/skills/`                                  | 5 workspace skills (enterprise-pipeline, playwright-best-practices, agent-reach, redact-output, structured-log)            |
+| `.opencode/memory.jsonl`                             | Knowledge graph (53 entities + 17 relations) — preserves accumulated decisions                                             |
+| `.opencode/memory-mcp-wrapper.bat`                   | Launches memory MCP with `MEMORY_FILE_PATH` override                                                                       |
+| `.opencode/opencode-auto-vision.json`                | Auto-vision plugin config                                                                                                  |
+| `.opencode/verify-inheritance.ps1`                   | Verifies config inheritance is active                                                                                      |
+| `.opencode/tools/vision-tool/`                       | Vendored vision MCP server (Python) — demo media + `__pycache__` gitignored                                                |
+| `.agents/skills/`                                    | 4 workspace-local skills (deploy, logs, setup, vercel-cli) — gitignored, auto-reinstallable                                |
+| `docs/adrs/`                                         | 8 Architecture Decision Records (ADR-001–006, ADR-008, ADR-009; ADR-007 virtual)                                           |
+| `global-config/`                                     | Snapshot of `~/.config/opencode/` — 5 files that activate OMO-Slim + 3 plugins                                             |
+| `scripts/setup-env-vars.ps1`                         | Idempotent setup script (env vars, global-config copy, npm install, path normalization)                                    |
+| `Projects/.gitkeep` + `Projects/.gitignore`          | Preserves the `Projects/` folder; contents gitignored (each project has its own repo)                                      |
 
 **Tracked size after cleanup:** ~1 MB.
 
@@ -447,6 +447,7 @@ This section appends on top of the v6 init (the rest of this README). v7 adds:
 - `scripts/audit-secrets.ps1` — lightweight pre-commit secret scanner (AWS/GCP/GitHub/Slack/JWT/SSH key patterns + documentation-prefix allow-list).
 - `.githooks/pre-commit` — invokes the audit script before every commit.
 - `.github/workflows/secret-scan.yml` + `.github/gitleaks.toml` — gitleaks CI runs on every PR to `main`.
+- **v8 (2026-09-03, PR #34):** Backup-workspace.ps1 hardened with explicit allowlist + deny-check + interrupted-run safety + branch-from-main. 3 root-anchored `.gitignore` guards as defense in depth. See `docs/adrs/ADR-010-backup-allowlist-hardening.md` for the design and `docs/operational-history/POST-CLEANUP-NOTE-2026-09-03-workspace-depollution.md` for the full cleanup narrative.
 - Disaster scenarios table (below) — explicit coverage of what v7 handles and what it doesn't.
 
 ### Disaster scenarios and recovery

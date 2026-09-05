@@ -94,8 +94,8 @@ These remain in `auth.json` for active project use. The `opencode-zen` provider 
 | `github`              | local (binary)      | GitHub API: issues, PRs, repos, actions, code security                                                                                                                                                                                                                      |
 | `vercel`              | remote (OAuth)      | Deploy projects, logs, domains, env vars, agent runs                                                                                                                                                                                                                        |
 | `vision-tool`         | local (vendored)    | Vision analysis via Gemini 3.5-flash-lite (500 RPD free tier). AppData config sets `DEFAULT_MODEL`. See `docs/architecture/VISION-TOOL-MCP-DOCUMENTATION.md`. Pairs with `opencode-auto-vision` + `opencode-eyesight` plugins.                                              |
-| `graft`              | local               | Code-graph queries over prebuilt per-repo graphs — 5 tools: `graft_find_code`, `graft_find_all`, `graft_trace_calls`, `graft_file_api`, `graft_repo_map`. Graph via `graft build` per repo (neodev-portal prebuilt). Telemetry disabled (`DO_NOT_TRACK=1`). |
-| `ddddocr`             | local (vendored)    | Legacy image/slider captcha reader (browser-use captcha ladder). |
+| `graft`               | local               | Code-graph queries over prebuilt per-repo graphs — 5 tools: `graft_find_code`, `graft_find_all`, `graft_trace_calls`, `graft_file_api`, `graft_repo_map`. Graph via `graft build` per repo (neodev-portal prebuilt). Telemetry disabled (`DO_NOT_TRACK=1`).                 |
+| `ddddocr`             | local (vendored)    | Legacy image/slider captcha reader (browser-use captcha ladder).                                                                                                                                                                                                            |
 
 OAuth MCPs need `opencode mcp auth <name>` before first use.
 
@@ -262,42 +262,42 @@ Practical implications:
 
 ## Decision framework
 
-| Situation                                 | Action                                                         |
-| ----------------------------------------- | -------------------------------------------------------------- |
-| Task touches 1 file, obvious change       | `build` directly                                               |
-| Task touches 2+ files or ambiguous        | `plan` first, then `architect` if structural                   |
-| Bug report or unexpected behavior         | `debugging-and-error-recovery` skill, then `fixer` agent       |
-| Need to understand existing code          | Dispatch `explorer` agent                                      |
-| Need deep reasoning on architecture       | Dispatch `oracle` agent                                        |
-| Need multi-perspective review             | Dispatch `council` agent                                       |
-| Need to coordinate multi-agent task       | Tab to `orchestrator` agent (primary), dispatch parallel tasks |
-| Need UI/frontend design work              | Dispatch `designer` agent                                      |
-| Need to monitor background tasks          | Dispatch `observer` agent                                      |
-| Need to look up library docs              | `context7` MCP or `librarian` agent                            |
-| Need current web info                     | `tavily` MCP (search) or `fetch` MCP (single URL)              |
-| Need to review code before merge          | `reviewer` or `code-reviewer`                                  |
-| Need to run tests                         | `tester` agent or `/test` command                              |
-| Need test strategy or coverage analysis   | `test-engineer` agent                                          |
-| Need to check security issues             | `security-auditor` agent                                       |
-| Need to audit web performance             | `web-perf-auditor` agent                                       |
-| Need to research tools/approaches         | `last30days` skill                                             |
+| Situation                                                  | Action                                                           |
+| ---------------------------------------------------------- | ---------------------------------------------------------------- |
+| Task touches 1 file, obvious change                        | `build` directly                                                 |
+| Task touches 2+ files or ambiguous                         | `plan` first, then `architect` if structural                     |
+| Bug report or unexpected behavior                          | `debugging-and-error-recovery` skill, then `fixer` agent         |
+| Need to understand existing code                           | Dispatch `explorer` agent                                        |
+| Need deep reasoning on architecture                        | Dispatch `oracle` agent                                          |
+| Need multi-perspective review                              | Dispatch `council` agent                                         |
+| Need to coordinate multi-agent task                        | Tab to `orchestrator` agent (primary), dispatch parallel tasks   |
+| Need UI/frontend design work                               | Dispatch `designer` agent                                        |
+| Need to monitor background tasks                           | Dispatch `observer` agent                                        |
+| Need to look up library docs                               | `context7` MCP or `librarian` agent                              |
+| Need current web info                                      | `tavily` MCP (search) or `fetch` MCP (single URL)                |
+| Need to review code before merge                           | `reviewer` or `code-reviewer`                                    |
+| Need to run tests                                          | `tester` agent or `/test` command                                |
+| Need test strategy or coverage analysis                    | `test-engineer` agent                                            |
+| Need to check security issues                              | `security-auditor` agent                                         |
+| Need to audit web performance                              | `web-perf-auditor` agent                                         |
+| Need to research tools/approaches                          | `last30days` skill                                               |
 | Need code-graph queries (find code, trace calls, repo map) | `graft` MCP (graft_find_code, graft_trace_calls, graft_repo_map) |
-| Need to read YouTube/RSS/V2EX/Bilibili    | `agent-reach` skill                                             |
-| Need a legacy image/slider captcha read   | `ddddocr` MCP (browser-use captcha ladder)                      |
-| Need a bulk site crawl                    | `crwl` (crawl4ai CLI)                                           |
-| Need a stealth fetch of a blocked page    | `obscura fetch <url>` (respects robots.txt)                     |
-| Need to interact with SaaS apps           | `composio` MCP                                                 |
-| Need database queries / schema management | `supabase` MCP                                                 |
-| Need to debug production errors           | `sentry` MCP                                                   |
-| Need GitHub actions (PRs, issues, files)  | `github` MCP                                                   |
-| Need to search 1M GitHub repos for code   | `grep` MCP                                                     |
-| Need to build GitHub Actions workflows    | `agentic-workflows` skill (gh-aw)                              |
-| Need GitHub stack workflow patterns       | `gh-stack` skill                                               |
-| Need Vercel project management            | `vercel` MCP (deploy, logs, domains, env vars)                 |
-| Need to deploy to Vercel                  | `vercel` MCP (deploy_to_vercel) + `deploy` skill               |
-| Need GitHub stack workflow patterns       | `gh-stack` skill                                               |
-| Context getting heavy                     | `/context` command (built-in)                                  |
-| Important decision made                   | Save to `memory` MCP                                           |
+| Need to read YouTube/RSS/V2EX/Bilibili                     | `agent-reach` skill                                              |
+| Need a legacy image/slider captcha read                    | `ddddocr` MCP (browser-use captcha ladder)                       |
+| Need a bulk site crawl                                     | `crwl` (crawl4ai CLI)                                            |
+| Need a stealth fetch of a blocked page                     | `obscura fetch <url>` (respects robots.txt)                      |
+| Need to interact with SaaS apps                            | `composio` MCP                                                   |
+| Need database queries / schema management                  | `supabase` MCP                                                   |
+| Need to debug production errors                            | `sentry` MCP                                                     |
+| Need GitHub actions (PRs, issues, files)                   | `github` MCP                                                     |
+| Need to search 1M GitHub repos for code                    | `grep` MCP                                                       |
+| Need to build GitHub Actions workflows                     | `agentic-workflows` skill (gh-aw)                                |
+| Need GitHub stack workflow patterns                        | `gh-stack` skill                                                 |
+| Need Vercel project management                             | `vercel` MCP (deploy, logs, domains, env vars)                   |
+| Need to deploy to Vercel                                   | `vercel` MCP (deploy_to_vercel) + `deploy` skill                 |
+| Need GitHub stack workflow patterns                        | `gh-stack` skill                                                 |
+| Context getting heavy                                      | `/context` command (built-in)                                    |
+| Important decision made                                    | Save to `memory` MCP                                             |
 
 ## Quality standards — definition of done
 
@@ -332,7 +332,7 @@ If any step fails, fix it before declaring done. Never claim success without evi
 | `github`              | GitHub actions: PRs, issues, files, branches, actions | MCP tool (local binary, PAT) |
 | `vercel`              | Deploy projects, logs, domains, env vars, agent runs  | MCP tool (remote, OAuth)     |
 | `vision-tool`         | Analyze pasted images via Gemini vision backend       | MCP tool (local, vendored)   |
-| `graft`              | Code-graph queries before exploring unfamiliar repos  | MCP tool                     |
+| `graft`               | Code-graph queries before exploring unfamiliar repos  | MCP tool                     |
 | `ddddocr`             | Legacy image/slider captchas (browser-use ladder)     | MCP tool                     |
 | LSP                   | Before code changes (types, defs, refs)               | Built-in `lsp` tool          |
 | Prettier              | Auto-formats TS/JS/CSS/HTML/JSON/MD/YAML              | Built-in formatter           |
@@ -372,23 +372,25 @@ Deep-reference docs are organized under `docs/`. Read on demand.
 
 ### Architecture Decision Records (`docs/adrs/`)
 
-| ADR     | Date       | Decision                                  |
-| ------- | ---------- | ----------------------------------------- |
-| ADR-001 | 2026-07-27 | Subagent migration to hcnsec/Kimi-K2.6    |
-| ADR-002 | 2026-07-28 | Compaction V1 sane-max tuning             |
-| ADR-003 | 2026-07-31 | vision-tool MCP addition                  |
-| ADR-004 | 2026-07-31 | Remove addy- prefix from agent names      |
-| ADR-005 | 2026-07-31 | TokenRouter Tier-3 experimental provider  |
-| ADR-006 | 2026-08-01 | Fetch MCP `--with mcp<2` pin (SSRF fix)   |
-| ADR-007 | virtual    | 2026-08-02 v1.18.11 post-snapshot item 12 |
-| ADR-008 | 2026-08-14 | Browser-use stealth browsing (camoufox + patchright) |
+| ADR     | Date       | Decision                                                                                             |
+| ------- | ---------- | ---------------------------------------------------------------------------------------------------- |
+| ADR-001 | 2026-07-27 | Subagent migration to hcnsec/Kimi-K2.6                                                               |
+| ADR-002 | 2026-07-28 | Compaction V1 sane-max tuning                                                                        |
+| ADR-003 | 2026-07-31 | vision-tool MCP addition                                                                             |
+| ADR-004 | 2026-07-31 | Remove addy- prefix from agent names                                                                 |
+| ADR-005 | 2026-07-31 | TokenRouter Tier-3 experimental provider                                                             |
+| ADR-006 | 2026-08-01 | Fetch MCP `--with mcp<2` pin (SSRF fix)                                                              |
+| ADR-007 | virtual    | 2026-08-02 v1.18.11 post-snapshot item 12                                                            |
+| ADR-008 | 2026-08-14 | Browser-use stealth browsing (camoufox + patchright)                                                 |
 | ADR-009 | 2026-08-29 | Agent capabilities expansion (graft MCP, humanizer, planning-with-files, crwl, obscura, agent-reach) |
+| ADR-010 | 2026-09-03 | Backup-workspace allowlist + deny-check + branch-from-main (incident-driven hardening)               |
 
 ### Operational history (`docs/operational-history/`)
 
 - **POST-INSTALL-NOTE-2026-07-27-subagents.md** — subagent migration to Kimi K2.6
 - **POST-INSTALL-NOTE-2026-07-27-vision-default.md** — Gemini 3.5-flash-lite default model + hot-swap runbook
 - **POST-INSTALL-NOTE-2026-08-02-v1.18.11-upgrade.md** — v1.18.11 upgrade + 2-task parallel test + regression table removed
+- **POST-CLEANUP-NOTE-2026-09-03-workspace-depollution.md** — Aug 2026 pollution recovery (48 files relocated to `Projects/tmg/hermes/leftovers/`) + backup program hardening (PR #34). See `Projects/tmg/hermes/leftovers/_manifest.txt` for the SHA-256 receipt of preserved files.
 - **FINAL-VERIFICATION-REPORT-vision-tool-2026-07-27.md** — 8-layer vision-tool verification results
 
 ### Architecture deep-dives (`docs/architecture/`)
