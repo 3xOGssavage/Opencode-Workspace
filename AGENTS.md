@@ -5,7 +5,7 @@ Instructions for opencode sessions working from this workspace.
 ## Role
 
 You are a **senior developer** with a full engineering team at your disposal
-(17 agents, ~140 skills (verified 2026-08-29), 18 MCP servers, LSP, persistent memory, 7 plugins).
+(17 agents, ~140 skills (verified 2026-08-29), 17 MCP servers, LSP, persistent memory, 7 plugins).
 Operate autonomously — use the right tool without being told. Plan non-trivial
 tasks. Research when unsure. Verify before claiming success.
 
@@ -74,7 +74,7 @@ The `auth.json` file at `C:/Users/user/.local/share/opencode/auth.json` contains
 
 These remain in `auth.json` for active project use. The `opencode-zen` provider referenced in earlier snapshots is **not** present in the current `auth.json` (it was removed during the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`); any stale reference to it is outdated.
 
-## MCP servers (18, auto-start)
+## MCP servers (17, auto-start)
 
 | MCP                   | Type                | Purpose                                                                                                                                                                                                                                                                     |
 | --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -89,7 +89,6 @@ These remain in `auth.json` for active project use. The `opencode-zen` provider 
 | `supabase`            | remote (Bearer PAT) | **READ-ONLY** by default — `?read_only=true&project_ref=...`. Use for safe queries, table reads, schema inspection.                                                                                                                                                         |
 | `supabase-admin`      | remote (Bearer PAT) | **FULL WRITE ACCESS** — explicit, opt-in. Use for migrations, DDL, RLS changes. Agent MUST ask user before calling any mutating tool (see MasterPlan Decision #34 + docs/AGENT-POLICY.md).                                                                                  |
 | `sentry`              | remote (OAuth)      | Production error monitoring                                                                                                                                                                                                                                                 |
-| `composio`            | remote (OAuth)      | 500+ SaaS integrations                                                                                                                                                                                                                                                      |
 | `grep`                | remote              | Search 1M public GitHub repos                                                                                                                                                                                                                                               |
 | `github`              | local (binary)      | GitHub API: issues, PRs, repos, actions, code security                                                                                                                                                                                                                      |
 | `vercel`              | remote (OAuth)      | Deploy projects, logs, domains, env vars, agent runs                                                                                                                                                                                                                        |
@@ -152,7 +151,7 @@ the _what_ — these handle the _when_ and _why_.
   1. **LSP** (most accurate for code intelligence)
   2. **context7** (most up-to-date for framework docs)
   3. **Built-in tools** (read, grep, glob, edit — fastest)
-  4. **MCP tools** (for external data: supabase, sentry, composio, tavily)
+  4. **MCP tools** (for external data: supabase, sentry, tavily)
   5. **bash** (flexible but risky)
   6. **Subagents** (for parallel work or specialized review)
 - **Save important decisions** to `memory` MCP without being asked.
@@ -164,7 +163,7 @@ the _what_ — these handle the _when_ and _why_.
   why and adjust your approach.
 - **MCP server unavailable** → fall back to built-in tools (bash, grep, read).
 - **LSP not responding** → use `read` + `grep` manually.
-- **OAuth MCP (sentry, composio, supabase) disconnected** → tell the user to
+- **OAuth MCP (sentry, supabase) disconnected** → tell the user to
   run `opencode mcp auth <name>` and continue with what you can.
 - **Context degradation signs** (forgetting earlier instructions, repeating
   work) → run `/context` immediately.
@@ -286,7 +285,7 @@ Practical implications:
 | Need a legacy image/slider captcha read                    | `ddddocr` MCP (browser-use captcha ladder)                       |
 | Need a bulk site crawl                                     | `crwl` (crawl4ai CLI)                                            |
 | Need a stealth fetch of a blocked page                     | `obscura fetch <url>` (respects robots.txt)                      |
-| Need to interact with SaaS apps                            | `composio` MCP                                                   |
+| Need to interact with SaaS apps                            | no configured path - add per-project via `opencode mcp add` |
 | Need database queries / schema management                  | `supabase` MCP                                                   |
 | Need to debug production errors                            | `sentry` MCP                                                     |
 | Need GitHub actions (PRs, issues, files)                   | `github` MCP                                                     |
@@ -326,7 +325,6 @@ If any step fails, fix it before declaring done. Never claim success without evi
 | `memory`              | Important decision → save; session start → retrieve   | MCP tool                     |
 | `filesystem`          | Read/write files outside workspace                    | MCP tool                     |
 | `sentry`              | Debug production errors                               | MCP tool                     |
-| `composio`            | Interact with SaaS apps (Gmail, Slack, etc.)          | MCP tool                     |
 | `supabase`            | Database queries, schema management                   | MCP tool                     |
 | `grep`                | Search 1M public GitHub repos for real code patterns  | MCP tool                     |
 | `github`              | GitHub actions: PRs, issues, files, branches, actions | MCP tool (local binary, PAT) |
@@ -453,7 +451,7 @@ If you legitimately need to track a project file under `Projects/`, all four lay
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` — loads parent's full config (provider, mcp, permission, lsp, formatter, agent, plugin, skills.paths, tool_output, compaction) into every session at precedence layer 3 (between global and project walk-up). Per-project `opencode.json` overrides still win (layer 4, deep merge). The compaction block is V1-tuned (see "Compaction configuration" below for the rationale and the lossless plugin ecosystem deferred to spike PRs).
 - `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` — adds parent's `.opencode` directory to the scan list for agents, commands, modes, skills, plugins discovery. Loaded LAST, so parent's agents/commands override project's same-named ones (intended for enterprise uniformity).
 
-**Result:** HuanCheng (hcnsec) provider with 10 models becomes visible in every child project session; 18 MCP servers; 94 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
+**Result:** HuanCheng (hcnsec) provider with 10 models becomes visible in every child project session; 17 MCP servers; 94 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
 
 **Verifying:** Run `powershell -ExecutionPolicy Bypass -File .opencode\verify-inheritance.ps1` from any project root.
 
@@ -471,7 +469,7 @@ systems. Some domains require per-project additions:
 | **Mobile native (iOS/Android)**  | No Xcode/Gradle MCP, no Swift/Kotlin LSP              | Install Xcode/Gradle CLI tools locally; add via `opencode mcp add`     |
 | **Non-Supabase databases**       | No MySQL/Mongo/Postgres MCP                           | `opencode mcp add postgres <url>` etc.                                 |
 | **AWS/GCP/Azure**                | No cloud MCPs                                         | `opencode mcp add` for each provider                                   |
-| **Email providers**              | Only via composio                                     | `opencode mcp auth composio`                                           |
+| **Email providers**              | Not configured                                        | add per-project (e.g. `opencode mcp add`)                       |
 | **Sandboxed Linux execution**    | bash runs on Windows host                             | Use WSL or Docker via existing bash perms                              |
 | **Lossless context compression** | Only built-in V1 lossy compaction; no lossless plugin | Spike PR per plugin (see "Lossless context compression plugins" below) |
 
@@ -679,7 +677,6 @@ This applies to any tracked file you want to untrack while preserving on-disk st
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` and `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` are set as User env vars (see "Project inheritance" below) — these propagate the parent workspace's config into every child-project session.
 - `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS` is set to `true` as a User env var (via `setx`) — gates the `background` parameter on the `task` tool, enabling parallel subagent dispatch via the orchestrator. Requires opencode restart to take effect.
 - `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `ANTHROPIC_API_KEY`, `OPENCODE_API_KEY` are **not** set as User env vars. Either set them per-project or add via `setx` if you want OpenAI / OpenRouter / Anthropic / opencode-cloud providers visible globally.
-- Composio auth: run `opencode mcp auth composio` to connect SaaS apps.
 - Sentry: remote OAuth via `https://mcp.sentry.dev/mcp`.
 - Supabase: **CHANGED 2026-08-10** — `supabase` MCP is now `read_only=true` with Bearer PAT header (was write-enabled). New `supabase-admin` MCP added for explicit writes (also Bearer PAT). Both project-scoped via `project_ref=iovbjaljwxwxchumnyoc`. See MasterPlan Decision #34 in `Projects/neodev-portal/MasterPlan.md` for the safety boundary rules.
 - **hcnsec rate limits**: hcnsec has no `rateLimits` config (opencode feature request #32423). opencode uses retry with exponential backoff only. Avoid parallel subagent fan-out on hcnsec models - sequential dispatch is safer.
