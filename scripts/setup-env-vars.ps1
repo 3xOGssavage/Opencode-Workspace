@@ -104,8 +104,7 @@ Write-Host "     SENTRY_AUTH_TOKEN                => sentry.io"
 Write-Host "     GITHUB_PERSONAL_ACCESS_TOKEN     => github.com/settings/tokens (repo scope)"
 Write-Host "     Use: setx VARNAME 'value' (User scope, persists across restarts)"
 Write-Host ""
-Write-Host "  B. Re-auth 4 OAuth MCP servers:" -ForegroundColor White
-Write-Host "     opencode mcp auth composio"
+Write-Host "  B. Re-auth 3 OAuth MCP servers:" -ForegroundColor White
 Write-Host "     opencode mcp auth sentry"
 Write-Host "     opencode mcp auth supabase"
 Write-Host "     opencode mcp auth vercel"

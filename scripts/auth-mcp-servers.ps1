@@ -1,5 +1,5 @@
 # auth-mcp-servers.ps1
-# Sequentially invoke `opencode mcp auth <name>` for the 4 OAuth MCPs.
+# Sequentially invoke `opencode mcp auth <name>` for the 3 OAuth MCPs.
 # Interactive (opens browser). Cross-platform (opencode CLI cross-plat).
 # Accepts -Skip <list> (comma-separated MCP names to skip).
 #
@@ -14,7 +14,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$mcpServers = @('composio', 'sentry', 'supabase', 'vercel')
+$mcpServers = @('sentry', 'supabase', 'vercel')
 $skipList = if ($Skip) { $Skip -split ',' | ForEach-Object { $_.Trim().ToLower() } } else { @() }
 
 Write-Host "===========================================" -ForegroundColor Cyan

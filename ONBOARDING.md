@@ -28,7 +28,7 @@ pwsh scripts/clone-vendored-skill-packs.ps1
 # Step 6: Set the 7 API keys (interactive, redacted input)
 pwsh scripts/set-secrets.ps1
 
-# Step 7: Authenticate the 4 OAuth MCP servers (browser opens, one at a time)
+# Step 7: Authenticate the 3 OAuth MCP servers (browser opens, one at a time)
 pwsh scripts/auth-mcp-servers.ps1
 
 # Step 8: Restore auth.json to ~/.local/share/opencode/auth.json
@@ -71,7 +71,7 @@ overrides you may need:
 ## What's NOT restored by automation (manual — by design)
 
 - `~/.local/share/opencode/auth.json` — 4 provider keys (see Step 8)
-- `~/.local/share/opencode/mcp-auth.json` — 4 OAuth MCP tokens (Step 7 generates this)
+- `~/.local/share/opencode/mcp-auth.json` — 3 OAuth MCP tokens (Step 7 generates this)
 - `.opencode/memory.jsonl` — knowledge graph is per-user, gitignored; users
   accumulate their own memories
 - `.opencode/backups/` — historical snapshots, workspace-only

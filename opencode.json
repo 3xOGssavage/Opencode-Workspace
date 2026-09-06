@@ -625,11 +625,6 @@
       "url": "https://mcp.sentry.dev/mcp",
       "enabled": true
     },
-    "composio": {
-      "type": "remote",
-      "url": "https://connect.composio.dev/mcp",
-      "enabled": true
-    },
     "supabase": {
       "type": "remote",
       "url": "https://mcp.supabase.com/mcp?project_ref=iovbjaljwxwxchumnyoc&read_only=true&features=database,docs",

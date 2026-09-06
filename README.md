@@ -1,6 +1,6 @@
 # Opencode-Workspace
 
-Enterprise opencode workspace backup — 17 agents, 18 MCPs, ~140 skills (verified 2026-08-29), parallel subagent dispatch. Snapshot dated 2026-08-02. See `AGENTS.md` for the operating manual.
+Enterprise opencode workspace backup — 17 agents, 17 MCPs, ~140 skills (verified 2026-08-29), parallel subagent dispatch. Snapshot dated 2026-08-02. See `AGENTS.md` for the operating manual.
 
 ---
 
@@ -19,7 +19,7 @@ For disaster recovery / backup scenarios, keep reading below.
 | `AGENTS.md`                                          | Operating manual (auto-loaded by opencode every session)                                                                   |
 | `docs/architecture/VISION-TOOL-MCP-DOCUMENTATION.md` | Reference doc for the vision-tool MCP                                                                                      |
 | `skills-lock.json`                                   | Integrity hashes for 4 Vercel skills                                                                                       |
-| `opencode.json`                                      | Main workspace config (17 agents, 18 MCPs, 94 bash perms, 2 LSPs, compaction, formatter)                                   |
+| `opencode.json`                                      | Main workspace config (17 agents, 17 MCPs, 94 bash perms, 2 LSPs, compaction, formatter)                                   |
 | `.opencode/agents/`                                  | 7 custom agent definitions (architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) |
 | `.opencode/commands/`                                | 6 command definitions (/ship, /verify, /test, /commit, /context, /codemap)                                                 |
 | `.opencode/skills/`                                  | 5 workspace skills (enterprise-pipeline, playwright-best-practices, agent-reach, redact-output, structured-log)            |
@@ -50,7 +50,7 @@ For disaster recovery / backup scenarios, keep reading below.
 | `.agents/`                                                                                            | Recreated by `npx skills add vercel-deploy-claude-code-plugin`.           |
 | `*.bak`, `*.zip`, `*.db*`                                                                             | OS cruft, backups, chat history DB.                                       |
 | `~/.local/share/opencode/auth.json`                                                                   | 4 provider API keys — SECRET. Set up manually on new machine.             |
-| `~/.local/share/opencode/mcp-auth.json`                                                               | 4 OAuth MCP tokens — SECRET. Re-auth via `opencode mcp auth <name>`.      |
+| `~/.local/share/opencode/mcp-auth.json`                                                               | 3 OAuth MCP tokens — SECRET. Re-auth via `opencode mcp auth <name>`.      |
 | `~/.local/share/opencode/opencode.db` (1.43 GB)                                                       | Chat history — not portable.                                              |
 | `~/.cache/opencode/` (766 MB)                                                                         | Binaries + cached packages — auto-regenerated.                            |
 | `~/.agents/skills/` (58 skills)                                                                       | User-installed skills outside workspace — reinstall via `npx skills add`. |
@@ -120,10 +120,9 @@ If migrating to a new machine (different drive letters, no env vars, no auth):
    setx SUPABASE_ACCESS_TOKEN           "sbp_..."                   # supabase.com → account → access tokens
    ```
 
-4. **Re-auth 4 OAuth MCP servers** (interactive — opens browser):
+4. **Re-auth 3 OAuth MCP servers** (interactive — opens browser):
 
    ```
-   opencode mcp auth composio
    opencode mcp auth sentry
    opencode mcp auth supabase
    opencode mcp auth vercel
@@ -276,7 +275,7 @@ When you need to recreate secrets, this table shows each credential's source, sh
 **Secrets never in repo (manual USB attachment):**
 
 - `%USERPROFILE%\.local\share\opencode\auth.json` (468 B, 4 provider keys)
-- `%USERPROFILE%\.local\share\opencode\mcp-auth.json` (2.4 KB, 4 OAuth tokens)
+- `%USERPROFILE%\.local\share\opencode\mcp-auth.json` (3 OAuth tokens)
 - Copy both files to an offline USB stick / password-manager attachment after a fresh OAuth re-auth. These are NOT touched by any script in this repo (by design — keeping secrets out of git).
 
 **Projects/ subdirectories** manage their own backups (each project has its own repo). See each project's README if you need to back those up.
@@ -299,7 +298,7 @@ Untested backups are assumptions, not controls. Following the CISA / NIST SP 800
 
 ### Known issue: mcp-auth.json corruption (opencode issue #29804) — FIXED in v1.18.8+
 
-opencode had a bug where every OAuth token refresh appended an extra `}` to `mcp-auth.json`, eventually producing invalid JSON and breaking **all 4 remote MCP servers** (sentry, composio, supabase, vercel). Symptom: `SSE error: Unexpected non-whitespace character after JSON at position N`.
+opencode had a bug where every OAuth token refresh appended an extra `}` to `mcp-auth.json`, eventually producing invalid JSON and breaking **all 4 remote MCP servers** (sentry, composio, supabase, vercel) - composio removed 2026-09-06, now 3. Symptom: `SSE error: Unexpected non-whitespace character after JSON at position N`.
 
 **Status:** Closed as fixed in [#29852](https://github.com/anomalyco/opencode/pull/29852), shipped in opencode **v1.18.8+**. **You are unaffected on v1.18.11+.**
 
@@ -314,11 +313,10 @@ while ($true) { try { $c | ConvertFrom-Json | Out-Null; break } catch { $c = $c 
 $c | Set-Content $f -NoNewline
 ```
 
-**Clean fix** (re-authenticates all 4 OAuth flows — any version):
+**Clean fix** (re-authenticates all 3 OAuth flows — any version):
 
 ```
 opencode mcp auth sentry
-opencode mcp auth composio
 opencode mcp auth supabase
 opencode mcp auth vercel
 ```
@@ -432,7 +430,7 @@ To update this backup after future workspace changes:
 | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `git push` returns 403 / "Authentication failed"                  | The PAT in `GITHUB_PERSONAL_ACCESS_TOKEN` expired. Generate a new one at github.com/settings/tokens (repo scope), then `setx GITHUB_PERSONAL_ACCESS_TOKEN "ghp_..."` and restart your shell. |
 | opencode can't find skills / agents                               | Run `scripts\setup-env-vars.ps1` again. Confirm `OPENCODE_CONFIG` + `OPENCODE_CONFIG_DIR` env vars are set (`[Environment]::GetEnvironmentVariable('OPENCODE_CONFIG','User')`).              |
-| MCP servers show "disconnected"                                   | Run `opencode mcp auth <name>` for each: composio, sentry, supabase, vercel.                                                                                                                 |
+| MCP servers show "disconnected"                                   | Run `opencode mcp auth <name>` for each: sentry, supabase, vercel.                                                                                                                 |
 | `npm install` in `~/.config/opencode/` fails                      | Ensure Node 18+ is installed (`node --version`). Check network. Delete `node_modules\` + `package-lock.json` and retry.                                                                      |
 | Vision-tool MCP won't start                                       | Check `GEMINI_API_KEY` is set. Install Python deps (`pip install google-generativeai mcp`). See `VISION-TOOL-MCP-DOCUMENTATION.md`.                                                          |
 | Paths in opencode.json point to `F:\CD\Opencode` on a new machine | Re-run `scripts\setup-env-vars.ps1` — it regex-replaces the old path with the current clone path.                                                                                            |
@@ -482,7 +480,6 @@ After cloning the repo and running `scripts\setup-env-vars.ps1`:
 2. **`mcp-auth.json`** at the same path — re-auth each OAuth MCP:
    ```
    opencode mcp auth sentry
-   opencode mcp auth composio
    opencode mcp auth supabase
    opencode mcp auth vercel
    ```
