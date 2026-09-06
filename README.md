@@ -466,7 +466,7 @@ This section appends on top of the v6 init (the rest of this README). v7 adds:
 | ------------------------------------ | -------------------------------------- | --------------------------------------------------------------------------------- |
 | `opencode.db` (1.43 GB chat history) | Runtime state, not portable            | Fresh one created on first opencode run                                           |
 | `auth.json` (4 provider API keys)    | Secrets — never committed              | Re-issue from each provider (hcnsec, opencode-go, nvidia, google)                 |
-| `mcp-auth.json` (4 OAuth tokens)     | Secrets — never committed              | `opencode mcp auth sentry\|composio\|supabase\|vercel`                            |
+| `mcp-auth.json` (3 OAuth tokens)     | Secrets — never committed              | `opencode mcp auth sentry\|supabase\|vercel`                            |
 | 7 User API-key env vars              | Secrets — never committed              | `setx HCNSEC_API_KEY ...`, etc. (see "Secrets setup" below)                       |
 | `smoke-test`, `website` projects     | Disposable sandboxes (per user choice) | Recreatable from the opencode enterprise setup                                    |
 | `~/.cache/opencode/` (776 MB)        | Auto-regenerated                       | Run opencode; cache rebuilds itself                                               |
