@@ -2,8 +2,8 @@
 <#
 .SYNOPSIS
   Creates a git bundle of the entire workspace on D:\Backups\ for offline/air-gapped
-  backup. Intended to be invoked as the 2nd action of "Opencode monthly backup"
-  scheduled task (after scripts\backup-workspace.ps1 pushes to GitHub).
+  backup. Invoked by scripts\backup-task-runner.ps1 (the single scheduled-task
+  action) after scripts\backup-workspace.ps1 pushes to GitHub.
 
 .DESCRIPTION
   - Runs `git bundle create <bundle> --all` from the workspace root.
