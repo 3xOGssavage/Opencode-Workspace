@@ -382,6 +382,7 @@ Deep-reference docs are organized under `docs/`. Read on demand.
 | ADR-008 | 2026-08-14 | Browser-use stealth browsing (camoufox + patchright)                                                 |
 | ADR-009 | 2026-08-29 | Agent capabilities expansion (graft MCP, humanizer, planning-with-files, crwl, obscura, agent-reach) |
 | ADR-010 | 2026-09-03 | Backup-workspace allowlist + deny-check + branch-from-main (incident-driven hardening)               |
+| ADR-011 | 2026-09-07 | Backup loud-failure hardening (wrapper + diary + schedule scan + Sunday lineup)                      |
 
 ### Operational history (`docs/operational-history/`)
 
@@ -390,6 +391,7 @@ Deep-reference docs are organized under `docs/`. Read on demand.
 - **POST-INSTALL-NOTE-2026-08-02-v1.18.11-upgrade.md** — v1.18.11 upgrade + 2-task parallel test + regression table removed
 - **POST-CLEANUP-NOTE-2026-09-03-workspace-depollution.md** — Aug 2026 pollution recovery (48 files relocated to `Projects/tmg/hermes/leftovers/`) + backup program hardening (PR #34). See `Projects/tmg/hermes/leftovers/_manifest.txt` for the SHA-256 receipt of preserved files.
 - **FINAL-VERIFICATION-REPORT-vision-tool-2026-07-27.md** — 8-layer vision-tool verification results
+- **Sep-06/07 backup lessons** — silent push failure (exit-code masking) + fake -DryRun went live; both contained, see ADR-011.
 
 ### Architecture deep-dives (`docs/architecture/`)
 

@@ -286,13 +286,13 @@ When you need to recreate secrets, this table shows each credential's source, sh
 
 Untested backups are assumptions, not controls. Following the CISA / NIST SP 800-34 cadence scaled for a personal Tier-2 setup:
 
-| Frequency          | What to run                                                                                                                                                                                                         | What success looks like                                                                                                                                                                                                                                                                                                             |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Initial (one-time) | After merging PR #10, run `powershell -ExecutionPolicy Bypass -File scripts\backup-bundle.ps1` manually once (use `pwsh` if PS 7+ is installed).                                                                    | Event Viewer → **"Windows PowerShell" log** → filter EventId=102 (bundle success). `opencode-<today>.bundle` exists in `D:\Backups\`. (The `'Windows PowerShell'` source is wired to the dedicated log of the same name, not the Application log on stock Win10/11.)                                                                |
-| Weekly (automatic) | scheduled task runs `backup-workspace.ps1` (push, EventId=100/101) + `backup-bundle.ps1` (bundle to D:\Backups\, EventId=102/103)                                                                                   | **"Windows PowerShell" log** shows EventId=100 (push OK) and EventId=102 (bundle OK). New `opencode-YYYY-MMDD.bundle` exists in D:\Backups\. On failure: EventId=101 (push) or EventId=103 (bundle). (On stock Win10/11 the `'Windows PowerShell'` event source writes to the dedicated `Windows PowerShell` log, not Application.) |
-| Monthly            | `git bundle verify D:\Backups\opencode-<latest>.bundle`                                                                                                                                                             | Prints "OK" (or "The bundle contains 73 refs"). Confirms integrity without unpacking.                                                                                                                                                                                                                                               |
-| Quarterly          | Spot-restore 3 one-liners (no script): `git clone D:\Backups\opencode-<latest>.bundle $env:TEMP\oc-restore` then `Test-Path $env:TEMP\oc-restore\AGENTS.md` then `Remove-Item $env:TEMP\oc-restore -Recurse -Force` | Second command prints `True`. Workspace restores from bundle cleanly.                                                                                                                                                                                                                                                               |
-| Annually           | Full fresh-dir drill: clone the latest bundle to a new directory, start opencode there, confirm MCP servers + agents load. Then delete the drill clone.                                                             | opencode boots, MCP servers connect, agents appear in `/agents`.                                                                                                                                                                                                                                                                    |
+| Frequency          | What to run                                                                                                                                                                                                                            | What success looks like                                                                                                                                                                                                                                                                                                                     |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Initial (one-time) | After merging PR #10, run `powershell -ExecutionPolicy Bypass -File scripts\backup-bundle.ps1` manually once (use `pwsh` if PS 7+ is installed).                                                                                       | Event Viewer → **"Windows PowerShell" log** → filter EventId=102 (bundle success). `opencode-<today>.bundle` exists in `D:\Backups\`. (The `'Windows PowerShell'` source is wired to the dedicated log of the same name, not the Application log on stock Win10/11.)                                                                        |
+| Weekly (automatic) | scheduled task runs `backup-task-runner.ps1`, which chains `backup-workspace.ps1` (push, EventId=100/101) then `backup-bundle.ps1` (bundle to D:\Backups\, EventId=102/103) and exits with the worse code (EventId=104 on any failure) | **"Windows PowerShell" log** shows EventId=100 (push OK) and EventId=102 (bundle OK). New `opencode-YYYY-MMDD.bundle` exists in D:\Backups\. On failure: EventId=101 (push), 103 (bundle), or 104 (wrapper). (On stock Win10/11 the `'Windows PowerShell'` event source writes to the dedicated `Windows PowerShell` log, not Application.) |
+| Monthly            | `git bundle verify D:\Backups\opencode-<latest>.bundle`                                                                                                                                                                                | Prints "OK" (or "The bundle contains 73 refs"). Confirms integrity without unpacking.                                                                                                                                                                                                                                                       |
+| Quarterly          | Spot-restore 3 one-liners (no script): `git clone D:\Backups\opencode-<latest>.bundle $env:TEMP\oc-restore` then `Test-Path $env:TEMP\oc-restore\AGENTS.md` then `Remove-Item $env:TEMP\oc-restore -Recurse -Force`                    | Second command prints `True`. Workspace restores from bundle cleanly.                                                                                                                                                                                                                                                                       |
+| Annually           | Full fresh-dir drill: clone the latest bundle to a new directory, start opencode there, confirm MCP servers + agents load. Then delete the drill clone.                                                                                | opencode boots, MCP servers connect, agents appear in `/agents`.                                                                                                                                                                                                                                                                            |
 
 ---
 
@@ -430,7 +430,7 @@ To update this backup after future workspace changes:
 | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `git push` returns 403 / "Authentication failed"                  | The PAT in `GITHUB_PERSONAL_ACCESS_TOKEN` expired. Generate a new one at github.com/settings/tokens (repo scope), then `setx GITHUB_PERSONAL_ACCESS_TOKEN "ghp_..."` and restart your shell. |
 | opencode can't find skills / agents                               | Run `scripts\setup-env-vars.ps1` again. Confirm `OPENCODE_CONFIG` + `OPENCODE_CONFIG_DIR` env vars are set (`[Environment]::GetEnvironmentVariable('OPENCODE_CONFIG','User')`).              |
-| MCP servers show "disconnected"                                   | Run `opencode mcp auth <name>` for each: sentry, supabase, vercel.                                                                                                                 |
+| MCP servers show "disconnected"                                   | Run `opencode mcp auth <name>` for each: sentry, supabase, vercel.                                                                                                                           |
 | `npm install` in `~/.config/opencode/` fails                      | Ensure Node 18+ is installed (`node --version`). Check network. Delete `node_modules\` + `package-lock.json` and retry.                                                                      |
 | Vision-tool MCP won't start                                       | Check `GEMINI_API_KEY` is set. Install Python deps (`pip install google-generativeai mcp`). See `VISION-TOOL-MCP-DOCUMENTATION.md`.                                                          |
 | Paths in opencode.json point to `F:\CD\Opencode` on a new machine | Re-run `scripts\setup-env-vars.ps1` — it regex-replaces the old path with the current clone path.                                                                                            |
@@ -466,7 +466,7 @@ This section appends on top of the v6 init (the rest of this README). v7 adds:
 | ------------------------------------ | -------------------------------------- | --------------------------------------------------------------------------------- |
 | `opencode.db` (1.43 GB chat history) | Runtime state, not portable            | Fresh one created on first opencode run                                           |
 | `auth.json` (4 provider API keys)    | Secrets — never committed              | Re-issue from each provider (hcnsec, opencode-go, nvidia, google)                 |
-| `mcp-auth.json` (3 OAuth tokens)     | Secrets — never committed              | `opencode mcp auth sentry\|supabase\|vercel`                            |
+| `mcp-auth.json` (3 OAuth tokens)     | Secrets — never committed              | `opencode mcp auth sentry\|supabase\|vercel`                                      |
 | 7 User API-key env vars              | Secrets — never committed              | `setx HCNSEC_API_KEY ...`, etc. (see "Secrets setup" below)                       |
 | `smoke-test`, `website` projects     | Disposable sandboxes (per user choice) | Recreatable from the opencode enterprise setup                                    |
 | `~/.cache/opencode/` (776 MB)        | Auto-regenerated                       | Run opencode; cache rebuilds itself                                               |
@@ -493,39 +493,39 @@ After cloning the repo and running `scripts\setup-env-vars.ps1`:
    ```
 4. **GitHub 2FA recovery codes** — restore `github-recovery-codes.txt` from your offline storage.
 
-### Monthly backup procedure (Task Scheduler)
+### Weekly backup procedure (Task Scheduler)
 
-- **Trigger:** first Sunday monthly, 14:00 local
-- **Action:** `pwsh -File F:\CD\Opencode\scripts\backup-workspace.ps1`
+- **Trigger:** Sundays 16:00 local (`WeeksInterval=1`)
+- **Action:** `pwsh -File F:\CD\Opencode\scripts\backup-task-runner.ps1` (single action; chains push then bundle, exits with the worse code)
 - **Settings:** "Run only when user is logged on" ✓, "Run task as soon as possible after a scheduled start is missed" ✓ (catches when the laptop is off — 10-min default delay before retry).
-- **Precondition:** working tree MUST be clean (script refuses otherwise).
-- **On failure:** check Event Viewer → **Windows Logs → "Windows PowerShell"** (not Application), filter EventId=`101` (push) / `103` (bundle). On stock Win10/11 the `'Windows PowerShell'` source is wired to the dedicated log of the same name, not the Application log. To query from PowerShell: `Get-WinEvent -LogName 'Windows PowerShell' | Where-Object { $_.Id -in 100,101,102,103 }`.
+- **Precondition:** working tree MUST be clean (script refuses otherwise). Avoid editing allowlisted files 16:00–16:05 while the snapshot runs.
+- **On failure:** check Event Viewer → **Windows Logs → "Windows PowerShell"** (not Application), filter EventId=`101` (push) / `103` (bundle) / `104` (wrapper). On stock Win10/11 the `'Windows PowerShell'` source is wired to the dedicated log of the same name, not the Application log. To query from PowerShell: `Get-WinEvent -LogName 'Windows PowerShell' | Where-Object { $_.Id -in 100,101,102,103,104 } }`.
 - **Success marker:** `scripts\.last-backup` (gitignored).
 
-> **Note on the task name:** the registered task is called `"Opencode monthly backup"` — this is a legacy name from the original setup script. It actually runs **WEEKLY** (Sundays 14:00, `WeeksInterval=1`), not monthly. The trigger's `WeeksInterval=1` defines the cadence; the task name is cosmetic and kept for backward compatibility with `fix-task-scheduler.ps1` and `setup-scheduled-backup.ps1`. Renaming would break those scripts ( ponytail: not worth the diff).
+> **Note on the task name:** the registered task is called `"Opencode monthly backup"` — this is a legacy name from the original setup script. It actually runs **WEEKLY** (Sundays 16:00, `WeeksInterval=1`), not monthly. The trigger's `WeeksInterval=1` defines the cadence; the task name is cosmetic and kept for backward compatibility with `fix-task-scheduler.ps1`. Renaming would break that script ( ponytail: not worth the diff).
 
-See `scripts\setup-scheduled-backup.ps1` (run once on a new machine to register the task) or register manually:
+Register manually (run once on a new machine):
 
 ```powershell
-$Action = New-ScheduledTaskAction -Execute "pwsh.exe" -Argument "-File F:\CD\Opencode\scripts\backup-workspace.ps1" -WorkingDirectory "F:\CD\Opencode"
-$Trigger = New-ScheduledTaskTrigger -Weekly -WeeksInterval 1 -DaysOfWeek Sunday -At 14:00
+$Action = New-ScheduledTaskAction -Execute "pwsh.exe" -Argument "-File F:\CD\Opencode\scripts\backup-task-runner.ps1" -WorkingDirectory "F:\CD\Opencode"
+$Trigger = New-ScheduledTaskTrigger -Weekly -WeeksInterval 1 -DaysOfWeek Sunday -At 16:00
 $Settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 30) -DontStopOnIdleEnd
 Register-ScheduledTask -Action $Action -Trigger $Trigger -Settings $Settings -TaskName "Opencode monthly backup" -RunLevel Limited
 ```
 
 #### Event source registration (one-time, admin required)
 
-On a fresh Windows install, the `"Windows PowerShell"` event source may not exist (so the best-effort `Write-EventLog` calls in `backup-workspace.ps1` and `backup-bundle.ps1` silently fall back to console output — backups still succeed, but no EventId 100/101/102/103 appears in Event Viewer). Register it **once** with admin privileges:
+On a fresh Windows install, the `"Windows PowerShell"` event source may not exist (so the best-effort `Write-EventLog` calls in `backup-workspace.ps1`, `backup-bundle.ps1`, and `backup-task-runner.ps1` silently fall back to console output — backups still succeed, but no EventId 100/101/102/103/104 appears in Event Viewer). Register it **once** with admin privileges:
 
 ```powershell
 # Run from an elevated PowerShell prompt (Run as Administrator):
 [System.Diagnostics.EventLog]::CreateEventSource('Windows PowerShell', 'Application')
 ```
 
-After registration, both scripts will write EventId 100/101 (push) and 102/103 (bundle) to the **`Windows PowerShell`** dedicated log (not the Application log — the source name is reserved for the PS engine on stock Win10/11 and routes to its own log). Query with:
+After registration, the scripts will write EventId 100/101 (push), 102/103 (bundle), and 104 (wrapper failure) to the **`Windows PowerShell`** dedicated log (not the Application log — the source name is reserved for the PS engine on stock Win10/11 and routes to its own log). Query with:
 
 ```powershell
-Get-WinEvent -LogName 'Windows PowerShell' | Where-Object { $_.Id -in 100,101,102,103 } | Select-Object TimeCreated, Id, Message
+Get-WinEvent -LogName 'Windows PowerShell' | Where-Object { $_.Id -in 100,101,102,103,104 } | Select-Object TimeCreated, Id, Message
 ```
 
 ### Refreshing `skills-snapshot.json` (after installing new skills)
