@@ -71,6 +71,96 @@ if ($DryRun -and $stateBak) {
     Remove-Item -LiteralPath $stateBak -Force
     Say 'DRYRUN: state.json restored'
 }
+# ---- phase 2b: pending newcomers (catalog minus config) -> probe -> selective insert
+# Spotless rule: only clean-200 probes get added. Quota-wall leftovers retry later.
+Say 'phase 2b: pending newcomers'
+$pendingH = @(); $pendingA = @(); $script:ahMeta = @{}
+try {
+    $liveH = (Get-Content -LiteralPath (Join-Path $od 'hcnsec-live-models.json') -Raw -Encoding UTF8 | ConvertFrom-Json).data
+    $cfgIds = @{}
+    $cfgAll = Get-Content -LiteralPath (Join-Path $root 'opencode.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+    foreach ($p in $cfgAll.provider.hcnsec.models.PSObject.Properties) { $cfgIds[$p.Name] = $true }
+    foreach ($m in $liveH) {
+        if ($m.id -and (-not $cfgIds.ContainsKey($m.id)) -and ($m.supported_endpoint_types -contains 'openai')) { $pendingH += [string]$m.id }
+    }
+} catch { Say ('  hcnsec pending compute failed') }
+try {
+    $ahk = [Environment]::GetEnvironmentVariable('AIHUBMIX_API_KEY', 'User')
+    $ph = @{ Authorization = ('Bearer ' + $ahk) }
+    $plaza = Invoke-RestMethod -Uri 'https://aihubmix.com/api/v1/models' -Headers $ph -TimeoutSec 60
+    $parr = if ($plaza -is [array]) { $plaza } else { $plaza.data }
+    $vl = Invoke-RestMethod -Uri 'https://aihubmix.com/v1/models' -Headers $ph -TimeoutSec 60
+    $vd = if ($vl -is [array]) { $vl } else { $vl.data }
+    $call = @{}; foreach ($m in $vd) { $call[$m.id] = $true }
+    $ahCfg = @{}
+    foreach ($p in $cfgAll.provider.aihubmix.models.PSObject.Properties) { $ahCfg[$p.Name] = $true }
+    # Mirror of sync-aihubmix-models.ps1 $exclude - keep in sync if that list changes.
+    $excl = @('gemini-3.1-flash-image-preview-free', 'gpt-image-2-free', 'ling-3.0-tiny-free', 'coding-glm-5-turbo-free', 'xiaomi-mimo-v2-omni-free', 'xiaomi-mimo-v2-pro-free', 'glm-5.2-free')
+    foreach ($m in $parr) {
+        if ($m.model_id -match '-free$' -and $m.context_length -gt 0 -and $call.ContainsKey($m.model_id) -and (-not $ahCfg.ContainsKey($m.model_id)) -and ($m.model_id -notin $excl)) {
+            $pendingA += [string]$m.model_id
+            $script:ahMeta[$m.model_id] = @{ ctx = [int]$m.context_length; out = [int]$m.max_output; name = [string]$m.model_name }
+        }
+    }
+} catch { Say ('  aihubmix pending compute failed') }
+Say ('  pending hcnsec(' + $pendingH.Count + '): ' + ($pendingH -join ', '))
+Say ('  pending aihubmix(' + $pendingA.Count + '): ' + ($pendingA -join ', '))
+$verifiedH = @(); $verifiedA = @(); $flaggedLimits = @()
+if ((($pendingH.Count + $pendingA.Count) -gt 0) -and (-not $DryRun)) {
+    $pargs = @(); foreach ($i in $pendingH) { $pargs += ('hcnsec:' + $i) }; foreach ($i in $pendingA) { $pargs += ('aihubmix:' + $i) }
+    & node (Join-Path $tools 'retry-queue.mjs') @pargs 2>&1 | Select-Object -Last 4 | ForEach-Object { Say ('  ' + $_) }
+    $rq = Get-Content -LiteralPath (Join-Path $od 'retry-queue.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+    foreach ($e in $rq) {
+        if ($e.probe.ok) { if ($e.provider -eq 'hcnsec') { $verifiedH += $e.id } else { $verifiedA += $e.id } }
+        else { Say ('  newcomer not spotless, skipped: ' + $e.provider + ':' + $e.id) }
+    }
+} elseif ($DryRun) { Say 'DRYRUN: newcomer probes skipped' }
+if ((($verifiedH.Count + $verifiedA.Count) -gt 0) -and $canMutate -and (-not $DryRun)) {
+    $wbak = Join-Path $root ('.opencode\backups\pre-weekly-' + $stamp)
+    New-Item -ItemType Directory -Path $wbak -Force | Out-Null
+    Copy-Item -LiteralPath (Join-Path $root 'opencode.json') -Destination (Join-Path $wbak 'opencode.json') -Force
+    Say ('  backup: ' + $wbak)
+    if ($verifiedH.Count -gt 0) {
+        & (Join-Path $root 'scripts\sync-hcnsec-models.ps1') -AllowIds $verifiedH 2>&1 | ForEach-Object { Say ('  ' + $_) }
+    }
+    foreach ($nid in $verifiedA) {
+        $meta = $script:ahMeta[$nid]
+        $octx = 128000; $oout = 8192
+        if ($meta) {
+            if ($meta.ctx -gt 0) { $octx = $meta.ctx }
+            if ($meta.out -gt 0) { $oout = $meta.out } else { $flaggedLimits += $nid }
+            $onm = $meta.name; if (-not $onm) { $onm = ($nid -replace '-', ' ') }
+        } else { $onm = ($nid -replace '-', ' '); $flaggedLimits += ($nid + ' (no catalog meta)') }
+        $enm = $onm -replace '\\', '\\' -replace '"', '\"'
+        $cfgT = Join-Path $root 'opencode.json'
+        $tx = [IO.File]::ReadAllText($cfgT, [Text.Encoding]::UTF8)
+        $aIdx = $tx.IndexOf('"aihubmix"'); $moIdx = $tx.IndexOf('"models"', $aIdx)
+        $keyPat = '(?m)^        "([^"]+)": \{\r?$'
+        $ms = [regex]::Matches($tx.Substring($moIdx), $keyPat)
+        $insAt = -1
+        foreach ($mm in $ms) {
+            if ([string]::Compare($nid, $mm.Groups[1].Value, $true) -lt 0) { $insAt = $moIdx + $mm.Index; break }
+        }
+        $block = '        "' + $nid + '": {' + "`n" + '          "limit": { "output": ' + $oout + ', "context": ' + $octx + ' },' + "`n" + '          "name": "' + $enm + '"' + "`n" + '        }'
+        if ($insAt -lt 0) {
+            $closePat = '(?m)^      \}\r?$'
+            $cm = [regex]::Matches($tx.Substring($moIdx), $closePat) | Select-Object -First 1
+            if ($null -eq $cm) { throw ('aihubmix block close not found for ' + $nid) }
+            $prevEnd = $moIdx + $cm.Index - 1
+            while ($prevEnd -gt 0 -and ($tx[$prevEnd] -eq "`n" -or $tx[$prevEnd] -eq "`r")) { $prevEnd-- }
+            if ($tx[$prevEnd] -ne '}') { throw ('unexpected block tail for ' + $nid) }
+            $tx = $tx.Substring(0, $prevEnd + 1) + ',' + "`n" + $block + $tx.Substring($moIdx + $cm.Index)
+        } else {
+            $tx = $tx.Substring(0, $insAt) + $block + ',' + "`n" + $tx.Substring($insAt)
+        }
+        [IO.File]::WriteAllText($cfgT, $tx, (New-Object Text.UTF8Encoding $false))
+        Say ('  inserted: aihubmix:' + $nid)
+    }
+    $chk2 = Get-Content -LiteralPath (Join-Path $root 'opencode.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+    if ($null -eq $chk2.provider) { throw 'post-insert validation failed, aborting (backup at pre-weekly dir)' }
+    Say '  inserts validated (JSON parses)'
+}
+if ($flaggedLimits.Count -gt 0) { Say ('  NEEDS-LIMITS review: ' + ($flaggedLimits -join ', ')) }
 $counts = @()
 foreach ($k in $sum.counts.PSObject.Properties) { $counts += ($k.Name + '=' + $k.Value) }
 Say ('verdicts: ' + ($counts -join ' '))
@@ -86,9 +176,15 @@ if ($canMutate -and (-not $DryRun) -and $sum.quarantineDue.Count -gt 0) {
         $prov = $id.Split(':')[0]; $mid = $id.Split(':')[1]
         $cfgNow = Get-Content -LiteralPath $cfgPath -Raw -Encoding UTF8 | ConvertFrom-Json
         $cur = $cfgNow.provider.$prov.models.$mid.name
-        if ($cur -match '\[DEAD') { continue }
+        if ($cur -match '\[DEAD') { Say ('  already tagged, skip: ' + $id); continue }
+        # Uniqueness assert: two entries share some display names (e.g. Minimax M3
+        # twice). A blind replace would mistag both, so non-unique names are
+        # skipped loudly for manual handling instead of guessed.
+        $needle = '"name": "' + $cur + '"'
+        $hits = ([regex]::Matches($txt, [regex]::Escape($needle))).Count
+        if ($hits -ne 1) { Say ('  SKIP non-unique name (' + $hits + 'x), needs human: ' + $id); continue }
         $new = $cur + ' [DEAD ' + $today + ']'
-        $txt = $txt.Replace('"name": "' + $cur + '"', '"name": "' + $new + '"')
+        $txt = $txt.Replace($needle, '"name": "' + $new + '"')
         Say ('  tagged: ' + $id)
     }
     [IO.File]::WriteAllText($cfgPath, $txt, (New-Object Text.UTF8Encoding $false))

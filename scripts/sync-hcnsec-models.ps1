@@ -5,10 +5,12 @@
 # true limits come from the probe error-disclosure pass (see model-verify harness).
 # Safety: byte backup before write + JSON validation after (restore on failure).
 #
-# Usage: powershell -ExecutionPolicy Bypass -File scripts\sync-hcnsec-models.ps1 [-WhatIf]
+# Usage: powershell -ExecutionPolicy Bypass -File scripts\sync-hcnsec-models.ps1 [-WhatIf] [-AllowIds id1,id2]
+#        -AllowIds restricts inserts to listed IDs (weekly auto-add passes only
+#        probe-verified newcomers; empty = all missing = manual full-sync behavior).
 #        (reads HCNSEC_API_KEY from User env var; throws if missing - automation-safe)
 
-param([switch]$WhatIf)
+param([switch]$WhatIf, [string[]]$AllowIds = @())
 $ErrorActionPreference = 'Stop'
 
 $apiKey = [Environment]::GetEnvironmentVariable('HCNSEC_API_KEY', 'User')
@@ -25,6 +27,7 @@ $arr = if ($cat -is [array]) { $cat } else { $cat.data }
 $missing = @($arr | Where-Object {
     $_.id -and (-not $have.ContainsKey($_.id)) -and ($_.supported_endpoint_types -contains 'openai')
 } | Sort-Object id)
+if ($AllowIds.Count -gt 0) { $missing = @($missing | Where-Object { $AllowIds -contains $_.id }) }
 
 Write-Host ("hcnsec catalog: {0} ids, {1} already configured, {2} small-new" -f $arr.Count, $have.Count, $missing.Count)
 foreach ($m in $missing) { Write-Host ("  NEW (needs probe): " + $m.id) }
