@@ -1,0 +1,54 @@
+[
+  {
+    "id": "DeepSeek-V4-Pro",
+    "provider": "hcnsec",
+    "probe": {
+      "error": "The operation was aborted due to timeout"
+    }
+  },
+  {
+    "id": "Kimi-K2.6",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 503,
+      "ok": false,
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Kimi-K2.6 under group auto (distributor) (request id: 202609091057507773891378268d9d6B6i06yCE)\",\"type\":\"new_api_error\"}}"
+    }
+  },
+  {
+    "id": "MiniMax-M3",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 503,
+      "ok": false,
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model MiniMax-M3 under group auto (distributor) (request id: 202609091057533928777998268d9d6xUpK0TUh)\",\"type\":\"new_api_error\"}}"
+    }
+  },
+  {
+    "id": "coding-glm-4.6-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090910575554678452310590439)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+    }
+  },
+  {
+    "id": "coding-glm-5.1-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090910581642224447441156458)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+    }
+  },
+  {
+    "id": "coding-glm-5.2-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 404,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: z-ai/glm-5.2 (tid: 2026090910583897587035474257810)\",\"type\":\"\",\"param\":\"\",\"code\":404}}"
+    }
+  }
+]

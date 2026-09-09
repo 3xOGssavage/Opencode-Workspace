@@ -13,17 +13,35 @@
       ]
     },
     {
+      "id": "DeepSeek-V4-Flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai",
+        "anthropic"
+      ]
+    },
+    {
       "id": "DeepSeek-V4-Pro",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
       "supported_endpoint_types": [
-        "openai",
-        "anthropic"
+        "openai"
       ]
     },
     {
-      "id": "glm-5.3-flash",
+      "id": "glm-4.5-air",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "zhipu",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "glm-5.2",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -33,7 +51,7 @@
       ]
     },
     {
-      "id": "longcat-2.0",
+      "id": "kat-coder-pro-v2.5",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -42,17 +60,27 @@
       ]
     },
     {
-      "id": "Qwen3.6-35B-A3B",
+      "id": "Kimi-K2.6",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "claude",
+      "owned_by": "openai",
       "supported_endpoint_types": [
         "openai",
         "anthropic"
       ]
     },
     {
-      "id": "sensenova-6.8-flash-lite",
+      "id": "MiniMax-M3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "Qwen3.8-27B",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -61,7 +89,7 @@
       ]
     },
     {
-      "id": "sensenova-u1.5-lite",
+      "id": "Qwen3.8-35B-A3B",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -70,12 +98,20 @@
       ]
     },
     {
-      "id": "spark-x2.5",
+      "id": "sensenova-6.7-flash-lite",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "claude",
+      "owned_by": "openai",
       "supported_endpoint_types": [
-        "anthropic",
+        "openai"
+      ]
+    },
+    {
+      "id": "sensenova-u1-fast",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
         "openai"
       ]
     },
@@ -83,10 +119,10 @@
       "id": "step-3.7-flash",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "claude",
+      "owned_by": "openai",
       "supported_endpoint_types": [
-        "anthropic",
-        "openai"
+        "openai",
+        "anthropic"
       ]
     },
     {

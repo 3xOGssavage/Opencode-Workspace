@@ -49,6 +49,11 @@ desktop.ini
 # Tavily rotator runtime state (cooldowns + dead marks, key suffixes only)
 /.opencode/tavily-state.json
 
+# Weekly model-audit runtime state (per-model status/bad-week counters).
+# Local-only like memory.jsonl; Sunday backups snapshot it. Fail-open by design:
+# a fresh clone re-probes from scratch (problem week, never false quarantine).
+/.opencode/tools/model-verify/state.json
+
 # Browser-use stack (ADR-008)
 /.opencode/browser_use/.venv/
 /.opencode/browser_use/profiles/

@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "id": "moonshotai/kimi-k3-free",
+      "object": "model",
+      "created": 1784683878,
+      "owned_by": "custom",
+      "supported_endpoint_types": [],
+      "tags": ""
+    },
+    {
+      "id": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+      "object": "model",
+      "created": 1777427216,
+      "owned_by": "custom",
+      "supported_endpoint_types": [
+        "openai"
+      ],
+      "tags": "Text"
+    }
+  ],
+  "object": "list",
+  "success": true
+}

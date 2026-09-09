@@ -168,10 +168,11 @@ async function probeOpencodeGo(){
   // probe each
   const hcnsecModels = Object.keys(cfg.provider.hcnsec.models);
   const ahModels = Object.keys(cfg.provider.aihubmix.models);
-  const trModels = Object.keys(cfg.provider.tokenrouter.models);
+  const trModels = cfg.provider.tokenrouter ? Object.keys(cfg.provider.tokenrouter.models) : [];
 
   await probeProvider('hcnsec','https://api.hcnsec.cn/v1', hKey, hcnsecModels);
-  await probeProvider('tokenrouter','https://api.tokenrouter.com/v1', trKey, trModels);
+  if (trModels.length) await probeProvider('tokenrouter','https://api.tokenrouter.com/v1', trKey, trModels);
+  else console.log('\n=== SKIP tokenrouter (not in config) ===');
   await probeProvider('aihubmix','https://aihubmix.com/v1', ahKey, ahModels.slice(0,10)); // sample 10 to save time/cost
   await probeGoogle();
   await probeNvidia();

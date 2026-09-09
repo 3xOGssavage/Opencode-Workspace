@@ -11,65 +11,10 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 200,
-      "ok": true,
-      "usage": {
-        "prompt_tokens": 6,
-        "completion_tokens": 246,
-        "total_tokens": 252,
-        "prompt_tokens_details": {
-          "cached_tokens": 0,
-          "text_tokens": 0,
-          "audio_tokens": 0,
-          "image_tokens": 0
-        },
-        "completion_tokens_details": {
-          "text_tokens": 0,
-          "audio_tokens": 0,
-          "image_tokens": 0,
-          "reasoning_tokens": 0
-        },
-        "input_tokens": 0,
-        "output_tokens": 0,
-        "input_tokens_details": null,
-        "claude_cache_creation_5_m_tokens": 0,
-        "claude_cache_creation_1_h_tokens": 0
-      },
-      "model_returned": null
-    }
-  },
-  {
-    "id": "glm-4.7",
-    "configured": {
-      "name": "GLM 4.7",
-      "limit": {
-        "context": 128000,
-        "output": 8192
-      }
-    },
-    "cache": null,
-    "live": false,
-    "probe": {
-      "status": 503,
+      "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model glm-4.7 under group default (distributor) (request id: 202608230751192826638988268d9d6kPzvvHsq)\",\"type\":\"new_api_error\"}}"
-    }
-  },
-  {
-    "id": "glm-5.2",
-    "configured": {
-      "name": "GLM 5.2",
-      "limit": {
-        "context": 200000,
-        "output": 8192
-      }
-    },
-    "cache": null,
-    "live": true,
-    "probe": {
-      "status": 410,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The model 'z-ai/glm-5.2' has reached its end of life on 2026-08-21T09:00:00Z and is no longer available.\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
+      "error": "{\"error\":{\"message\":\"{\\\"error\\\":{\\\"message\\\":\\\"Invalid request: ['max_tokens (2000000): Input should be less than or equal to 262144']\\\",\\\"type\\\":\\\"AI_APICallError\\\",\\\"param\\\":{\\\"error\\\":\\\"Invalid request: ['max_tokens (2000000): Input should be less than or equal to 262144']\\\",\\\"statusCode\\\":400,\\\"name\\\":\\\"AI_APICallError\\\",\\\"message\\\":\\\"Invalid request: ['max_tokens (2000000): Input should be less than or equal to 262144']\\\",\\\"isRetryable\\\":false,\\\"type\\\":\\\"AI_APICallError\\\"}},\\\"providerMetadata\\\":{\\\"gateway\\\":{\\\"routing\\\":{\\\"originalModelId\\\":\\\"poolside/laguna-s-2.1-free\\\",\\\"resolvedProvider\\\":\\\"poolside\\\",\\\"fallbacksAvailable\\\":[],\\\"canonicalSlug\\\":\\\"poolside/laguna-s-2.1-free\\\",\\\"modelAttemptCount\\\":1,\\\"modelAttempts\\\":[{\\\"canonicalSlug\\\":\\\"poolside/laguna-s-2.1-free\\\",\\\"success\\\":fal",
+      "inferred_limit": "2000000"
     }
   },
   {
@@ -77,14 +22,16 @@
     "configured": {
       "name": "Kimi K2.6",
       "limit": {
-        "context": 256000,
+        "context": 262144,
         "output": 16384
       }
     },
     "cache": null,
-    "live": true,
+    "live": false,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 503,
+      "ok": false,
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Kimi-K2.6 under group auto (distributor) (request id: 202609091052321288384958268d9d6KM0daGzW)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -97,37 +44,11 @@
       }
     },
     "cache": null,
-    "live": true,
-    "probe": {
-      "status": 200,
-      "ok": true,
-      "usage": {
-        "prompt_tokens": 164,
-        "completion_tokens": 11,
-        "total_tokens": 175,
-        "prompt_tokens_details": {
-          "audio_tokens": null,
-          "cached_tokens": 128
-        }
-      },
-      "model_returned": "minimaxai/minimax-m3"
-    }
-  },
-  {
-    "id": "MiniMax-M2.7",
-    "configured": {
-      "name": "MiniMax M2.7",
-      "limit": {
-        "context": 200000,
-        "output": 4096
-      }
-    },
-    "cache": null,
     "live": false,
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model MiniMax-M2.7 under group default (distributor) (request id: 202608230751479378545608268d9d6zFMYUHWt)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model MiniMax-M3 under group auto (distributor) (request id: 202609091052334743404868268d9d6XkwTzfoC)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -140,9 +61,11 @@
       }
     },
     "cache": null,
-    "live": true,
+    "live": false,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 503,
+      "ok": false,
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model DeepSeek-V4-Flash under group auto (distributor) (request id: 202609091052348054557978268d9d6t6lklSm2)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -157,82 +80,7 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 200,
-      "ok": true,
-      "usage": {
-        "prompt_tokens": 1087,
-        "completion_tokens": 31,
-        "total_tokens": 1118
-      },
-      "model_returned": "nvidia/nemotron-3-ultra-550b-a55b"
-    }
-  },
-  {
-    "id": "Qwen3-Coder-Next-FP8",
-    "configured": {
-      "name": "Qwen3 Coder Next FP8",
-      "limit": {
-        "context": 128000,
-        "output": 8192
-      }
-    },
-    "cache": null,
-    "live": false,
-    "probe": {
-      "status": 503,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Qwen3-Coder-Next-FP8 under group default (distributor) (request id: 202608230752150932100458268d9d6CukKiiWH)\",\"type\":\"new_api_error\"}}"
-    }
-  },
-  {
-    "id": "Qwen3.5-397B-A17B",
-    "configured": {
-      "name": "Qwen 3.5 397B",
-      "limit": {
-        "context": 128000,
-        "output": 8192
-      }
-    },
-    "cache": null,
-    "live": false,
-    "probe": {
-      "status": 503,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Qwen3.5-397B-A17B under group default (distributor) (request id: 202608230752172899870428268d9d6vGCoNzyc)\",\"type\":\"new_api_error\"}}"
-    }
-  },
-  {
-    "id": "Qwen3.6-35B-A3B",
-    "configured": {
-      "name": "Qwen 3.6 35B",
-      "limit": {
-        "context": 128000,
-        "output": 8192
-      }
-    },
-    "cache": null,
-    "live": false,
-    "probe": {
-      "status": 503,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Qwen3.6-35B-A3B under group default (distributor) (request id: 202608230752194376606738268d9d6EI2tLg85)\",\"type\":\"new_api_error\"}}"
-    }
-  },
-  {
-    "id": "kat-coder-pro-v2",
-    "configured": {
-      "name": "Kat Coder Pro v2",
-      "limit": {
-        "context": 128000,
-        "output": 8192
-      }
-    },
-    "cache": null,
-    "live": false,
-    "probe": {
-      "status": 503,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model kat-coder-pro-v2 under group default (distributor) (request id: 202608230752224495179578268d9d6yfF28id4)\",\"type\":\"new_api_error\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -241,24 +89,7 @@
       "name": "Kat Coder Pro v2.5",
       "limit": {
         "context": 128000,
-        "output": 8192
-      }
-    },
-    "cache": null,
-    "live": true,
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"max_completion_tokens is too large: ***.This model supports at most 262144 completion tokens.\",\"type\":\"BadRequest\",\"param\":\"\",\"code\":null}}"
-    }
-  },
-  {
-    "id": "Spark-X2-Flash",
-    "configured": {
-      "name": "Spark X2 Flash",
-      "limit": {
-        "context": 128000,
-        "output": 4096
+        "output": 262144
       }
     },
     "cache": null,
@@ -266,7 +97,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Spark-X2-Flash under group default (distributor) (request id: 202608230752279878689048268d9d6yR5nbvWs)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model kat-coder-pro-v2.5 under group auto (distributor) (request id: 202609091052569742285778268d9d63WdvW2w9)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -275,24 +106,7 @@
       "name": "SenseNova 6.7 Flash Lite",
       "limit": {
         "context": 128000,
-        "output": 4096
-      }
-    },
-    "cache": null,
-    "live": true,
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"field MaxTokens invalid, should be in [1, 65536]\",\"type\":\"invalid_request_error\",\"param\":\"max_tokens\",\"code\":\"3\"}}"
-    }
-  },
-  {
-    "id": "step-3.5-flash",
-    "configured": {
-      "name": "Step 3.5 Flash",
-      "limit": {
-        "context": 128000,
-        "output": 4096
+        "output": 65536
       }
     },
     "cache": null,
@@ -300,24 +114,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model step-3.5-flash under group default (distributor) (request id: 202608230752332431195848268d9d6sYYA41nd)\",\"type\":\"new_api_error\"}}"
-    }
-  },
-  {
-    "id": "step-3.5-flash-2603",
-    "configured": {
-      "name": "Step 3.5 Flash 2603",
-      "limit": {
-        "context": 128000,
-        "output": 4096
-      }
-    },
-    "cache": null,
-    "live": false,
-    "probe": {
-      "status": 503,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model step-3.5-flash-2603 under group default (distributor) (request id: 202608230752359747277878268d9d68Ty0MRUg)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model sensenova-6.7-flash-lite under group auto (distributor) (request id: 202609091052582951611138268d9d6ajHw0rW7)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -336,14 +133,41 @@
       "ok": true,
       "usage": {
         "prompt_tokens": 13,
-        "completion_tokens": 118,
-        "total_tokens": 131,
+        "completion_tokens": 64,
+        "total_tokens": 77,
+        "usage_semantic": "openai",
+        "usage_source": "anthropic",
+        "billing_usage": {
+          "source": "claude_messages",
+          "semantic": "anthropic",
+          "claude_usage": {
+            "input_tokens": 13,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "output_tokens": 64,
+            "claude_cache_creation_5_m_tokens": 0,
+            "claude_cache_creation_1_h_tokens": 0
+          }
+        },
         "prompt_tokens_details": {
-          "audio_tokens": null,
-          "cached_tokens": 0
-        }
+          "cached_tokens": 0,
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        },
+        "completion_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 0
+        },
+        "input_tokens": 13,
+        "output_tokens": 0,
+        "input_tokens_details": null,
+        "claude_cache_creation_5_m_tokens": 0,
+        "claude_cache_creation_1_h_tokens": 0
       },
-      "model_returned": "stepfun-ai/step-3.7-flash"
+      "model_returned": "step-3.7-flash"
     }
   },
   {
@@ -362,8 +186,8 @@
       "ok": true,
       "usage": {
         "prompt_tokens": 488,
-        "completion_tokens": 54,
-        "total_tokens": 542,
+        "completion_tokens": 51,
+        "total_tokens": 539,
         "usage_semantic": "openai",
         "usage_source": "anthropic",
         "billing_usage": {
@@ -373,7 +197,7 @@
             "input_tokens": 104,
             "cache_creation_input_tokens": 0,
             "cache_read_input_tokens": 384,
-            "output_tokens": 54,
+            "output_tokens": 51,
             "claude_cache_creation_5_m_tokens": 0,
             "claude_cache_creation_1_h_tokens": 0
           }
@@ -413,7 +237,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model stepaudio-2.5-chat under group default (distributor) (request id: 202608230753088528460998268d9d66Oc0Aa2Q)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model stepaudio-2.5-chat under group auto (distributor) (request id: 202609091053039754978318268d9d6DLs9BbFo)\",\"type\":\"new_api_error\"}}"
     }
   }
 ]
