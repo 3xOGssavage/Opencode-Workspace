@@ -28,6 +28,22 @@ async function fetchJSON(url, opts={}){
   try{ return { status:r.status, ok:r.ok, json:JSON.parse(t), text:t }; }catch{ return { status:r.status, ok:r.ok, text:t, json:null } }
 }
 
+// Secret hygiene: strip pagination cursors before writing evidence files.
+// nextPageToken-style values are high-entropy opaque strings that trip secret
+// scanners (generic-api-key rule) without being credentials. Exact-key match
+// only: never touches real fields. Extension point if new cursor key names
+// appear in future API responses (add them to the condition below).
+function scrubCursors(o){
+  if(Array.isArray(o)){ for(const v of o) scrubCursors(v); return o; }
+  if(o && typeof o==='object'){
+    for(const k of Object.keys(o)){
+      if(k==='nextPageToken'){ delete o[k]; }
+      else scrubCursors(o[k]);
+    }
+  }
+  return o;
+}
+
 async function probeProvider(name, baseURL, key, modelIds){
   console.log(`\n=== PROBE ${name} base=${baseURL} models=${modelIds.length} ===`);
   const results=[];
@@ -41,7 +57,7 @@ async function probeProvider(name, baseURL, key, modelIds){
     if(res.ok && res.json){
       liveList = res.json.data ? res.json.data.map(m=>typeof m==='string'?m:(m.id||m.name)) : (res.json.models? res.json.models.map(m=>m.name): []);
       console.log(` live list ok: ${liveList.length} ids`);
-      fs.writeFileSync(path.join(outDir, `${name}-live-models.json`), JSON.stringify(res.json,null,2));
+      fs.writeFileSync(path.join(outDir, `${name}-live-models.json`), JSON.stringify(scrubCursors(res.json),null,2));
     } else {
       console.log(` list failed status=${res.status} ${res.text.slice(0,300)}`);
     }
@@ -83,7 +99,7 @@ async function probeGoogle(){
   const key = auth.google?.key || process.env.GEMINI_API_KEY;
   const res = await fetchJSON(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
   if(!res.ok){ console.log(` google list failed ${res.status} ${res.text.slice(0,400)}`); return; }
-  fs.writeFileSync(path.join(outDir, `google-live-models.json`), JSON.stringify(res.json,null,2));
+  fs.writeFileSync(path.join(outDir, `google-live-models.json`), JSON.stringify(scrubCursors(res.json),null,2));
   const models=res.json.models.slice(0,50);
   console.log(` google live ${models.length} models`);
   // find our configured gemini models? none in opencode.json provider google? google provider not in opencode.json but via auth
@@ -110,7 +126,7 @@ async function probeOllama(){
   try{
     const list = await fetchJSON(`${base}/models`, { headers:{ Authorization:`Bearer ${key}` }, signal: AbortSignal.timeout(15000) });
     console.log(` ollama list status ${list.status} ${list.text?.slice(0,400)}`);
-    if(list.json) fs.writeFileSync(path.join(outDir,'ollama-live-models.json'), JSON.stringify(list.json,null,2));
+    if(list.json) fs.writeFileSync(path.join(outDir,'ollama-live-models.json'), JSON.stringify(scrubCursors(list.json),null,2));
   }catch(e){ console.log(` ollama list err ${e.message}`); }
   // try chat with correct model id from cache
   const cacheModels=Object.keys(cache['ollama-cloud']?.models || {}).slice(0,3);
@@ -130,7 +146,7 @@ async function probeNvidia(){
   console.log(`\n=== PROBE nvidia ${base} ===`);
   const list=await fetchJSON(`${base}/models`, { headers:{ Authorization:`Bearer ${key}` }, signal: AbortSignal.timeout(15000)});
   console.log(` nvidia list ${list.status} count ${list.json?.data?.length}`);
-  if(list.json) fs.writeFileSync(path.join(outDir,'nvidia-live-models.json'), JSON.stringify(list.json,null,2));
+  if(list.json) fs.writeFileSync(path.join(outDir,'nvidia-live-models.json'), JSON.stringify(scrubCursors(list.json),null,2));
   // probe one model output limit
   const testId='meta/llama-3.3-70b-instruct';
   try{
@@ -147,7 +163,7 @@ async function probeOpencodeGo(){
   try{
     const list=await fetchJSON(`${base}/models`, { headers:{ Authorization:`Bearer ${key}`}, signal: AbortSignal.timeout(15000)});
     console.log(` opencode-go list ${list.status} ${list.text.slice(0,600)}`);
-    if(list.json) fs.writeFileSync(path.join(outDir,'opencode-go-live-models.json'), JSON.stringify(list.json,null,2));
+    if(list.json) fs.writeFileSync(path.join(outDir,'opencode-go-live-models.json'), JSON.stringify(scrubCursors(list.json),null,2));
   }catch(e){ console.log(` opencode-go err ${e.message}`);}
   // also cache says opencode-go has 28 models, try chat
   const testId='glm-5.2';
