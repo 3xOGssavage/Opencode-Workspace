@@ -1,0 +1,90 @@
+[
+  {
+    "id": "coding-minimax-m3-free",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M3] does not support max tokens > 524288 (2013) (tid: 2026090910551869751850713279930)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "dots-3-note-preview-free",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"This endpoint's maximum context length is 512000 tokens. However, you requested about 2000001 tokens (1 of text input, 2000000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically. (tid: 2026090910552157743874723427868)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
+    }
+  },
+  {
+    "id": "gemini-3.5-flash-lite-free",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Unable to submit request because it has a maxOutputTokens value of 2000000 but the supported range is from 1 (inclusive) to 65537 (exclusive). Update the value and try again. (tid: 2026090910552437534008414140534)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
+    }
+  },
+  {
+    "id": "gemini-3.6-flash-free",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Unable to submit request because it has a maxOutputTokens value of 2000000 but the supported range is from 1 (inclusive) to 65537 (exclusive). Update the value and try again. (tid: 2026090910552761522480014897688)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
+    }
+  },
+  {
+    "id": "gemini-3.7-flash-free",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Unable to submit request because it has a maxOutputTokens value of 2000000 but the supported range is from 1 (inclusive) to 65537 (exclusive). Update the value and try again. (tid: 2026090910553051737410571704517)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
+    }
+  },
+  {
+    "id": "gemini-3-flash-preview-free",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Unable to submit request because it has a maxOutputTokens value of 2000000 but the supported range is from 1 (inclusive) to 65537 (exclusive). Update the value and try again. (tid: 2026090910553323481461059743397)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-it-free",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"This endpoint's maximum context length is 262144 tokens. However, you requested about 2000001 tokens (1 of text input, 2000000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically. (tid: 202609091055364743215338899428)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
+    }
+  },
+  {
+    "id": "gemma-4-31b-it-free",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"This endpoint's maximum context length is 262144 tokens. However, you requested about 2000001 tokens (1 of text input, 2000000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically. (tid: 2026090910553849481102504913697)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
+    }
+  },
+  {
+    "id": "glm-4.7-flash-free",
+    "probe": {
+      "status": 429,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Sorry, you have reached the limit of the free model quota. Please switch to a paid model to enjoy unlimited concurrency. https://console.aihubmix.com/topup (tid: 2026090910554092410963739344438)\",\"type\":\"Aihubmix_api_error\"}}"
+    }
+  },
+  {
+    "id": "gpt-4.1-free",
+    "probe": {
+      "status": 429,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Sorry, you have reached the limit of the free model quota. Please switch to a paid model to enjoy unlimited concurrency. https://console.aihubmix.com/topup (tid: 2026090910554323660605269904714)\",\"type\":\"Aihubmix_api_error\"}}"
+    }
+  },
+  {
+    "id": "gpt-4.1-mini-free",
+    "probe": {
+      "status": 429,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Sorry, you have reached the limit of the free model quota. Please switch to a paid model to enjoy unlimited concurrency. https://console.aihubmix.com/topup (tid: 2026090910554555387824446591589)\",\"type\":\"Aihubmix_api_error\"}}"
+    }
+  }
+]

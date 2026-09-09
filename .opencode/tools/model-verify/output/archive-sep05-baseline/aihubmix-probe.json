@@ -3,7 +3,7 @@
     "id": "coding-glm-4.6-free",
     "configured": {
       "limit": {
-        "output": 131072,
+        "output": 128000,
         "context": 200000
       },
       "name": "Coding GLM 4.6 (free)"
@@ -11,14 +11,16 @@
     "cache": null,
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026082307531280440575875827596)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
     "id": "coding-glm-4.7-free",
     "configured": {
       "limit": {
-        "output": 131072,
+        "output": 128000,
         "context": 200000
       },
       "name": "Coding GLM 4.7 (free)"
@@ -28,7 +30,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090910532689460141174989233)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026082307533172065013485566200)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
@@ -80,7 +82,17 @@
     },
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 200,
+      "ok": true,
+      "usage": {
+        "prompt_tokens": 13,
+        "completion_tokens": 203,
+        "total_tokens": 216,
+        "prompt_tokens_details": {
+          "cached_tokens": 12
+        }
+      },
+      "model_returned": "glm-5.1"
     }
   },
   {
@@ -95,7 +107,17 @@
     "cache": null,
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 200,
+      "ok": true,
+      "usage": {
+        "prompt_tokens": 13,
+        "completion_tokens": 186,
+        "total_tokens": 199,
+        "prompt_tokens_details": {
+          "cached_tokens": 12
+        }
+      },
+      "model_returned": "glm-5.2"
     }
   },
   {
@@ -112,7 +134,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090910542499106155080961163)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026082307541631353178996042168)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
@@ -127,16 +149,16 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 400,
+      "status": 403,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model ID you entered is: coding-kimi-k3-free. This model ID is incorrect. Please check the https://aihubmix.com/models page to copy the correct request model ID. (tid: 2026090910544080401575421418161)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"Sorry, there are currently insufficient promotional resources for the Kim series models. Please try again later or use the official stable API, kimi-k3, kimi-k2.7-code. (tid: 2026082307543483425992210695245)\",\"type\":\"permission_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
     "id": "coding-minimax-m2.1-free",
     "configured": {
       "limit": {
-        "output": 196608,
+        "output": 13100,
         "context": 204800
       },
       "name": "Coding MiniMax M2.1 (free)"
@@ -146,14 +168,14 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.1] does not support max tokens > 196608 (2013) (tid: 2026090910544193169511871189505)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.1] does not support max tokens > 196608 (2013) (tid: 2026082307543724346683369484575)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
     "id": "coding-minimax-m2.5-free",
     "configured": {
       "limit": {
-        "output": 196608,
+        "output": 13100,
         "context": 204800
       },
       "name": "Coding MiniMax M2.5 (free)"
@@ -163,14 +185,14 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026090910544334149669433505302)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026082307543843214656985782156)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
     "id": "coding-minimax-m2.7-free",
     "configured": {
       "limit": {
-        "output": 196608,
+        "output": 13100,
         "context": 204800
       },
       "name": "Coding MiniMax M2.7 (free)"
@@ -213,14 +235,14 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.7] does not support max tokens > 196608 (2013) (tid: 2026090910544466561633333003469)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.7] does not support max tokens > 196608 (2013) (tid: 2026082307543964120784430061786)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
     "id": "coding-minimax-m2-free",
     "configured": {
       "limit": {
-        "output": 196608,
+        "output": 13100,
         "context": 204800
       },
       "name": "Coding MiniMax M2 (free)"
@@ -230,7 +252,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 202609091054467396735953548666)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026082307544085195458934966496)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   }
 ]
