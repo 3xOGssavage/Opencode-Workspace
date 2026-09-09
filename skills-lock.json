@@ -23,7 +23,7 @@
       "source": "vercel/vercel",
       "sourceType": "github",
       "skillPath": "skills/vercel-cli/SKILL.md",
-      "computedHash": "28a2c25884bd7272688d48f1563f048ecb9a1b21f900aa08406f56f33240932c"
+      "computedHash": "be9db0e39462b488ff9ddb0712819efd5c273808e85550b8c698f9c63f135af8"
     }
   }
 }

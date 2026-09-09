@@ -24,9 +24,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vercel-labs/skills.git",
       "skillPath": "skills/find-skills/SKILL.md",
-      "skillFolderHash": "",
+      "skillFolderHash": "a41bdd074bb587afd861332cf2f473f3154de4d7",
       "installedAt": "2026-04-01T21:13:49.045Z",
-      "updatedAt": "2026-04-01T21:13:49.045Z"
+      "updatedAt": "2026-09-07T19:47:26.163Z"
     },
     "playwright-cli": {
       "source": "github/gh-aw",
