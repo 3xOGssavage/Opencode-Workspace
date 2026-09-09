@@ -12,7 +12,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Kimi-K2.6 under group auto (distributor) (request id: 202609091057507773891378268d9d6B6i06yCE)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Kimi-K2.6 under group auto (distributor) (request id: 202609091124494199903638268d9d6gQCsdaDU)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -21,7 +21,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model MiniMax-M3 under group auto (distributor) (request id: 202609091057533928777998268d9d6xUpK0TUh)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model MiniMax-M3 under group auto (distributor) (request id: 202609091124513530430458268d9d6m1pm2lmw)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -30,7 +30,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090910575554678452310590439)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090911245421719309122010865)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
@@ -39,7 +39,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090910581642224447441156458)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090911251729944141366499461)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
@@ -48,7 +48,7 @@
     "probe": {
       "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: z-ai/glm-5.2 (tid: 2026090910583897587035474257810)\",\"type\":\"\",\"param\":\"\",\"code\":404}}"
+      "error": "{\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: z-ai/glm-5.2 (tid: 2026090911253975361057516707282)\",\"type\":\"\",\"param\":\"\",\"code\":404}}"
     }
   }
 ]

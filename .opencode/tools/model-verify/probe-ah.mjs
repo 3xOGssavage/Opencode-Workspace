@@ -8,8 +8,12 @@ function getUserEnv(k){ try{ return execSync(`powershell -Command "[Environment]
 const ahKey = getUserEnv('AIHUBMIX_API_KEY');
 if(!ahKey){ console.log('AIHUBMIX_API_KEY missing - abort'); process.exit(1); }
 const cfg = JSON.parse(fs.readFileSync('F:/CD/Opencode/opencode.json','utf8'));
-const ids = Object.keys(cfg.provider.aihubmix.models).slice(10);
-console.log('probing remaining aihubmix:', ids.length);
+// Rotation window: PROBE_AH_OFFSET/COUNT env override the default slice(10).
+// Weekly wrapper rotates the offset so tail models get covered across weeks.
+const ahOff = parseInt(process.env.PROBE_AH_OFFSET || '10', 10);
+const ahCount = parseInt(process.env.PROBE_AH_COUNT || '34', 10);
+const ids = Object.keys(cfg.provider.aihubmix.models).slice(ahOff, ahOff + ahCount);
+console.log('window offset=' + ahOff + ' count=' + ahCount + ' probing=' + ids.length);
 async function fetchJSON(url, opts){
   const r=await fetch(url, opts);
   const t=await r.text();
