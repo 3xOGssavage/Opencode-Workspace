@@ -90,9 +90,9 @@ Version stamp updated to 1.18.30. Output prints lengths only, never key fragment
 ## 8. Rollout
 
 - **Stage 0 (owner, ~30 min, before pilot day):** message 4 coders individually
-  (no group chat) → invites in small groups → 4 labeled keys (purchase check:
-  4 named? else 4 small accounts; last resort shared — installer doesn't care)
-  → name pilot → DB authorization dashboard check.
+  (no group chat) → invites in small groups → key accounts (coders register own
+  FREE hcnsec accounts; studio issues 4 Go + 4 OpenRouter labeled keys) → name
+  pilot → DB authorization dashboard check.
 - **Stage 1 (BUILT 2026-09-11 on feat/member-ready-setup):** §6 + §7 + member guide (simple English; fixed order:
   invite → GitHub login → fetch → per-distro PowerShell → install → keys →
   logins WITH database + hosting skipped → verify; done-checklist; rollback;

@@ -176,8 +176,8 @@ cd ..; Remove-Item -Recurse -Force <dir>   # remove the clone
 ## Known quirk: Gemini sessions + vercel tools
 
 Direct-Google Gemini models reject one vercel tool's schema (oneOf booleans;
-proven Sep 2026 by bisection). Config-side, every Gemini-running agent carries
-a `vercel_*` deny rule, so agents are unaffected. Manual `/models` sessions on
+proven Sep 2026 by bisection). Config-side, every Gemini-running agent will carry
+a `vercel_*` deny rule (lands with the agent remap), so agents are unaffected. Manual `/models` sessions on
 a Gemini model inherit the same protection only through those agents — if you
 ever see `function_declarations` 400s in a manual session, switch back to a
 non-Gemini model for that chat.

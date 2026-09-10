@@ -27,9 +27,12 @@ $IsWinOS = (-not $PSVersionTable.Platform) -or ($PSVersionTable.Platform -eq 'Wi
 $homeDir = if ($env:HOME) { $env:HOME } else { $env:USERPROFILE }
 
 # Identity: one question, safe default = teammate (member). Owner answers yes.
+# Non-interactive shells can't answer: default to member (safe) instead of hanging.
 if (-not $Member) {
-    $ans = Read-Host "Is this the owner's machine? (yes/no, default: no)"
-    if ($ans -ne 'yes') { $Member = $true }
+    try {
+        $ans = Read-Host "Is this the owner's machine? (yes/no, default: no)"
+        if ($ans -ne 'yes') { $Member = $true }
+    } catch { $Member = $true }
 }
 if ($Member) { Write-Host "Member mode: fresh paths, own keys, blank notebook." -ForegroundColor Cyan }
 Write-Host "=== opencode workspace setup ===" -ForegroundColor Cyan
@@ -128,7 +131,10 @@ if (-not (Test-Path $opencodeJsonPath)) {
         $content2 = $content2 -replace '/\.opencode/memory-mcp-wrapper\.sh', '\.opencode\memory-mcp-wrapper.bat'
         $content2 = $content2 -replace '"command":\s*\["sh",\s*"([^"]+)"\]', '"command": ["$1"]'
         $rootJson = $WorkspaceRoot -replace '\\', '\\'
-        $content2 = [regex]::Replace($content2, 'F:\\\\CD\\\\\*\*', { param($m) ($rootJson + '\\**') })
+        # Owner keeps the broad F:\CD\** rule; members get a root-scoped rule.
+        if ($Member) {
+            $content2 = [regex]::Replace($content2, 'F:\\\\CD\\\\\*\*', { param($m) ($rootJson + '\\**') })
+        }
     } else {
         $content2 = $content2 -replace 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\opencode', '/tmp/opencode'
         $content2 = [regex]::Replace($content2, 'C:\\\\Users\\\\user', { param($m) $homeDir })
@@ -136,6 +142,9 @@ if (-not (Test-Path $opencodeJsonPath)) {
         $content2 = $content2 -replace '\.opencode\\\\memory-mcp-wrapper\.bat', '/.opencode/memory-mcp-wrapper.sh'
         $content2 = $content2 -replace '"command":\s*\["([^"]*memory-mcp-wrapper\.sh)"\]', '"command": ["sh", "$1"]'
         $content2 = [regex]::Replace($content2, 'F:\\\\CD\\\\\*\*', { param($m) ($WorkspaceRoot + '/**') })
+        if ($Member) {
+            Write-Host "  External-directory rule scoped to workspace root."
+        }
     }
     if ($content2 -cne (Get-Content -Path $opencodeJsonPath -Raw)) {
         Set-Content -Path $opencodeJsonPath -Value $content2 -NoNewline
