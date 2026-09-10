@@ -60,7 +60,7 @@ foreach ($src in $uniqueSources) {
     Write-Host "[install] $src ..." -ForegroundColor Yellow
     $args = @('-y', 'skills@latest', 'add', $src, '-y', '-a', '*', '-s', '*')
     try {
-        $p = Start-Process -FilePath 'npx' -ArgumentList $args -NoNewWindow -Wait -PassThru -RedirectStandardOutput "$logDir\$($src.Replace('/','_')).out" -RedirectStandardError "$logDir\$($src.Replace('/','_')).err"
+        $p = Start-Process -FilePath 'npx' -ArgumentList $args -NoNewWindow -Wait -PassThru -RedirectStandardOutput (Join-Path $logDir "$($src.Replace('/','_')).out") -RedirectStandardError (Join-Path $logDir "$($src.Replace('/','_')).err")
         if ($p.ExitCode -eq 0) {
             Write-Host "    [OK] $src" -ForegroundColor Green
             $ok++

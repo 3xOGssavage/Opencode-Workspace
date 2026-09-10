@@ -1,9 +1,8 @@
 # set-secrets.ps1
-# Interactive prompts for 6 User-scope env var API keys. Windows-focused:
-# setx persists to User scope + [Environment]::SetEnvironmentVariable to
-# Process scope so the current shell sees them. Linux/macOS team members should
-# set the same keys in their shell rc file (see README Scenario B).
-# Soft validation (warn-not-fail) per Plan V8 C3.9.
+# Interactive prompts for 6 User-scope env var API keys. Cross-platform:
+# Windows uses setx (User scope) + Process scope for the current shell;
+# Linux/macOS prints export lines for ~/.bashrc or ~/.zshrc (same keys).
+# Soft validation (warn-not-fail) per Plan V8 C3.9. Never prints key fragments.
 #
 # Non-interactive mode: read values from a local gitignored file via
 # $env:OC_SECRETS_FILE (file path; contents are KEY=VALUE lines).
@@ -101,7 +100,8 @@ foreach ($spec in $secretSpec) {
         $warn++
     }
     if ($shape -and -not $value.StartsWith($shape)) {
-        Write-Host "    [WARN] $key should start with '$shape' (got '$($value.Substring(0,[Math]::Min(4,$value.Length)))...') - setting anyway" -ForegroundColor Yellow
+        # ponytail: never print key fragments (member machines share logs/screens)
+        Write-Host "    [WARN] $key has an unexpected shape - setting anyway" -ForegroundColor Yellow
         $warn++
     }
 

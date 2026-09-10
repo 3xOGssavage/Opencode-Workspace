@@ -14,30 +14,55 @@
      skill installs, provider logins).
 .NOTES
   Re-runnable. Overwrites env vars + global-config files each time.
+  -Member: teammate flow (safe-default identity, portable paths, blank notebook).
   Does NOT touch auth.json, mcp-auth.json, or any API-key env var.
 #>
 
+[CmdletBinding()]
+param([switch]$Member)
+
 $ErrorActionPreference = 'Stop'
 $WorkspaceRoot = $PSScriptRoot | Split-Path -Parent
+$IsWinOS = (-not $PSVersionTable.Platform) -or ($PSVersionTable.Platform -eq 'Win32NT')
+$homeDir = if ($env:HOME) { $env:HOME } else { $env:USERPROFILE }
+
+# Identity: one question, safe default = teammate (member). Owner answers yes.
+if (-not $Member) {
+    $ans = Read-Host "Is this the owner's machine? (yes/no, default: no)"
+    if ($ans -ne 'yes') { $Member = $true }
+}
+if ($Member) { Write-Host "Member mode: fresh paths, own keys, blank notebook." -ForegroundColor Cyan }
 Write-Host "=== opencode workspace setup ===" -ForegroundColor Cyan
 Write-Host "Detected workspace: $WorkspaceRoot"
 Write-Host ""
 
-# --- 1. Set 4 User env vars (idempotent) ---
-Write-Host "[1/5] Setting User env vars..." -ForegroundColor Yellow
-[Environment]::SetEnvironmentVariable('OPENCODE_CONFIG', "$WorkspaceRoot\opencode.json", 'User')
-[Environment]::SetEnvironmentVariable('OPENCODE_CONFIG_DIR', "$WorkspaceRoot\.opencode", 'User')
-[Environment]::SetEnvironmentVariable('MEMORY_FILE_PATH', "$WorkspaceRoot\.opencode\memory.jsonl", 'User')
-[Environment]::SetEnvironmentVariable('OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS', 'true', 'User')
-Write-Host "  OPENCODE_CONFIG                        = $WorkspaceRoot\opencode.json"
-Write-Host "  OPENCODE_CONFIG_DIR                    = $WorkspaceRoot\.opencode"
-Write-Host "  MEMORY_FILE_PATH                       = $WorkspaceRoot\.opencode\memory.jsonl"
+# --- 1. Set 4 setup env vars (idempotent, portable) ---
+Write-Host "[1/5] Setting setup env vars..." -ForegroundColor Yellow
+$cfgPath = Join-Path $WorkspaceRoot 'opencode.json'
+$cfgDir = Join-Path $WorkspaceRoot '.opencode'
+$memPath = Join-Path $cfgDir 'memory.jsonl'
+if ($IsWinOS) {
+    [Environment]::SetEnvironmentVariable('OPENCODE_CONFIG', $cfgPath, 'User')
+    [Environment]::SetEnvironmentVariable('OPENCODE_CONFIG_DIR', $cfgDir, 'User')
+    [Environment]::SetEnvironmentVariable('MEMORY_FILE_PATH', $memPath, 'User')
+    [Environment]::SetEnvironmentVariable('OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS', 'true', 'User')
+    Write-Host "  OPENCODE_CONFIG                        = $cfgPath"
+    Write-Host "  OPENCODE_CONFIG_DIR                    = $cfgDir"
+    Write-Host "  MEMORY_FILE_PATH                       = $memPath"
+} else {
+    Write-Host "  Linux/macOS: User-scope registry does not exist here."
+    Write-Host "  Add these 4 lines to ~/.bashrc (or ~/.zshrc), then restart the shell:"
+    Write-Host "    export OPENCODE_CONFIG='$cfgPath'"
+    Write-Host "    export OPENCODE_CONFIG_DIR='$cfgDir'"
+    Write-Host "    export MEMORY_FILE_PATH='$memPath'"
+    Write-Host "    export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS='true'"
+}
 Write-Host "  OPENCODE_EXPERIMENTAL_BACKGROUND_...   = true"
 Write-Host ""
 
 # --- 2. Copy global-config files to ~/.config/opencode/ (idempotent) ---
 Write-Host "[2/5] Copying global-config to ~/.config/opencode/..." -ForegroundColor Yellow
-$TargetConfigDir = Join-Path $env:USERPROFILE '.config\opencode'
+$TargetConfigDir = Join-Path (Join-Path $homeDir '.config') 'opencode'
 if (-not (Test-Path $TargetConfigDir)) { New-Item -ItemType Directory -Path $TargetConfigDir -Force | Out-Null }
 $globalConfigSrc = Join-Path $WorkspaceRoot 'global-config'
 if (-not (Test-Path $globalConfigSrc)) {
@@ -89,11 +114,65 @@ if (-not (Test-Path $opencodeJsonPath)) {
         $count = ([regex]::Matches($content, $escapedOriginal)).Count
         Write-Host "  Replaced $count occurrences of '$originalPath' with '$WorkspaceRoot'"
     }
+    # Machine-specific spots the workspace replace does not cover:
+    # owner's personal folders, memory launcher per OS, temp dir, drive rule.
+    # (Order matters: temp-dir first, then the general user-folder replace.)
+    $content2 = Get-Content -Path $opencodeJsonPath -Raw
+    if ($IsWinOS) {
+        $memberTemp = Join-Path ([System.IO.Path]::GetTempPath()) 'opencode'
+        $memberTempJson = $memberTemp -replace '\\', '\\'
+        $content2 = [regex]::Replace($content2, 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\opencode', { param($m) $memberTempJson })
+        $newUserJson = $homeDir -replace '\\', '\\'
+        $content2 = [regex]::Replace($content2, 'C:\\\\Users\\\\user', { param($m) $newUserJson })
+        # Windows launcher (also reverses a Linux edit on re-install)
+        $content2 = $content2 -replace '/\.opencode/memory-mcp-wrapper\.sh', '\.opencode\memory-mcp-wrapper.bat'
+        $content2 = $content2 -replace '"command":\s*\["sh",\s*"([^"]+)"\]', '"command": ["$1"]'
+        $rootJson = $WorkspaceRoot -replace '\\', '\\'
+        $content2 = [regex]::Replace($content2, 'F:\\\\CD\\\\\*\*', { param($m) ($rootJson + '\\**') })
+    } else {
+        $content2 = $content2 -replace 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\opencode', '/tmp/opencode'
+        $content2 = [regex]::Replace($content2, 'C:\\\\Users\\\\user', { param($m) $homeDir })
+        # Linux launcher twin (invoked via sh, so no exec bit needed)
+        $content2 = $content2 -replace '\.opencode\\\\memory-mcp-wrapper\.bat', '/.opencode/memory-mcp-wrapper.sh'
+        $content2 = $content2 -replace '"command":\s*\["([^"]*memory-mcp-wrapper\.sh)"\]', '"command": ["sh", "$1"]'
+        $content2 = [regex]::Replace($content2, 'F:\\\\CD\\\\\*\*', { param($m) ($WorkspaceRoot + '/**') })
+    }
+    if ($content2 -cne (Get-Content -Path $opencodeJsonPath -Raw)) {
+        Set-Content -Path $opencodeJsonPath -Value $content2 -NoNewline
+        Write-Host "  Machine-specific paths normalized for this machine."
+    } else {
+        Write-Host "  Machine-specific paths already correct."
+    }
+    # Member notebook: blank fresh memory (owner notes never ship).
+    if ($Member) {
+        $memTarget = Join-Path (Join-Path $WorkspaceRoot '.opencode') 'memory.jsonl'
+        Set-Content -LiteralPath $memTarget -Value '{"name":"welcome","entityType":"note","observations":["Fresh member notebook. Owner notes were replaced on install."]}' -Encoding UTF8
+        Write-Host "  Member notebook: blank fresh memory.jsonl written."
+    }
 }
 Write-Host ""
-
-# --- 5. Print manual steps ---
+# --- 5. Print manual steps (owner vs member) ---
 Write-Host "[5/5] Manual steps remaining (cannot be automated):" -ForegroundColor Yellow
+Write-Host ""
+if ($Member) {
+    Write-Host "  A. Keys (yours + 1 studio handover, never in chat):" -ForegroundColor White
+    Write-Host "     GITHUB_PERSONAL_ACCESS_TOKEN     => your free key, FIRST (private repo needs it)"
+    Write-Host "     HCNSEC_API_KEY                   => studio-labeled key, handed over by the owner"
+    Write-Host "     GEMINI_API_KEY                   => your free Google AI Studio key"
+    Write-Host "     TAVILY_API_KEY                   => your free key"
+    Write-Host "     SENTRY_AUTH_TOKEN                => optional day one, skip freely"
+    Write-Host "     (skip AIHUBMIX_API_KEY - owner only)"
+    Write-Host "     Windows: setx NAME 'value' | Linux: export NAME='value' in ~/.bashrc"
+    Write-Host ""
+    Write-Host "  B. Logins (your own accounts):" -ForegroundColor White
+    Write-Host "     opencode mcp auth sentry   (optional day one)"
+    Write-Host "     SKIP supabase + vercel logins (owner only)"
+    Write-Host "     /models menu: ollama-cloud, opencode-go, nvidia, google (your own)"
+    Write-Host ""
+    Write-Host "  C. Verify (must be green):" -ForegroundColor White
+    Write-Host "     pwsh scripts/verify-setup.ps1 -Member"
+    Write-Host ""
+} else {
 Write-Host ""
 Write-Host "  A. Set 6 API-key env vars (User scope):" -ForegroundColor White
 Write-Host "     HCNSEC_API_KEY                  => hcnsec.cn (51-char sk-... key)"
@@ -123,6 +202,7 @@ Write-Host "     # See README.md for the full list of 79 user-installed skills"
 Write-Host "     # (most live outside the workspace, in ~/.agents/skills/ and ~/.config/opencode/skills/)"
 Write-Host "     # If any skill is unavailable, skip it - opencode continues without it."
 Write-Host ""
+} # end owner manual steps
 Write-Host "=== Setup complete. Restart opencode for env vars to take effect. ===" -ForegroundColor Green
 Write-Host ""
 Write-Host "IMPORTANT: Restart any open opencode sessions so the new env vars are picked up." -ForegroundColor Cyan
