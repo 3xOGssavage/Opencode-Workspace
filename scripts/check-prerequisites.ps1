@@ -18,7 +18,7 @@ $REQUIRED = @{
     Python  = [version]'3.10.0'
     Opencode = [version]'1.18.11'
 }
-$TESTED_OPENCODE = [version]'1.18.19'
+$TESTED_OPENCODE = [version]'1.18.30'
 
 function Test-Command {
     param([string]$Name)

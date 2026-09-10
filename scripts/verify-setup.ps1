@@ -5,10 +5,12 @@
 #
 # Usage:
 #   pwsh scripts/verify-setup.ps1
+#   pwsh scripts/verify-setup.ps1 -Member   (teammate flow: owner-only
+#     items become skipped-by-design instead of warnings)
 #   pwsh scripts/verify-setup.ps1 -Verbose
 
 [CmdletBinding()]
-param()
+param([switch]$Member)
 
 $ErrorActionPreference = "Stop"
 $failures = 0
@@ -17,6 +19,7 @@ $ok = 0
 
 $IsWin = (-not $PSVersionTable.Platform) -or ($PSVersionTable.Platform -eq 'Win32NT')
 $root = Split-Path $PSScriptRoot -Parent
+if ($Member) { Write-Host "Member mode: owner-only items are skipped-by-design." -ForegroundColor Cyan }
 
 function PrintOk  { param($msg) Write-Host "    [OK] $msg" -ForegroundColor Green; $script:ok++ }
 function PrintWarn{ param($msg) Write-Host "    [WARN] $msg" -ForegroundColor Yellow; $script:warnings++ }
@@ -53,6 +56,11 @@ foreach ($var in $envVars) {
 # Check 5-10 in batch: 6 secret API keys (no values printed)
 Write-Host "[5-10] Checking 6 secret env vars (no values printed)..." -ForegroundColor Yellow
 $secretVars = @('HCNSEC_API_KEY', 'AIHUBMIX_API_KEY', 'GEMINI_API_KEY', 'TAVILY_API_KEY', 'SENTRY_AUTH_TOKEN', 'GITHUB_PERSONAL_ACCESS_TOKEN')
+if ($Member) {
+    # Owner-only by design: members skip the backup-AI key with no warning.
+    $secretVars = $secretVars | Where-Object { $_ -ne 'AIHUBMIX_API_KEY' }
+    Write-Host "  (member mode: AIHUBMIX_API_KEY skipped-by-design)" -ForegroundColor DarkGray
+}
 foreach ($var in $secretVars) {
     if ($IsWin) {
         $v = [Environment]::GetEnvironmentVariable($var, 'User')
@@ -60,9 +68,13 @@ foreach ($var in $secretVars) {
         $v = (Get-ChildItem "env:$var" -ErrorAction SilentlyContinue).Value
     }
     if ($v) {
-        $shape = 'unknown'
-        if ($v.Length -ge 4) { $shape = $v.Substring(0, 4) }
-        PrintOk "$var (length $($v.Length), starts '$shape...')"
+        if ($Member) {
+            PrintOk "$var is set (length $($v.Length))"
+        } else {
+            $shape = 'unknown'
+            if ($v.Length -ge 4) { $shape = $v.Substring(0, 4) }
+            PrintOk "$var (length $($v.Length), starts '$shape...')"
+        }
     } else {
         # Process scope fallback
         $pv = [Environment]::GetEnvironmentVariable($var, 'Process')
@@ -102,7 +114,7 @@ if (Test-Path $ocPath) {
 Write-Host "[13] Checking parent .opencode subdirs..." -ForegroundColor Yellow
 $criticalSubdirs = @('agents', 'commands', 'skills')
 foreach ($sub in $criticalSubdirs) {
-    $p = Join-Path $root ".opencode\$sub"
+    $p = Join-Path (Join-Path $root '.opencode') $sub
     if (Test-Path $p) {
         $c = (Get-ChildItem $p | Measure-Object).Count
         if ($c -gt 0) { PrintOk ".opencode/$sub/ ($c items)" }
@@ -114,15 +126,15 @@ foreach ($sub in $criticalSubdirs) {
 
 # Check 14: memory-mcp-wrapper.bat resolves to existing memory.jsonl
 Write-Host "[14] Checking memory-mcp-wrapper + memory.jsonl..." -ForegroundColor Yellow
-$wrapperPath = Join-Path $root '.opencode\memory-mcp-wrapper.bat'
-$memFile = $env:MEMORY_FILE_PATH
-if (-not $memFile) { $memFile = Join-Path $root '.opencode\memory.jsonl' }
+$launcherName = if ($IsWin) { 'memory-mcp-wrapper.bat' } else { 'memory-mcp-wrapper.sh' }
+$wrapperPath = Join-Path (Join-Path $root '.opencode') $launcherName
+$memFile = if ($env:MEMORY_FILE_PATH) { $env:MEMORY_FILE_PATH } else { Join-Path (Join-Path $root '.opencode') 'memory.jsonl' }
 if ((Test-Path $wrapperPath) -and (Test-Path $memFile)) {
-    PrintOk "memory-mcp-wrapper.bat + memory.jsonl both resolve"
+    PrintOk "$launcherName + memory.jsonl both resolve"
 } elseif (Test-Path $wrapperPath) {
-    PrintWarn "wrapper exists but memory.jsonl not found at $memFile (will be auto-created on first write)"
+    PrintWarn "launcher exists but memory.jsonl not found at $memFile (will be auto-created on first write)"
 } else {
-    PrintWarn "memory-mcp-wrapper.bat missing at $wrapperPath"
+    PrintWarn "$launcherName missing at $wrapperPath"
 }
 
 # Check 15: ~/.local/share/opencode/auth.json exists + parses + has 4 providers
@@ -186,6 +198,7 @@ if ($total -ge 50) {
     PrintWarn "no user skills installed - run scripts/install-user-skills.ps1 + scripts/clone-vendored-skill-packs.ps1"
 }
 
+if (-not $Member) {
 # Check 18: AIHUBMIX_API_KEY set (verify-setup check verified separately in 5-11 batch,
 #          adding explicit one since it was the most recently added secret)
 Write-Host "[18] Checking AIHUBMIX_API_KEY specifically..." -ForegroundColor Yellow
@@ -194,6 +207,24 @@ if ($amKey) {
     PrintOk "AIHUBMIX_API_KEY set (length $($amKey.Length))"
 } else {
     PrintWarn "AIHUBMIX_API_KEY not set - aihubmix/* models won't authenticate"
+}
+} else {
+    Write-Host "[18] (member mode: AIHUBMIX check skipped-by-design)" -ForegroundColor DarkGray
+}
+
+# Check 20: git hooks path points at .githooks (secret-scan + Projects guard)
+Write-Host "[20] Checking git hooksPath..." -ForegroundColor Yellow
+try {
+    $hooksPath = (git -C $root config core.hooksPath 2>$null)
+    if ($hooksPath -match '\.githooks') {
+        PrintOk "core.hooksPath = $hooksPath"
+    } elseif ($hooksPath) {
+        PrintWarn "core.hooksPath is '$hooksPath' (expected .githooks) - run: git config core.hooksPath .githooks"
+    } else {
+        PrintWarn "core.hooksPath unset (expected .githooks) - run: git config core.hooksPath .githooks"
+    }
+} catch {
+    PrintWarn "git not on PATH or not a repo - hooks check skipped"
 }
 
 # Check 19: run verify-inheritance.ps1
