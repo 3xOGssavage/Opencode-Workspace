@@ -399,15 +399,15 @@
   },
   "agent": {
     "build": {
-      "model": "ollama-cloud/minimax-m3",
+      "model": "opencode/nemotron-3-ultra-free",
       "mode": "primary"
     },
     "plan": {
-      "model": "ollama-cloud/minimax-m3",
+      "model": "opencode/nemotron-3-ultra-free",
       "mode": "primary"
     },
     "architect": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "nvidia/moonshotai/kimi-k3",
       "mode": "subagent",
       "permission": {
         "edit": "deny",
@@ -415,17 +415,19 @@
       }
     },
     "reviewer": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }
     },
     "tester": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": {
           "Remove-Item *": "deny",
@@ -437,15 +439,16 @@
       }
     },
     "explorer": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "allow"
       }
     },
     "oracle": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "nvidia/moonshotai/kimi-k3",
       "mode": "subagent",
       "permission": {
         "edit": "deny",
@@ -453,39 +456,43 @@
       }
     },
     "librarian": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }
     },
     "fixer": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }
     },
     "designer": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }
     },
     "observer": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }
     },
     "council": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "nvidia/moonshotai/kimi-k3",
       "mode": "subagent",
       "permission": {
         "edit": "deny",
@@ -493,41 +500,46 @@
       }
     },
     "orchestrator": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "primary",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }
     },
     "code-reviewer": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }
     },
     "security-auditor": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }
     },
     "test-engineer": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }
     },
     "web-perf-auditor": {
-      "model": "hcnsec/Kimi-K2.6",
+      "model": "google/gemini-3.8-flash",
       "mode": "subagent",
       "permission": {
+        "vercel_*": "deny",
         "edit": "deny",
         "bash": "ask"
       }

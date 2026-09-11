@@ -104,14 +104,14 @@ Version stamp updated to 1.18.30. Output prints lengths only, never key fragment
 - Pilot needs: 1–2 hrs OK'd; coders terminal-comfortable (lean guide);
   all have GitHub accounts; English guide; good internet (no offline bundle).
 
-## 9. Agent remap (FINAL SPEC — proven Sep 10-11, executes after Sunday verdict)
+## 9. Agent remap (EXECUTED 2026-09-11 on fix/gemini-vercel-deny — awaiting merge + Sunday watch)
 
-| Seats                                 | Model                                                               | Door                                                  | Proof                                                   |
-| ------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------- |
-| build, plan (mains)                   | Nemotron 3 Ultra free                                               | Zen (`opencode/nemotron-3-ultra-free`)                | Live call OK with FULL 229-tool array, $0               |
-| architect, oracle, council (thinkers) | kimi-k3                                                             | Nvidia (`moonshotai/kimi-k3`)                         | 3/3 grades (awake, reasoning, tool-call)                |
-| 11 doers + orchestrator               | gemini-3.8-flash (Google free)                                      | `google/gemini-3.8-flash` + `vercel_*` deny per agent | Live OK with 16 MCPs; deny proven to strip vercel tools |
-| Fallbacks                             | 3.7-flash (doers) / hcnsec-k3 (thinkers) / paid Ultra + cap (mains) | —                                                     | Sunday verdicts                                         |
+| Seats                                 | Model                                                               | Door                                                  | Proof                                                         |
+| ------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------- |
+| build, plan (mains)                   | Nemotron 3 Ultra free                                               | Zen (`opencode/nemotron-3-ultra-free`)                | Live full-tools OK twice ($0); fallback-run OK on live config |
+| architect, oracle, council (thinkers) | kimi-k3                                                             | Nvidia (`moonshotai/kimi-k3`)                         | 3/3 grades (awake, reasoning, tool-call)                      |
+| 11 doers + orchestrator               | gemini-3.8-flash (Google free)                                      | `google/gemini-3.8-flash` + `vercel_*` deny per agent | Live OK with 16 MCPs; deny proven to strip vercel tools       |
+| Fallbacks                             | 3.7-flash (doers) / hcnsec-k3 (thinkers) / paid Ultra + cap (mains) | —                                                     | Sunday verdicts                                               |
 
 Vercel/Gemini rule (proven by bisection Sep 11): ONE vercel MCP tool carries
 oneOf boolean-enum params that direct-Google Gemini rejects (3 crashes in logs:
