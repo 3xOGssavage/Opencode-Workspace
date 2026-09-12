@@ -3,7 +3,7 @@
   "plugin": [
     "oh-my-opencode-slim",
     "opencode-auto-vision",
-    ["opencode-eyesight", {"model": "ollama-cloud/minimax-m3"}]
+    ["opencode-eyesight", {"model": "google/gemini-3.5-flash"}]
   ],
   "agent": {
     "explore": {
