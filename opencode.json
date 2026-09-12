@@ -415,7 +415,7 @@
       }
     },
     "reviewer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -424,7 +424,7 @@
       }
     },
     "tester": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -439,7 +439,7 @@
       }
     },
     "explorer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -456,7 +456,7 @@
       }
     },
     "librarian": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -465,7 +465,7 @@
       }
     },
     "fixer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -474,7 +474,7 @@
       }
     },
     "designer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -483,7 +483,7 @@
       }
     },
     "observer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -500,7 +500,7 @@
       }
     },
     "orchestrator": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "primary",
       "permission": {
         "vercel_*": "deny",
@@ -509,7 +509,7 @@
       }
     },
     "code-reviewer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -518,7 +518,7 @@
       }
     },
     "security-auditor": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -527,7 +527,7 @@
       }
     },
     "test-engineer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -536,7 +536,7 @@
       }
     },
     "web-perf-auditor": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -690,12 +690,7 @@
     },
     "graft": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@nanonets/graft",
-        "mcp"
-      ],
+      "command": ["npx", "-y", "@nanonets/graft", "mcp"],
       "enabled": true,
       "env": {
         "DO_NOT_TRACK": "1"
