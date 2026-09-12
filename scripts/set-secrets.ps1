@@ -90,6 +90,13 @@ foreach ($spec in $secretSpec) {
         Write-Host "    [DRY-RUN] skipping (would prompt interactively)" -ForegroundColor Magenta
         continue
     } else {
+        if ([Console]::IsInputRedirected) {
+            # No console to prompt on (CI, pipes, closed stdin): skip instead of
+            # dying silently inside Read-Host (which exits 0 and sets nothing).
+            Write-Host "    [WARN] $key not in file and no console - skipping" -ForegroundColor Yellow
+            $warn++
+            continue
+        }
         $sec = Read-Host "    Enter $key (input hidden)" -AsSecureString
         $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($sec)
         try {

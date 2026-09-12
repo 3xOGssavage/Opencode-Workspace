@@ -262,10 +262,12 @@ if (Test-Path $viPath) {
         # Try pwsh (PowerShell 7+ cross-platform); fall back to powershell.exe on Windows
         $pwshCmd = Get-Command pwsh -ErrorAction SilentlyContinue
         $psCmd  = Get-Command powershell -ErrorAction SilentlyContinue
+        $memberFlag = @()
+        if ($Member) { $memberFlag = @('-Member') }
         if ($pwshCmd) {
-            & pwsh -NoProfile -File $viPath 2>&1 | Out-Host
+            & pwsh -NoProfile -File $viPath @memberFlag 2>&1 | Out-Host
         } elseif ($psCmd) {
-            & powershell -NoProfile -ExecutionPolicy Bypass -File $viPath 2>&1 | Out-Host
+            & powershell -NoProfile -ExecutionPolicy Bypass -File $viPath @memberFlag 2>&1 | Out-Host
         } else {
             PrintWarn "no pwsh or powershell found in PATH; verify-inheritance skipped"
         }
