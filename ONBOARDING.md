@@ -43,25 +43,36 @@ pwsh scripts/clone-vendored-skill-packs.ps1
 # (the 6th pack, github-mcp-server, is a manual release download - see the script TODO)
 
 # Step 6: Set API keys (interactive, hidden input, never printed)
-# Members: GitHub token FIRST, then the studio-labeled HCNSEC key (owner hands it
-# over, never in chat), then your own Google + Tavily + optional Sentry keys.
+# STANDARD members (everyone): your OWN keys, registered with any email -
+#   GitHub token FIRST, then Google AI Studio (12 helpers) + Nvidia
+#   build.nvidia.com (3 thinkers) + Tavily (web search) + Sentry (error logs,
+#   own account: checker goes green but Portal errors stay hidden until invited).
+#   Run with -Member: owner-only keys are skipped automatically.
+# EXTENDED members (only if the owner gave you studio keys over a phone call):
+#   enter them too when asked. Studio keys never leave your machine -
+#   forwarding one to anyone loses all of them permanently.
 # SKIP the aihubmix key (owner only - the checker will not ask for it).
-pwsh scripts/set-secrets.ps1
+pwsh scripts/set-secrets.ps1 -Member   # members (standard AND extended)
 
 # Step 7: OAuth MCP logins (browser opens, one at a time)
 # Members: sentry only (optional day one); supabase + vercel are OWNER ONLY.
 pwsh scripts/auth-mcp-servers.ps1 -Skip 'supabase,vercel'
 
-# Step 8: Restore auth.json to ~/.local/share/opencode/auth.json
-#         (4 providers: opencode-go, ollama-cloud, nvidia, google)
-#   From secure backup, OR launch `opencode` and log in each provider via /models menu.
-#   Keys in auth.json are DIFFERENT from set-secrets.ps1's keys — they back the
-#   opencode-go/ollama-cloud/nvidia/google providers that ship with opencode.
+# Step 8: Provider logins (this is what powers the 2 main coders + spares)
+#   1. Zen (2 mains, free, no key):  opencode auth login --provider zen
+#      (free rows are "limited time" per Zen docs - fallback order lives in
+#      "Model fallback order" below; you will be told if it ever changes).
+#   2. In `opencode`, open /models and connect nvidia + google with YOUR keys.
+#   3. EXTENDED members: also connect opencode-go with the handed studio key.
+#   Keys in auth.json are DIFFERENT from set-secrets.ps1's keys - they back the
+#   providers that ship with opencode. Nothing here is shared between people.
 
 # Step 9: Verify (MUST be green) + restart opencode
-pwsh scripts/verify-setup.ps1 -Member   # members (owner-only items skipped-by-design)
+pwsh scripts/verify-setup.ps1 -Member   # members (fleet assertions included)
 # pwsh scripts/verify-setup.ps1         # owner
-# Restart any open opencode shells so new env vars take effect.
+# FULLY quit + reopen opencode afterwards (not just a new tab). Sessions load
+# the agent lineup once at startup - there is no hot-reload; skipping this
+# leaves old brains running behind the new config.
 ```
 
 ## Multi-project considerations
@@ -87,8 +98,8 @@ overrides you may need:
   https://github.com/settings/keys.
 - **GitHub Personal Access Token**: needs `repo`, `workflow`, `read:org`,
   `read:user`, `gist` scopes for the github MCP server.
-- **AIHUBMIX API access**: this workspace uses 44 models on `api.aihubmix.com`.
-  Get a key at https://aihubmix.com — required for `aihubmix/*` provider.
+- **AIHUBMIX API access (OWNER ONLY - members skip this entirely)**: the Sunday
+  audit loop uses 44 models on `api.aihubmix.com`. Members never touch it.
 
 ## What's NOT restored by automation (manual — by design)
 
@@ -142,10 +153,15 @@ Projects/ 4-layer guard piece-meal rollback:
 ## Member done-checklist (each person, before "done")
 
 - [ ] `verify-setup.ps1 -Member` ends `0 failures` (warnings on optional items OK).
-- [ ] `opencode` starts; `/models` shows the studio AI home.
+- [ ] `opencode` starts; helpers answer (2 Ultra mains, 3 k3 thinkers, 12 lite doers).
+- [ ] Restarted opencode once after setup (sessions load the lineup at startup).
 - [ ] Portal/app untouched; no database, hosting, or shared-secret access held.
-- [ ] One tiny change merged through a review (owner merges).
-- [ ] Knows: secrets never go in chat/email/screenshots; leaver rule below.
+- [ ] One tiny change merged through a review (owner merges same day). Pick one:
+  1. AGENTS.md "Primary agents / All subagents" lines → current fleet names.
+  2. AGENTS.md eyesight line → the live fallback model.
+  3. AGENTS.md fleet paragraph → current fleet names.
+- [ ] Knows: own keys never go in chat/email/screenshots; studio keys (extended
+      members) never leave your machine; leaver rule below.
 
 ## Owner moves machines (Version 1 restore)
 
@@ -156,10 +172,12 @@ Projects/ 4-layer guard piece-meal rollback:
 
 ## Leaver rule (personal machines can't be wiped)
 
-When a coder leaves: owner cancels their labeled studio key(s), removes them
-as collaborator, and asks them to delete the workspace copy. Safe by design:
-they never held shared secrets, the database, or anyone else's keys — a
-leftover copy of settings plus their own keys is useless to anyone else.
+- STANDARD leaver: owner removes them as collaborator and asks them to delete
+  the workspace copy. Nothing to cancel - they only ever held their own keys.
+- EXTENDED leaver: everything above, PLUS owner cancels their two labeled
+  studio keys (Go + hcnsec) at the source before anything else.
+  Safe by design: nobody ever held shared secrets, the database, or anyone
+  else's keys.
 
 ## Member rollback (undo an install)
 
@@ -176,8 +194,21 @@ cd ..; Remove-Item -Recurse -Force <dir>   # remove the clone
 ## Known quirk: Gemini sessions + vercel tools
 
 Direct-Google Gemini models reject one vercel tool's schema (oneOf booleans;
-proven Sep 2026 by bisection). Config-side, every Gemini-running agent will carry
-a `vercel_*` deny rule (lands with the agent remap), so agents are unaffected. Manual `/models` sessions on
+proven Sep 2026 by bisection). Config-side, every Gemini-running agent carries
+a `vercel_*` deny rule, so agents are unaffected. Manual `/models` sessions on
 a Gemini model inherit the same protection only through those agents — if you
 ever see `function_declarations` 400s in a manual session, switch back to a
 non-Gemini model for that chat.
+
+## Model fallback order (if a free row ever retires)
+
+Free rows are "limited time" per provider docs. If one vanishes, the owner
+announces the switch; members pull main and restart. Order:
+
+- Mains: Ultra-free → k3 (Nvidia) → lite (Google).
+- Thinkers: k3 (Nvidia, watch the 1,000-credit balance; Request More tops up)
+  → lite (Google).
+- Doers: lite (Google, 500/day) — deepest free bench; no fallback needed.
+
+Nobody re-registers anything for a fallback: every member already holds all
+three credentials from Step 6/8.

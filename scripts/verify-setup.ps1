@@ -53,13 +53,15 @@ foreach ($var in $envVars) {
     }
 }
 
-# Check 5-10 in batch: 6 secret API keys (no values printed)
-Write-Host "[5-10] Checking 6 secret env vars (no values printed)..." -ForegroundColor Yellow
+# Check 5-11 in batch: 7 secret API keys (no values printed)
+Write-Host "[5-11] Checking secret env vars (no values printed)..." -ForegroundColor Yellow
 $secretVars = @('HCNSEC_API_KEY', 'AIHUBMIX_API_KEY', 'GEMINI_API_KEY', 'TAVILY_API_KEY', 'SENTRY_AUTH_TOKEN', 'GITHUB_PERSONAL_ACCESS_TOKEN')
 if ($Member) {
-    # Owner-only by design: members skip the backup-AI key with no warning.
-    $secretVars = $secretVars | Where-Object { $_ -ne 'AIHUBMIX_API_KEY' }
-    Write-Host "  (member mode: AIHUBMIX_API_KEY skipped-by-design)" -ForegroundColor DarkGray
+    # Members need their own trio (Google/Nvidia/GitHub) + Tavily + Sentry.
+    # Nvidia has no owner-side env var (auth.json), so it joins only here.
+    # Studio keys (AIHUBMIX/HCNSEC) are owner-only / extended-only: skipped silently.
+    $secretVars = @('GEMINI_API_KEY', 'NVIDIA_API_KEY', 'TAVILY_API_KEY', 'SENTRY_AUTH_TOKEN', 'GITHUB_PERSONAL_ACCESS_TOKEN')
+    Write-Host "  (member mode: AIHUBMIX_API_KEY, HCNSEC_API_KEY skipped-by-design)" -ForegroundColor DarkGray
 }
 foreach ($var in $secretVars) {
     if ($IsWin) {
@@ -108,6 +110,31 @@ if (Test-Path $ocPath) {
     }
 } else {
     PrintFail "parent opencode.json MISSING at $ocPath"
+}
+
+# Check 12b: agent fleet mapping (mains/thinkers/doers + deny rules + .md consistency)
+Write-Host "[12b] Checking agent fleet mapping..." -ForegroundColor Yellow
+try {
+    if (-not $oc) { $oc = Get-Content $ocPath -Raw | ConvertFrom-Json }
+    $models = @($oc.agent.PSObject.Properties | ForEach-Object { $_.Value.model })
+    $nUltra = @($models | Where-Object { $_ -like '*ultra*' }).Count
+    $nK3 = @($models | Where-Object { $_ -like '*k3*' }).Count
+    $nLite = @($models | Where-Object { $_ -like '*lite*' }).Count
+    $nOld = @($models | Where-Object { $_ -match 'minimax-m3|Kimi-K2\.6|3\.8-flash' }).Count
+    if ($nUltra -eq 2 -and $nK3 -eq 3 -and $nLite -eq 12 -and $nOld -eq 0) { PrintOk "fleet: 2 Ultra + 3 k3 + 12 lite, 0 old models" }
+    else { PrintFail "fleet mismatch: ultra=$nUltra k3=$nK3 lite=$nLite old=$nOld (expect 2/3/12/0)" }
+    $nDeny = (Select-String -LiteralPath $ocPath -Pattern '"vercel_\*": "deny"' | Measure-Object).Count
+    if ($nDeny -ge 12) { PrintOk "vercel deny rules present ($nDeny)" }
+    else { PrintFail "vercel deny rules: $nDeny (expect >= 12)" }
+    $modeBad = 0
+    Get-ChildItem -LiteralPath (Join-Path (Join-Path $root '.opencode') 'agents') -Filter '*.md' | ForEach-Object {
+        $t = Get-Content -LiteralPath $_.FullName -Raw
+        if ($t -match '(?m)^mode:\s*(\S+)') { if ($Matches[1] -ne $oc.agent.($_.BaseName).mode) { $modeBad++ } }
+    }
+    if ($modeBad -eq 0) { PrintOk "agent .md/json modes consistent" }
+    else { PrintFail "$modeBad agent mode mismatch(es) between .md and opencode.json" }
+} catch {
+    PrintFail "fleet check error: $_"
 }
 
 # Check 13: parent .opencode dir has agents/ commands/ skills/

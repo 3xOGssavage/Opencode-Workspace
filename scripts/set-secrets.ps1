@@ -1,5 +1,5 @@
 # set-secrets.ps1
-# Interactive prompts for 6 User-scope env var API keys. Cross-platform:
+# Interactive prompts for 7 User-scope env var API keys. Cross-platform:
 # Windows uses setx (User scope) + Process scope for the current shell;
 # Linux/macOS prints export lines for ~/.bashrc or ~/.zshrc (same keys).
 # Soft validation (warn-not-fail) per Plan V8 C3.9. Never prints key fragments.
@@ -9,11 +9,12 @@
 #
 # Usage:
 #   pwsh scripts/set-secrets.ps1
+#   pwsh scripts/set-secrets.ps1 -Member   # teammates: owner-only keys skipped
 #   $env:OC_SECRETS_FILE = "$HOME\secrets.local.ps1"; pwsh scripts/set-secrets.ps1
 #   pwsh scripts/set-secrets.ps1 -DryRun
 
 [CmdletBinding()]
-param([switch]$DryRun)
+param([switch]$DryRun, [switch]$Member)
 
 $ErrorActionPreference = "Stop"
 
@@ -22,6 +23,7 @@ $secretSpec = @(
     @{ Key='HCNSEC_API_KEY';                Label='hcnsec.cn AI provider';     Shape='sk-';   MinLen=40; MaxLen=80 },
     @{ Key='AIHUBMIX_API_KEY';              Label='aihubmix.com (44 models)';  Shape='sk-';   MinLen=40; MaxLen=80 },
     @{ Key='GEMINI_API_KEY';                Label='Google AI Studio';          Shape='AQ.';    MinLen=40; MaxLen=80 },
+    @{ Key='NVIDIA_API_KEY';                Label='Nvidia build.nvidia.com';     Shape='nvapi-'; MinLen=40; MaxLen=100 },
     @{ Key='TAVILY_API_KEY';                Label='tavily.com (web search)';   Shape='tvly-';  MinLen=20; MaxLen=80 },
     @{ Key='SENTRY_AUTH_TOKEN';             Label='sentry.io (production)';    Shape='sntrys_'; MinLen=20; MaxLen=120 },
     @{ Key='GITHUB_PERSONAL_ACCESS_TOKEN';  Label='GitHub (gh CLI + MCP)';     Shape='ghp_';   MinLen=30; MaxLen=80 }
@@ -65,8 +67,17 @@ $ok = 0
 $warn = 0
 $fail = 0
 
+if ($Member) {
+    Write-Host "[info] Member mode: AIHUBMIX skipped-by-design; HCNSEC is extended-only (press Enter to skip)." -ForegroundColor Cyan
+    Write-Host ""
+}
+
 foreach ($spec in $secretSpec) {
     $key = $spec.Key
+    if ($Member -and $key -eq 'AIHUBMIX_API_KEY') {
+        Write-Host "[skip] $key - owner only (member mode)" -ForegroundColor DarkGray
+        continue
+    }
     $label = $spec.Label
     $shape = $spec.Shape
     Write-Host "[set] $key - $label" -ForegroundColor Yellow
