@@ -164,22 +164,25 @@ Write-Host ""
 Write-Host "[5/5] Manual steps remaining (cannot be automated):" -ForegroundColor Yellow
 Write-Host ""
 if ($Member) {
-    Write-Host "  A. Keys (yours + 1 studio handover, never in chat):" -ForegroundColor White
+    Write-Host "  A. Keys (yours + studio handover for extended only, never in chat):" -ForegroundColor White
     Write-Host "     GITHUB_PERSONAL_ACCESS_TOKEN     => your free key, FIRST (private repo needs it)"
-    Write-Host "     HCNSEC_API_KEY                   => studio-labeled key, handed over by the owner"
-    Write-Host "     GEMINI_API_KEY                   => your free Google AI Studio key"
-    Write-Host "     TAVILY_API_KEY                   => your free key"
-    Write-Host "     SENTRY_AUTH_TOKEN                => optional day one, skip freely"
+    Write-Host "     GEMINI_API_KEY                   => your free Google AI Studio key (12 helpers)"
+    Write-Host "     NVIDIA_API_KEY                   => your free build.nvidia.com key (3 thinkers)"
+    Write-Host "     TAVILY_API_KEY                   => your free key (web search, required)"
+    Write-Host "     SENTRY_AUTH_TOKEN                => your own account (required; shows no Portal data until invited)"
+    Write-Host "     HCNSEC_API_KEY                   => EXTENDED members only, handed over by phone call"
     Write-Host "     (skip AIHUBMIX_API_KEY - owner only)"
     Write-Host "     Windows: setx NAME 'value' | Linux: export NAME='value' in ~/.bashrc"
     Write-Host ""
     Write-Host "  B. Logins (your own accounts):" -ForegroundColor White
-    Write-Host "     opencode mcp auth sentry   (optional day one)"
+    Write-Host "     opencode auth login --provider zen   (2 mains, free, no key)"
+    Write-Host "     opencode mcp auth sentry   (required day one, own account)"
     Write-Host "     SKIP supabase + vercel logins (owner only)"
-    Write-Host "     /models menu: ollama-cloud, opencode-go, nvidia, google (your own)"
+    Write-Host "     /models menu: nvidia + google (your own); opencode-go (extended only)"
     Write-Host ""
-    Write-Host "  C. Verify (must be green):" -ForegroundColor White
+    Write-Host "  C. Verify (must be green) + restart:" -ForegroundColor White
     Write-Host "     pwsh scripts/verify-setup.ps1 -Member"
+    Write-Host "     FULLY quit + reopen opencode afterwards (no hot-reload exists)"
     Write-Host ""
 } else {
 Write-Host ""

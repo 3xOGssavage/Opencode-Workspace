@@ -8,6 +8,10 @@
 #
 # Exits 0 if all checks pass, 1 if any check fails.
 # Paths are auto-detected from $PSScriptRoot (cross-platform; works on any clone path).
+#
+# Member mode skips the HCNSEC key check (standard members never hold it).
+
+param([switch]$Member)
 
 $ErrorActionPreference = "Stop"
 
@@ -28,6 +32,7 @@ Write-Host ""
 # Check 1: OPENCODE_CONFIG env var
 Write-Host "[1] Checking OPENCODE_CONFIG env var..." -ForegroundColor Yellow
 $oc = [System.Environment]::GetEnvironmentVariable("OPENCODE_CONFIG", "User")
+if (-not $oc) { $oc = [System.Environment]::GetEnvironmentVariable("OPENCODE_CONFIG", "Process") }
 if ($oc -eq $EXPECTED_OC) {
     Write-Host "    [OK] OPENCODE_CONFIG = $oc" -ForegroundColor Green
 } else {
@@ -38,6 +43,7 @@ if ($oc -eq $EXPECTED_OC) {
 # Check 2: OPENCODE_CONFIG_DIR env var
 Write-Host "[2] Checking OPENCODE_CONFIG_DIR env var..." -ForegroundColor Yellow
 $ocd = [System.Environment]::GetEnvironmentVariable("OPENCODE_CONFIG_DIR", "User")
+if (-not $ocd) { $ocd = [System.Environment]::GetEnvironmentVariable("OPENCODE_CONFIG_DIR", "Process") }
 if ($ocd -eq $EXPECTED_OCD) {
     Write-Host "    [OK] OPENCODE_CONFIG_DIR = $ocd" -ForegroundColor Green
 } else {
@@ -154,13 +160,18 @@ foreach ($sub in $criticalDirs) {
     }
 }
 
-# Check 11: HCNSEC_API_KEY env var (needed for hcnsec provider)
+# Check 11: HCNSEC_API_KEY env var (needed for hcnsec provider; skipped in member mode)
 Write-Host "[11] Checking HCNSEC_API_KEY env var..." -ForegroundColor Yellow
+if ($Member) {
+    Write-Host "    (member mode: HCNSEC check skipped-by-design)" -ForegroundColor DarkGray
+} else {
 $hcnKey = [System.Environment]::GetEnvironmentVariable("HCNSEC_API_KEY", "User")
+if (-not $hcnKey) { $hcnKey = [System.Environment]::GetEnvironmentVariable("HCNSEC_API_KEY", "Process") }
 if ($hcnKey) {
     Write-Host "    [OK] HCNSEC_API_KEY is set ($($hcnKey.Length) chars)" -ForegroundColor Green
 } else {
     Write-Host "    [WARN] HCNSEC_API_KEY missing - hcnsec provider won't authenticate" -ForegroundColor Yellow
+}
 }
 
 # Summary
@@ -170,8 +181,8 @@ if ($failures -eq 0) {
     Write-Host " RESULT: ALL CHECKS PASSED" -ForegroundColor Green
     Write-Host " Config inheritance is correctly configured." -ForegroundColor Green
     Write-Host " All child project sessions will inherit parent settings:" -ForegroundColor Green
-    Write-Host "   - hcnsec provider (20 models) - visible in model picker" -ForegroundColor Green
-    Write-Host "   - 15 MCP servers - active per session" -ForegroundColor Green
+    Write-Host "   - hcnsec provider ($modelCount models) - visible in model picker" -ForegroundColor Green
+    Write-Host "   - $mcpCount MCP servers - active per session" -ForegroundColor Green
     Write-Host "   - Parent agents/commands/skills - available everywhere" -ForegroundColor Green
 } else {
     Write-Host " RESULT: $failures CHECKS FAILED" -ForegroundColor Red
