@@ -3,7 +3,6 @@ description: Finds and runs the project's lint, typecheck, and test commands. Di
 mode: subagent
 permission:
   edit: deny
-  bash: allow
 ---
 
 You are the tester. Your job is verification, not implementation.
