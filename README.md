@@ -325,20 +325,20 @@ Prefer the clean fix if you have network access — the quick fix only unblocks 
 
 ---
 
-### GitHub Push Protection (server-side backstop) — cost note for private repos
+### GitHub Push Protection (server-side backstop) — free on public repos
 
 The pre-commit hook (`scripts\audit-secrets.ps1`) scans for `ghp_`, `sk-`, `AIza`, `github_pat_` shapes locally. GitHub's server-side Push Protection is a second net — it blocks pushes containing recognized token shapes regardless of local scanner coverage.
 
-**Cost for private repos:** GitHub Push Protection for private repositories requires **GitHub Advanced Security (GHAS)** at **$19/active committer/month**. Free tier covers **public repos only**. This repo is private by design (contains `auth.json` ACL notes + user paths), so **DO NOT flip it public** to access free Push Protection.
+**Cost:** public repos include Push Protection free (private ones would need paid GHAS). This repo is public, so the paid tier question never arises. The local combo stays primary regardless:
 
-**The free combo is strictly stronger for solo private use:**
+**The free combo is strictly stronger here:**
 
 1. `scripts\audit-secrets.ps1` pre-commit hook (blocks commit locally, before push)
 2. `gitleaks` CI with `fetch-depth: 0` (scans full history, not just current PR — catches secrets in every prior commit)
 
-Together these provide historical scanning that paid Push Protection does **not** offer by itself. Skip the paid GHAS tier for solo use; revisit only if team size grows past 1 active committer.
+Together these provide historical scanning that Push Protection does **not** offer by itself. No paid tier needed on a public repo; revisit only if visibility ever changes.
 
-**To enable Push Protection anyway** (if budget allows, or if repo is ever flipped public):
+**To confirm Push Protection is on** (free on public repos):
 
 1. Repo → **Settings** → **Code security and analysis**
 2. Enable **Secret scanning** and **Push protection**
@@ -541,7 +541,7 @@ git push
 
 - **3rd offline copy** via `git bundle create --all opencode-$(date).bundle` + `git bundle verify opencode-*.bundle`. Closes the "both F: and GitHub die same day" gap. Store the bundle on a separate drive or USB stick.
 - **Quarterly GitHub Export tar.gz** — `Settings → Account → Export`. Captures Issues/PRs/Wiki/Releases metadata that `git bundle`/`git clone --mirror` don't. Download link expires in 7 days.
-- **BFG public-release sweep** — if this repo is ever flipped public, run BFG to strip partial key prefixes (`sk-W8GXu...`, `nvapi-W1yyV...`, `AQ.Ab8R...`) from history, THEN rotate every key. Gitleaks CI is the live gate against new leaks.
+- **BFG sweep (retired - repo is public)** — truncated key prefixes (`sk-W8GXu...`, `nvapi-W1yyV...`, `AQ.Ab8R...`) are already in history and assessed safe (fragments only, scanner-allowlisted, gitleaks-clean). If a REAL key ever lands in history: rotate it first, then BFG-strip. Gitleaks CI is the live gate against new leaks.
 - **Annual `git gc --aggressive --prune=now`** — monitor via `git count-objects -vH`. Keeps the repo lean when many backup branches accumulate.
 
 ### Acceptance criteria (this v7 release)
@@ -582,11 +582,13 @@ git push
 - Strip the "Projects/ is local-only" subsection from AGENTS.md (Layer E)
 - `git commit -m "chore: rollback Projects/ leak guard Layers A, C, D, E"`
 
-**Actions minutes burn**: private repos get 2,000 min/month free, then $0.008/min. The onboarding-smoke-test.yml + projects-guard.yml workflows fire only on PR-to-main + tag pushes (≈3-10 min/PR × ~36 free PRs/mo → plenty). If you're burning more, narrow the triggers in both `.github/workflows/*.yml` files.
+**Actions minutes burn**: public repos get unlimited standard-runner minutes, so CI cost is $0. The onboarding-smoke-test.yml + projects-guard.yml workflows fire only on PR-to-main + tag pushes. (If this repo ever goes private: 2,000 min/month free, then $0.008/min.) If you're burning more, narrow the triggers in both `.github/workflows/*.yml` files.
 
 ## License
 
-Private repo. Internal use only.
+Public repo. No secrets are committed here — see the secret-scan workflow.
+If you spot an accidental leak, tell the owner immediately so the key can be
+rotated.
 
 ## Agent capabilities expansion (2026-08-29)
 

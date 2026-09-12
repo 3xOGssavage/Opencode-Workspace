@@ -10,11 +10,12 @@ backup procedure), see **README.md → Restore Guide** (Scenario B).
 
 ## Step 0 (members): access before clone
 
-The repo is private. Before anything else:
+The repo is public: anyone can read and clone it. The invite grants something
+narrower - the right to push branches and take part in reviews:
 
 1. Owner adds you as a collaborator (small groups, GitHub invite limits).
 2. You log into GitHub (free account) and open the repo page to confirm access.
-3. Only then `git clone` below. Cloning without access fails — that is normal.
+3. Then `git clone` below (cloning works with or without the invite; pushing needs it).
 
 ## 9-step happy path
 
@@ -172,12 +173,16 @@ Projects/ 4-layer guard piece-meal rollback:
 
 ## Leaver rule (personal machines can't be wiped)
 
+This repo is public, so be honest about what leaving means: a leaver's
+existing copy stays readable - removal ends their _push_ access, not their
+memory of the code. That stays safe by design: nobody ever held shared
+secrets, the database, or anyone else's keys, so a leftover copy is useless
+to anyone else.
+
 - STANDARD leaver: owner removes them as collaborator and asks them to delete
   the workspace copy. Nothing to cancel - they only ever held their own keys.
 - EXTENDED leaver: everything above, PLUS owner cancels their two labeled
   studio keys (Go + hcnsec) at the source before anything else.
-  Safe by design: nobody ever held shared secrets, the database, or anyone
-  else's keys.
 
 ## Member rollback (undo an install)
 
