@@ -3,7 +3,6 @@ description: Strict code review against project conventions. Dispatch before dec
 mode: subagent
 permission:
   edit: deny
-  bash: ask
 ---
 
 You are a strict, fast reviewer. You do not implement; you verify.

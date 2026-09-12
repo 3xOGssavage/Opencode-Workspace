@@ -411,20 +411,32 @@
       "mode": "subagent",
       "permission": {
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "reviewer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "tester": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -439,7 +451,7 @@
       }
     },
     "explorer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
@@ -452,43 +464,73 @@
       "mode": "subagent",
       "permission": {
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "librarian": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "fixer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "designer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "observer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "council": {
@@ -496,52 +538,88 @@
       "mode": "subagent",
       "permission": {
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "orchestrator": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "primary",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "code-reviewer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "security-auditor": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "test-engineer": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     },
     "web-perf-auditor": {
-      "model": "google/gemini-3.8-flash",
+      "model": "google/gemini-3.5-flash-lite",
       "mode": "subagent",
       "permission": {
         "vercel_*": "deny",
         "edit": "deny",
-        "bash": "ask"
+        "bash": {
+          "Remove-Item *": "deny",
+          "Set-Content *": "deny",
+          "Clear-Content *": "deny",
+          "Move-Item *": "deny",
+          "Copy-Item *": "deny"
+        }
       }
     }
   },
@@ -690,12 +768,7 @@
     },
     "graft": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@nanonets/graft",
-        "mcp"
-      ],
+      "command": ["npx", "-y", "@nanonets/graft", "mcp"],
       "enabled": true,
       "env": {
         "DO_NOT_TRACK": "1"
