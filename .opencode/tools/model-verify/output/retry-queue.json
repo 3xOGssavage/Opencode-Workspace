@@ -1,54 +1,211 @@
 [
   {
-    "id": "DeepSeek-V4-Pro",
+    "id": "deepseek-v4-flash-vision-exp",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Requested token count exceeds the model's maximum context length of 1048576 tokens. You requested a total of 2000005 tokens: 5 tokens from the input messages and 2000000 tokens for the completion. Please reduce the number of tokens in the input messages or the completion to fit within the limit.\",\"type\":\"BadRequestError\",\"param\":\"\",\"code\":\"client_error\"}}"
+    }
+  },
+  {
+    "id": "glm-4.5-air",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 200,
+      "ok": true,
+      "usage": {
+        "prompt_tokens": 6,
+        "completion_tokens": 192,
+        "total_tokens": 198,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        },
+        "completion_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 0
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "input_tokens_details": null,
+        "claude_cache_creation_5_m_tokens": 0,
+        "claude_cache_creation_1_h_tokens": 0
+      },
+      "model_returned": null
+    }
+  },
+  {
+    "id": "glm-5.3-flash",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Validation: Max tokens must not exceed 1048576, got 2000000\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
+    }
+  },
+  {
+    "id": "kimi-k3",
     "provider": "hcnsec",
     "probe": {
       "error": "The operation was aborted due to timeout"
     }
   },
   {
-    "id": "Kimi-K2.6",
+    "id": "longcat-2.0",
     "provider": "hcnsec",
     "probe": {
-      "status": 503,
+      "status": 500,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Kimi-K2.6 under group auto (distributor) (request id: 202609091124494199903638268d9d6gQCsdaDU)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"分组 auto 下模型 longcat-2.0 的可用渠道不存在（retry） (request id: 202609131204101121703428268d9d60Qhw75xA)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
     }
   },
   {
-    "id": "MiniMax-M3",
+    "id": "Qwen3-Embedding-8B",
     "provider": "hcnsec",
-    "probe": {
-      "status": 503,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model MiniMax-M3 under group auto (distributor) (request id: 202609091124513530430458268d9d6m1pm2lmw)\",\"type\":\"new_api_error\"}}"
-    }
-  },
-  {
-    "id": "coding-glm-4.6-free",
-    "provider": "aihubmix",
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090911245421719309122010865)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
-    }
-  },
-  {
-    "id": "coding-glm-5.1-free",
-    "provider": "aihubmix",
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026090911251729944141366499461)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
-    }
-  },
-  {
-    "id": "coding-glm-5.2-free",
-    "provider": "aihubmix",
     "probe": {
       "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: z-ai/glm-5.2 (tid: 2026090911253975361057516707282)\",\"type\":\"\",\"param\":\"\",\"code\":404}}"
+      "error": "{\"error\":{\"message\":\"openai_error\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
+    }
+  },
+  {
+    "id": "Qwen3.6-35B-A3B",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"'max_tokens' value must be less or equal than 131072; \",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":10163}}"
+    }
+  },
+  {
+    "id": "Qwen3.8-27B",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 404,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"openai_error\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
+    }
+  },
+  {
+    "id": "Qwen3.8-Flash-Next",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Requested token count exceeds the model's maximum context length of 262144 tokens. You requested a total of 2000053 tokens: 53 tokens from the input messages and 2000000 tokens for the completion. Please reduce the number of tokens in the input messages or the completion to fit within the limit.\",\"type\":\"BadRequestError\",\"param\":\"\",\"code\":\"client_error\"}}"
+    }
+  },
+  {
+    "id": "sensenova-6.8-flash-lite",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"field MaxTokens invalid, should be in [1, 65536]\",\"type\":\"invalid_request_error\",\"param\":\"max_tokens\",\"code\":\"3\"}}"
+    }
+  },
+  {
+    "id": "sensenova-u1.5-lite",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 404,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"model is not found\",\"type\":\"not_found_error\",\"param\":\"\",\"code\":\"5\"}}"
+    }
+  },
+  {
+    "id": "spark-x2.5",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 200,
+      "ok": true,
+      "usage": {
+        "prompt_tokens": 17,
+        "completion_tokens": 106,
+        "total_tokens": 123,
+        "usage_semantic": "openai",
+        "usage_source": "anthropic",
+        "billing_usage": {
+          "source": "claude_messages",
+          "semantic": "anthropic",
+          "claude_usage": {
+            "input_tokens": 17,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "output_tokens": 106,
+            "claude_cache_creation_5_m_tokens": 0,
+            "claude_cache_creation_1_h_tokens": 0
+          }
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        },
+        "completion_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 0
+        },
+        "input_tokens": 17,
+        "output_tokens": 0,
+        "input_tokens_details": null,
+        "claude_cache_creation_5_m_tokens": 0,
+        "claude_cache_creation_1_h_tokens": 0
+      },
+      "model_returned": "spark-x2.5-4b"
+    }
+  },
+  {
+    "id": "step-explore",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 404,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The model \\\"step-explore\\\" does not exist or you do not have access to it.\",\"type\":\"model_invalid\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "gemini-3.8-flash-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Unable to submit request because it has a maxOutputTokens value of 2000000 but the supported range is from 1 (inclusive) to 65537 (exclusive). Update the value and try again. (tid: 2026091312044110054405765630983)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
+    }
+  },
+  {
+    "id": "coding-glm-5.3-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"max_tokens参数非法：限制数值范围[1,131072] (tid: 2026091312044347994473581345526)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+    }
+  },
+  {
+    "id": "hy3-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model hy3-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026091312045893653950106122490)\",\"type\":\"Aihubmix_api_error\"}}"
+    }
+  },
+  {
+    "id": "minimax-m2.7-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model minimax-m2.7-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026091312050076151635031509460)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   }
 ]

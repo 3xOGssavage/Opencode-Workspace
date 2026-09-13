@@ -392,6 +392,12 @@
       "owned_by": "nvidia"
     },
     {
+      "id": "nvidia/nemotron-parse-2.0",
+      "object": "model",
+      "created": 735790403,
+      "owned_by": "nvidia"
+    },
+    {
       "id": "nvidia/neva-22b",
       "object": "model",
       "created": 735790403,
@@ -474,6 +480,12 @@
       "object": "model",
       "created": 735790403,
       "owned_by": "writer"
+    },
+    {
+      "id": "z-ai/glm-5.3-flash",
+      "object": "model",
+      "created": 735790403,
+      "owned_by": "z-ai"
     },
     {
       "id": "zyphra/zamba2-7b-instruct",

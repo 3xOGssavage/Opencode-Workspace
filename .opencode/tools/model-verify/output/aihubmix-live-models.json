@@ -49,6 +49,12 @@
       "owned_by": "Z.AI"
     },
     {
+      "id": "qwen-3.8-27b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
       "id": "mercury-2.5-preview",
       "object": "model",
       "created": 1626777600,
@@ -91,28 +97,10 @@
       "owned_by": "Hunyuan"
     },
     {
-      "id": "minimax-m3-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Minimax"
-    },
-    {
       "id": "qwen3.8-flash",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Qwen"
-    },
-    {
-      "id": "mai-image-2.6",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Microsoft"
-    },
-    {
-      "id": "mai-image-2.6-flash",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Microsoft"
     },
     {
       "id": "minimax-m2.7-free",
@@ -379,34 +367,16 @@
       "owned_by": "ByteDance"
     },
     {
-      "id": "mai-image-2.5-pro",
+      "id": "gemini-3.5-flash",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Microsoft"
+      "owned_by": "Google"
     },
     {
       "id": "grok-build-0.1",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Grok"
-    },
-    {
-      "id": "mai-image-2.5",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Microsoft"
-    },
-    {
-      "id": "mai-image-2.5-flash",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Microsoft"
-    },
-    {
-      "id": "gemini-3.5-flash",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Google"
     },
     {
       "id": "coding-kimi-k3",
@@ -451,12 +421,6 @@
       "owned_by": "Moonshot AI"
     },
     {
-      "id": "gpt-audio-1.5",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "OpenAI"
-    },
-    {
       "id": "longcat-2.0",
       "object": "model",
       "created": 1626777600,
@@ -473,12 +437,6 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "Google"
-    },
-    {
-      "id": "gpt-4o-transcribe-diarize",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "OpenAI"
     },
     {
       "id": "hy3-preview",

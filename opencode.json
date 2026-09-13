@@ -208,7 +208,21 @@
             "output": 4096
           }
         }
-      }
+      ,
+        "glm-4.5-air": {
+          "name": "glm 4.5 air",
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        },
+        "spark-x2.5": {
+          "name": "spark x2.5",
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          }
+        }}
     },
     "aihubmix": {
       "npm": "@ai-sdk/openai-compatible",
