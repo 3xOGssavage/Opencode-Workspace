@@ -13,13 +13,40 @@
       ]
     },
     {
-      "id": "DeepSeek-V4-Pro",
+      "id": "DeepSeek-V4-Flash",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
       "supported_endpoint_types": [
         "openai",
         "anthropic"
+      ]
+    },
+    {
+      "id": "deepseek-v4-flash-vision-exp",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "DeepSeek-V4-Pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "glm-4.5-air",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "zhipu",
+      "supported_endpoint_types": [
+        "openai"
       ]
     },
     {
@@ -33,7 +60,25 @@
       ]
     },
     {
+      "id": "kimi-k3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
       "id": "longcat-2.0",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "Qwen3-Embedding-8B",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -49,6 +94,24 @@
       "supported_endpoint_types": [
         "openai",
         "anthropic"
+      ]
+    },
+    {
+      "id": "Qwen3.8-27B",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "Qwen3.8-Flash-Next",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
       ]
     },
     {

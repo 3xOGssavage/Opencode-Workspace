@@ -100,3 +100,19 @@ flagged, pending newcomers) every week, tail rotates for monthly full coverage.
 
 Weekly Sunday 17:30 task (rotation design); newcomer verification when quota
 allows; kimi-k3 successor probe; Kimi/MiniMax storm watch; evals P0 on user word.
+
+## 2026-09-13 run (storm verdict + catalog sync)
+
+- hcnsec storm: old lineup still no-channel (Kimi-K2.6, MiniMax-M3,
+  kat-coder-pro-v2.5, sensenova-6.7-flash-lite, stepaudio-2.5-chat);
+  DeepSeek-V4-Flash back to live. Catalog growing again (glm-4.5-air,
+  spark-x2.5 both probe-200-OK and added to `opencode.json` hcnsec block;
+  kimi-k3 + Qwen3-Embedding-8B listed, unscanned). Irrelevant to the fleet
+  (no seat uses hcnsec) but good for extended members' manual use.
+- aihubmix: `minimax-m3-free` removed from catalog; `qwen-3.8-27b` added;
+  Coding GLM 5.2 confirmed `[PAID 2026-09-09]`. Old flagship family decay
+  continues — the fleet's move away stands validated.
+- opencode-go: timestamp churn only, lineup stable (Ultra mains unaffected).
+- google: lite seat live by dispatch + dashboard 500/day (fleet unaffected).
+- Seats/denies/modes verified byte-identical after the sync (12/2/3/0, 12
+  denies, 0 mismatches). Report stub local-only per rules.
