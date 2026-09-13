@@ -1,0 +1,64 @@
+﻿{
+    "passed":  2,
+    "run_timestamp":  "2026-09-14T01:58:45.0245206+05:30",
+    "failed":  3,
+    "results":  [
+                    {
+                        "elapsed_ms":  443771,
+                        "exit_code":  0,
+                        "case":  "brainstorming",
+                        "deterministic_passed":  2,
+                        "status":  "failed",
+                        "timestamp":  "2026-09-14T01:43:51.3473416+05:30",
+                        "llm_judge_score":  null,
+                        "deterministic_failed":  1,
+                        "skill":  "brainstorming"
+                    },
+                    {
+                        "elapsed_ms":  82702,
+                        "exit_code":  0,
+                        "case":  "systematic-debugging",
+                        "deterministic_passed":  4,
+                        "status":  "passed",
+                        "timestamp":  "2026-09-14T01:45:14.0614329+05:30",
+                        "llm_judge_score":  null,
+                        "deterministic_failed":  0,
+                        "skill":  "systematic-debugging"
+                    },
+                    {
+                        "elapsed_ms":  494156,
+                        "exit_code":  0,
+                        "case":  "test-driven-development",
+                        "deterministic_passed":  3,
+                        "status":  "passed",
+                        "timestamp":  "2026-09-14T01:53:28.2276122+05:30",
+                        "llm_judge_score":  null,
+                        "deterministic_failed":  0,
+                        "skill":  "test-driven-development"
+                    },
+                    {
+                        "elapsed_ms":  238081,
+                        "exit_code":  0,
+                        "case":  "using-git-worktrees",
+                        "deterministic_passed":  2,
+                        "status":  "failed",
+                        "timestamp":  "2026-09-14T01:57:26.3194350+05:30",
+                        "llm_judge_score":  null,
+                        "deterministic_failed":  1,
+                        "skill":  "using-git-worktrees"
+                    },
+                    {
+                        "elapsed_ms":  78694,
+                        "exit_code":  0,
+                        "case":  "verification-before-completion",
+                        "deterministic_passed":  2,
+                        "status":  "failed",
+                        "timestamp":  "2026-09-14T01:58:45.0245206+05:30",
+                        "llm_judge_score":  null,
+                        "deterministic_failed":  1,
+                        "skill":  "verification-before-completion"
+                    }
+                ],
+    "skipped":  0,
+    "total_cases":  5
+}
