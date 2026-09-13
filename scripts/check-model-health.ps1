@@ -95,10 +95,18 @@ foreach ($p in $providers) {
         $key = ""
         if ($keyEnvName) { $key = (Get-Item env:$keyEnvName -ErrorAction SilentlyContinue).Value }
         $headers = @{}
-        if ($key) { $headers["Authorization"] = "Bearer $key" }
+        $uri = "$baseUrl/models"
+        if ($key) {
+            if ($providerName -eq "google") {
+                # ponytail: Google takes ?key=, not Bearer (Bearer 401s forever)
+                $uri = "$baseUrl/models?key=$key"
+            } else {
+                $headers["Authorization"] = "Bearer $key"
+            }
+        }
         $sw = [System.Diagnostics.Stopwatch]::StartNew()
         try {
-            $resp = Invoke-RestMethod -Uri "$baseUrl/models" -Headers $headers -TimeoutSec $timeoutSec -Method GET -ErrorAction Stop
+            $resp = Invoke-RestMethod -Uri $uri -Headers $headers -TimeoutSec $timeoutSec -Method GET -ErrorAction Stop
             $sw.Stop()
             return [pscustomobject]@{
                 Provider   = $providerName
@@ -109,12 +117,14 @@ foreach ($p in $providers) {
             }
         } catch {
             $sw.Stop()
+            # ponytail: error text can echo the request URI - redact ?key= before it touches any log
+            $errMsg = $_.Exception.Message -replace 'key=[^&\s]+', 'key=[REDACTED]'
             return [pscustomobject]@{
                 Provider   = $providerName
                 Status     = "Unreachable"
                 LatencyMs  = [int]$sw.ElapsedMilliseconds
                 ModelCount = 0
-                Error      = $_.Exception.Message
+                Error      = $errMsg
             }
         }
     } -ArgumentList $p.Name, $p.BaseUrl, $p.KeyEnv, $TimeoutSec

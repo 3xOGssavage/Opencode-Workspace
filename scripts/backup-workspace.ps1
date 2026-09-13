@@ -126,11 +126,16 @@ try {
             try {
                 if ($pat) {
                     $helper = "!f() { echo username=$ghUser; echo password=$pat; }; f"
-                    git -c credential.helper= -c credential.helper="!$helper" push -u origin $branchName 2>&1 | Out-Null
+                    $pushOut = git -c credential.helper= -c credential.helper="!$helper" push -u origin $branchName 2>&1 | Out-String
                 } else {
-                    git push -u origin $branchName 2>&1 | Out-Null
+                    $pushOut = git push -u origin $branchName 2>&1 | Out-String
                 }
-                if ($LASTEXITCODE -ne 0) { throw "git push failed (exit $LASTEXITCODE)" }
+                if ($LASTEXITCODE -ne 0) {
+                    # ponytail: never print credentials - redact PAT defensively before echoing push output
+                    $safeOut = if ($pat) { $pushOut.Replace($pat, "[REDACTED]") } else { $pushOut }
+                    Write-Host $safeOut
+                    throw "git push failed (exit $LASTEXITCODE)"
+                }
             } finally {
                 $ErrorActionPreference = $prevEAP
             }
