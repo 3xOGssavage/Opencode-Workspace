@@ -2,7 +2,8 @@
 <#
 .SYNOPSIS
   Verifies the backup workflow is healthy: checks for recent backup, alerts on
-  staleness, validates .last-backup marker.
+  staleness, validates .last-backup marker. Also validates live global-config
+  sync (global-config/ master vs live config dir).
 
 .DESCRIPTION
   Exit codes (per AGENTS.md failure-mode convention):
@@ -25,6 +26,12 @@
   Days since first-ever backup before enforcing MaxAgeDays (default: 7).
   During warmup, only checks that AT LEAST ONE backup exists.
 
+.PARAMETER MasterDir
+  Master config dir (default: <repo>/global-config). Test seam for temp dirs.
+
+.PARAMETER LiveDir
+  Live config dir (default: ~/.config/opencode). Test seam for temp dirs.
+
 .EXAMPLE
   pwsh -File scripts\backup-verify.ps1
   pwsh -File scripts\backup-verify.ps1 -MaxAgeDays 3
@@ -33,7 +40,9 @@
 param(
     [string]$BackupDir = "D:\Backups",
     [int]$MaxAgeDays = 7,
-    [int]$WarmupDays = 7
+    [int]$WarmupDays = 7,
+    [string]$MasterDir = "",
+    [string]$LiveDir = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -133,6 +142,52 @@ if ($bundleCount -eq 0) {
     }
 } else {
     $reasons += "OK - $($bundleCount) bundles, most recent $([math]::Round($ageDays,1))d old"
+}
+
+# --- Live-config sync check (global-config/ master vs live config dir) ---
+# Sunday watchdog for settings sync. Depends on this script's schedule/notify
+# plumbing - do not split into a separate script without re-homing (see R1).
+# Compared files carry no secrets (audited); reasons print filenames only.
+# Alert-only by design: drift direction is ambiguous (master may be stale),
+# so this section never auto-corrects. Excluded: package-lock.json
+# (npm-managed), README.md (doc), auth/mcp-auth files (machine secrets).
+$syncMaster = $MasterDir
+if ([string]::IsNullOrEmpty($syncMaster)) { $syncMaster = Join-Path $repoRoot "global-config" }
+$syncLive = $LiveDir
+if ([string]::IsNullOrEmpty($syncLive)) { $syncLive = Join-Path $env:USERPROFILE ".config\opencode" }
+$syncFiles = @("opencode.jsonc", "oh-my-opencode-slim.json", "tui.json", "package.json")
+$syncOkCount = 0
+if ([string]::IsNullOrEmpty($env:USERPROFILE)) {
+    if ($status -eq "healthy") { $status = "degraded" }
+    $reasons += "Config sync UNCHECKED: USERPROFILE unavailable (unexpected scheduler context)"
+} elseif (-not (Test-Path -LiteralPath $syncLive)) {
+    if ($status -eq "healthy") { $status = "degraded" }
+    $reasons += "Live config dir missing: re-run setup-env-vars.ps1 step 2 (copies global-config/ over)"
+} else {
+    foreach ($sf in $syncFiles) {
+        try {
+            $mf = Join-Path $syncMaster $sf
+            $lf = Join-Path $syncLive $sf
+            if (-not (Test-Path -LiteralPath $mf)) {
+                if ($status -eq "healthy") { $status = "degraded" }
+                $reasons += "Config sync UNCHECKED for ${sf}: master copy missing (incomplete checkout?)"
+            } elseif (-not (Test-Path -LiteralPath $lf)) {
+                if ($status -eq "healthy") { $status = "degraded" }
+                $reasons += "Config drift: live $sf missing (re-run setup-env-vars.ps1 step 2)"
+            } elseif ((Get-FileHash -LiteralPath $mf).Hash -ne (Get-FileHash -LiteralPath $lf).Hash) {
+                if ($status -eq "healthy") { $status = "degraded" }
+                $reasons += "Config drift: $sf differs from global-config/ master (master wins: re-run setup step 2; live wins: copy live to master, commit, PR)"
+            } else {
+                $syncOkCount++
+            }
+        } catch {
+            if ($status -eq "healthy") { $status = "degraded" }
+            $reasons += "Config sync UNCHECKED for ${sf}: $($_.Exception.Message)"
+        }
+    }
+    if ($syncOkCount -eq $syncFiles.Count) {
+        $reasons += "Config sync OK - 4/4 files match master"
+    }
 }
 
 # --- Output + exit code ---
