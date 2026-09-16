@@ -147,6 +147,38 @@ if (Test-Path $PROJECTS_ROOT) {
 }
 if ($childFailures -gt 0) { $failures += $childFailures }
 
+# Check 9b: Child configs don't pin dead models (denylist; WARN only, never fails)
+# Denylist (update source: docs/model-audit.md DO-NOT-WORK table). Deliberately NOT
+# an allowlist: parent declares 2 providers but live seats use 5+ (built-ins),
+# so unknown != dead. Flags top-level model/small_model + agent.*.model values.
+# small_model is always flagged: the field was removed upstream (v2 ignores it).
+Write-Host "[9b] Scanning child configs for dead model pins..." -ForegroundColor Yellow
+$deadModels = @("ollama-cloud/minimax-m3", "opencode-go/glm-5.2")
+if (Test-Path $PROJECTS_ROOT) {
+    Get-ChildItem $PROJECTS_ROOT -Directory | ForEach-Object {
+        $proj = $_.Name
+        $configPath = Join-Path $_.FullName "opencode.json"
+        if (Test-Path $configPath) {
+            try {
+                $c = Get-Content $configPath -Raw | ConvertFrom-Json
+                $pins = @()
+                if ($c.PSObject.Properties.Name -contains "small_model") { $pins += "small_model key present (field removed upstream)" }
+                if (($c.PSObject.Properties.Name -contains "model") -and ($deadModels -contains $c.model)) { $pins += "model=$($c.model)" }
+                if ($c.agent) {
+                    foreach ($an in $c.agent.PSObject.Properties.Name) {
+                        $am = $c.agent.$an.model
+                        if ($am -and ($deadModels -contains $am)) { $pins += "agent.$an.model=$am" }
+                    }
+                }
+                if ($pins) { Write-Host "    [$proj] [WARN] dead model pin: $($pins -join ', ')" -ForegroundColor Yellow }
+                else { Write-Host "    [$proj] [OK] no dead model pins" -ForegroundColor Green }
+            } catch {
+                Write-Host "    [$proj] [INFO] skipped (parse handled by Check 9)" -ForegroundColor DarkGray
+            }
+        }
+    }
+}
+
 # Check 10: Parent .opencode directory has agents/commands/skills
 Write-Host "[10] Checking parent .opencode contents..." -ForegroundColor Yellow
 $criticalDirs = @('agents','commands','skills')
