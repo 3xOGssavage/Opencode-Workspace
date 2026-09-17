@@ -1,6 +1,6 @@
 # Opencode-Workspace
 
-Enterprise opencode workspace backup — 17 agents, 17 MCPs, ~140 skills (verified 2026-08-29), parallel subagent dispatch. Snapshot dated 2026-08-02. See `AGENTS.md` for the operating manual.
+Enterprise opencode workspace backup — 17 agents, 17 MCPs, ~150 skills (recounted 2026-09-18), parallel subagent dispatch. Snapshot dated 2026-08-02. See `AGENTS.md` for the operating manual.
 
 ---
 
@@ -54,7 +54,7 @@ For disaster recovery / backup scenarios, keep reading below.
 | `~/.local/share/opencode/opencode.db` (1.43 GB)                                                       | Chat history — not portable.                                              |
 | `~/.cache/opencode/` (766 MB)                                                                         | Binaries + cached packages — auto-regenerated.                            |
 | `~/.agents/skills/` (58 skills)                                                                       | User-installed skills outside workspace — reinstall via `npx skills add`. |
-| `~/.config/opencode/skills/` (19 skills)                                                              | User-installed skills outside workspace — reinstall via `npx skills add`. |
+| `~/.config/opencode/skills/` (28 skills)                                                              | User-installed skills outside workspace — reinstall via `npx skills add`. |
 
 ---
 
@@ -206,7 +206,7 @@ If migrating to a new machine (different drive letters, no env vars, no auth):
    npx skills add workflow-step-summaries
    ```
 
-   **From `~/.config/opencode/skills/` (19 skills):**
+   **From `~/.config/opencode/skills/` (28 skills):**
 
    ```
    npx skills add clonedeps
