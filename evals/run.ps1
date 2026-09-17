@@ -1,4 +1,7 @@
 #Requires -Version 5.1
+# SANDBOX RULE (OWASP LLM03): every case runs with --dir <temp sandbox> AND
+# Start-Process -WorkingDirectory <same temp> AND absolute temp redirect paths.
+# Never run eval prompts with the repo as cwd — TODO/worktree prompts create real files.
 <#
 .SYNOPSIS
   Runs all eval cases in evals/cases/*.yaml, captures opencode output for each,
@@ -55,6 +58,11 @@ $ErrorActionPreference = "Stop"
 $repoRoot = (Get-Item -Path $PSScriptRoot).Parent.FullName
 Set-Location $repoRoot
 
+# Per-run sandbox under system Temp (outside the repo so eval prompts can't touch it).
+# Each case gets its own subdir below; all are removed in the per-case finally block.
+$sandboxRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("opencode-eval-" + (Get-Date -Format 'yyyyMMdd-HHmmss'))
+New-Item -ItemType Directory -Path $sandboxRoot -Force | Out-Null
+
 if (-not (Test-Path $CaseDir)) { throw "Case directory not found: $CaseDir" }
 
 # 1. Discover cases
@@ -103,6 +111,8 @@ $anyFail = $false
 
 foreach ($caseFile in $caseFiles) {
     $caseName = $caseFile.BaseName
+    $caseSandbox = Join-Path $sandboxRoot $caseName
+    New-Item -ItemType Directory -Path $caseSandbox -Force | Out-Null
     Write-Host "--- $caseName ---"
     $caseContent = Get-Content $caseFile.FullName -Raw
 
@@ -166,40 +176,43 @@ foreach ($caseFile in $caseFiles) {
         continue
     }
 
-    # 3. Run opencode
+    # 3. Run opencode inside the per-case temp sandbox (double-pinned: --dir + -WorkingDirectory)
     $output = ""
     $exitCode = 0
     $sw = [System.Diagnostics.Stopwatch]::StartNew()
+    $tmpOut = Join-Path $caseSandbox ".tmp.stdout"
+    $tmpErr = Join-Path $caseSandbox ".tmp.stderr"
     try {
-        $argsList = @("run", "--pure", "--print-logs", "--log-level", "WARN", $prompt)
+        $argsList = @("run", "--pure", "--print-logs", "--log-level", "WARN", "--dir", $caseSandbox, $prompt)
         if ($isPwshWrapper) {
             # opencode is a .ps1 wrapper; invoke via powershell -File <script> <args>.
             $fullArgs = @("-NoProfile", "-File", $opencodePath) + $argsList
             $proc = Start-Process -FilePath "powershell.exe" `
                 -ArgumentList $fullArgs `
                 -NoNewWindow -Wait -PassThru `
-                -RedirectStandardOutput "evals\.tmp.stdout" `
-                -RedirectStandardError "evals\.tmp.stderr"
+                -WorkingDirectory $caseSandbox `
+                -RedirectStandardOutput $tmpOut `
+                -RedirectStandardError $tmpErr
             $exitCode = $proc.ExitCode
         } else {
             $proc = Start-Process -FilePath $opencodePath `
                 -ArgumentList $argsList `
                 -NoNewWindow -Wait -PassThru `
-                -RedirectStandardOutput "evals\.tmp.stdout" `
-                -RedirectStandardError "evals\.tmp.stderr"
+                -WorkingDirectory $caseSandbox `
+                -RedirectStandardOutput $tmpOut `
+                -RedirectStandardError $tmpErr
             $exitCode = $proc.ExitCode
         }
         # Merge stdout + stderr (opencode with --print-logs writes model output
         # to stderr, not stdout). Check both for expected/forbidden patterns.
-        $stdoutContent = Get-Content "evals\.tmp.stdout" -Raw -ErrorAction SilentlyContinue
-        $stderrContent = Get-Content "evals\.tmp.stderr" -Raw -ErrorAction SilentlyContinue
+        $stdoutContent = Get-Content $tmpOut -Raw -ErrorAction SilentlyContinue
+        $stderrContent = Get-Content $tmpErr -Raw -ErrorAction SilentlyContinue
         $output = ($stdoutContent + "`n" + $stderrContent)
     } catch {
         $output = "ERROR: $($_.Exception.Message)"
         $exitCode = 1
     } finally {
-        Remove-Item "evals\.tmp.stdout" -ErrorAction SilentlyContinue
-        Remove-Item "evals\.tmp.stderr" -ErrorAction SilentlyContinue
+        Remove-Item -LiteralPath $caseSandbox -Recurse -Force -ErrorAction SilentlyContinue
     }
     $sw.Stop()
     $elapsedMs = [int]$sw.ElapsedMilliseconds

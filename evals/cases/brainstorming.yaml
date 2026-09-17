@@ -9,4 +9,8 @@ expected_outputs:
 forbidden_outputs:
   - "Here is the implementation"
   - "Done, task complete"
+  - "gh repo create"
+  - "create_repository"
+  - "create a new repository"
+  - "repository created"
 timeout_seconds: 120

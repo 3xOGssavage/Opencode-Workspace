@@ -8,4 +8,8 @@ expected_outputs:
 forbidden_outputs:
   - "Just edit main directly"
   - "Start coding on main"
+  - "gh repo create"
+  - "create_repository"
+  - "create a new repository"
+  - "repository created"
 timeout_seconds: 120
