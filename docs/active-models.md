@@ -12,32 +12,34 @@ This document tracks the **health and availability** of model providers configur
 - âž– Not configured â€” provider declared but no credentials in auth.json
 
 ## Snapshot
-| Provider           | API Base                          | Status | Latency | Models Verified | Last Checked       |
-| ------------------ | --------------------------------- | ------ | ------- | --------------- | ------------------ |
-| `ollama-cloud` | `https://ollama.com/v1` | Healthy | 624ms | 20 | 2026-09-14 02:06 |
-| `hcnsec` | `https://api.hcnsec.cn/v1` | Slow | 3395ms | 18 | 2026-09-14 02:06 |
-| `google` | `https://generativelanguage.googleapis.com/v1beta` | Healthy | 856ms | 50 | 2026-09-14 02:06 |
-| `opencode-go` | `https://opencode.ai/zen/v1` | Healthy | 1230ms | 70 | 2026-09-14 02:06 |
+
+| Provider       | API Base                                           | Status  | Latency | Models Verified | Last Checked     |
+| -------------- | -------------------------------------------------- | ------- | ------- | --------------- | ---------------- |
+| `ollama-cloud` | `https://ollama.com/v1`                            | Healthy | 750ms   | 20              | 2026-09-18 04:03 |
+| `hcnsec`       | `https://api.hcnsec.cn/v1`                         | Slow    | 3185ms  | 29              | 2026-09-18 04:03 |
+| `google`       | `https://generativelanguage.googleapis.com/v1beta` | Healthy | 868ms   | 50              | 2026-09-18 04:03 |
+| `opencode-go`  | `https://opencode.ai/zen/v1`                       | Healthy | 1180ms  | 71              | 2026-09-18 04:03 |
+
 ## Models per Provider
 
-### `ollama-cloud` (primary agents)
+### `ollama-cloud` (retained; minimax-m3 billing-blocked, denylisted)
 
-- `minimax-m3` â€” recommended flagship (general-purpose reasoning)
+- `minimax-m3` â€” retired Sep 2026 (billing-blocked); flagship is now `opencode/nemotron-3-ultra-free`
 - (other models configured in `opencode.json:provider.ollama-cloud.options`)
 
-### `hcnsec` (subagents â€” Kimi K2.6 family)
+### `hcnsec` (manual/extended-member use (no fleet seat since Sep-13 storm))
 
-- `Kimi-K2.6` â€” 256K context, used by all 18 subagents
-- `MiniMax-M3` â€” alternative flagship
+- `Kimi-K2.6` â€” 256K context (OMO-Slim preset model; no parent seat since Sep-13 storm)
+- `MiniMax-M3` â€” former flagship (no-channel since Sep-13 storm — do not rely on)
 - (others listed in `opencode.json:provider.hcnsec.models`)
 
-### `nvidia` (fallback for vision + specialized tasks)
+### `nvidia` (seats 3 thinkers: architect, oracle, council on kimi-k3)
 
 - (models listed in `opencode.json:provider.nvidia.options`)
 
 ### `google` (Gemini vision backend)
 
-- `gemini-3.5-flash-lite` â€” used by `vision-tool` MCP and `opencode-eyesight` plugin
+- `gemini-3.5-flash-lite` â€” used by `vision-tool` MCP and the 12 lite doers (`opencode-eyesight` fallback is `gemini-3.5-flash`)
 
 ### `opencode-go` (opencode Zen free coding models)
 

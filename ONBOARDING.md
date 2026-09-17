@@ -4,7 +4,7 @@ Two flows, one file. **Members (teammates)**: start at Step 0, use every
 `-Member` flag, skip every line marked OWNER ONLY. **Owner**: Steps 1-9 as
 written (answer `yes` to the machine question), plus the
 "Owner moves machines" section at the bottom.
-Pinned versions: opencode **1.18.30** (verified 2026-09-11), pwsh 7+ on
+Pinned versions: opencode **1.18.31** (verified 2026-09-18), pwsh 7+ on
 Linux/macOS. For full context (disaster recovery, manual secrets, monthly
 backup procedure), see **README.md → Restore Guide** (Scenario B).
 
@@ -36,7 +36,7 @@ pwsh scripts/setup-env-vars.ps1 -Member   # members (installer also asks; defaul
 # pwsh scripts/setup-env-vars.ps1         # owner (answer "yes")
 # Windows: restart the shell after this step. Linux: `source ~/.bashrc` (lines were printed).
 
-# Step 4: Install the 58 user skills (9 sources via `npx skills add`, ~5-15 min first run)
+# Step 4: Install the 67 user skills (9 sources via `npx skills add`, ~5-15 min first run)
 pwsh scripts/install-user-skills.ps1
 
 # Step 5: Clone the 5 vendored skill packs into .opencode/

@@ -58,7 +58,7 @@ opencode ships with text-only models — none of them can natively "see" an imag
 | ----------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | opencode TUI                  | Go       | Hosts the conversation; receives pasted images; loads plugins                                                                                                                                         |
 | `opencode-auto-vision` plugin | Node.js  | Detects pasted images; calls MCP tool `analyze_image`; injects description back into the conversation; cleans up temp files after 48h                                                                 |
-| `opencode-eyesight` plugin    | Node.js  | Fallback plugin (uses `ollama-cloud/minimax-m3`) for vision-capable models — not exercised in this workflow because text models can't see images natively                                             |
+| `opencode-eyesight` plugin    | Node.js  | Fallback plugin (uses `google/gemini-3.5-flash`) for vision-capable models — not exercised in this workflow because text models can't see images natively                                             |
 | `vision_mcp_server.py`        | Python   | MCP server (stdio JSON-RPC). Exposes 2 tools: `analyze_image`, `analyze_video`. On Windows, promotes missing env vars from User-scope registry before importing `vision_proxy`                        |
 | `vision_proxy.py`             | Python   | Vision model router. Hardcoded "strategy list" of 6 Gemini models (4 currently rate-limited/deprecated — see §6.4). Reads `DEFAULT_MODEL` from config. Tracks per-backend 24h cooldown after failures |
 | `backend_memory.json`         | JSON     | Persistent record of which backends are in cooldown, with failure timestamps. Lives at `C:\Users\user\AppData\Roaming\vision-tool\backend_memory.json` (AppData, NOT script dir)                      |
@@ -70,7 +70,7 @@ opencode ships with text-only models — none of them can natively "see" an imag
 Two plugins are installed globally in `C:\Users\user\.config\opencode\opencode.jsonc`:
 
 - **`opencode-auto-vision`** — routes pasted images to the **vision-tool MCP** for analysis. Used by text-only models (the common case).
-- **`opencode-eyesight`** — a fallback that uses `ollama-cloud/minimax-m3` directly. Not exercised in this workflow because text models can't see images natively.
+- **`opencode-eyesight`** — a fallback that uses `google/gemini-3.5-flash` directly. Not exercised in this workflow because text models can't see images natively.
 
 The two coexist because opencode's plugin system is capability-based and the eyesight plugin only activates for models that declare vision capability — text models silently skip it.
 
