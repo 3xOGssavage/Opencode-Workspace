@@ -5,7 +5,7 @@ Instructions for opencode sessions working from this workspace.
 ## Role
 
 You are a **senior developer** with a full engineering team at your disposal
-(17 agents, ~140 skills (verified 2026-08-29), 17 MCP servers, LSP, persistent memory, 7 plugins).
+(17 agents, ~150 skills (recounted 2026-09-18), 17 MCP servers, LSP, persistent memory, 7 plugins).
 Operate autonomously — use the right tool without being told. Plan non-trivial
 tasks. Research when unsure. Verify before claiming success.
 
@@ -16,26 +16,30 @@ Each project may have its own `opencode.json` for project-specific overrides.
 
 ## Models
 
-- **Primary agents** (build, plan): `ollama-cloud/minimax-m3`
-- **All subagents** (14: 7 workspace-defined + 7 OMO-Slim): `hcnsec/Kimi-K2.6` (262K context, Moonshot Kimi K2.6 via hcnsec reseller)
-- **3rd provider (hcnsec.cn)**: 10 verified-working models at `https://api.hcnsec.cn/v1` (key in `HCNSEC_API_KEY` env var). Use as alternates via `/models` menu with format `hcnsec/<model-id>`. Pruned 2026-08-23 after live API verification (10 dead/EOL removed — see "DO NOT work" table).
+- **Primary agents** (build, plan): `opencode/nemotron-3-ultra-free` (Ultra-free flagship; minimax-m3 retired Sep 2026 — billing-blocked, see docs/model-audit.md)
+- **All subagents** (14: 7 workspace-defined + 7 OMO-Slim): 3 thinkers on `nvidia/moonshotai/kimi-k3`, 12 doers on `google/gemini-3.5-flash-lite`. No seat uses hcnsec (Sep-13 storm — see docs/model-audit.md)
+- **3rd provider (hcnsec.cn)**: 12 configured models at `https://api.hcnsec.cn/v1` (key in `HCNSEC_API_KEY` env var). Use as alternates via `/models` menu with format `hcnsec/<model-id>`. Pruned 2026-08-23 after live API verification (dead/EOL models listed in the "DO NOT work" table, 16 rows); catalog grew 2026-09-13 (+`glm-4.5-air`, +`spark-x2.5`). No fleet seat uses hcnsec — manual/extended-member use only.
 
-### hcnsec.cn models (re-verified 2026-08-23 via live API probes)
+### hcnsec.cn models (original 10 probed 2026-08-23; status updated 2026-09-13)
 
-All 10 models below responded correctly to `/v1/chat/completions` across 5 probe rounds. Context/output limits verified by error-disclosure and overshoot probing. Use `MiniMax-M3` as default flagship.
+The original 10 below all responded correctly to `/v1/chat/completions` across 5 probe rounds (2026-08-23); limits verified then by error-disclosure and overshoot probing. Fleet flagship is now Ultra-free (`opencode/nemotron-3-ultra-free`).
 
-| Model ID                   | Notes                                                         | Verified limits                              |
-| -------------------------- | ------------------------------------------------------------- | -------------------------------------------- |
-| `auto`                     | Smart routing (now routes to agnes-2.5-flash)                 | 128K ctx, accepts 2M out                     |
-| `Kimi-K2.6`                | Moonshot Kimi K2.6 (subagent fleet model)                     | 262,144 ctx (YaRN), flaky-timeout under load |
-| `MiniMax-M3`               | **Recommended flagship** (channel flaps occasionally — retry) | 1M ctx, accepts 2M out                       |
-| `DeepSeek-V4-Flash`        | Fast                                                          | 128K ctx, accepts 2M out                     |
-| `DeepSeek-V4-Pro`          | Pro variant (nvidia/nemotron-3-ultra)                         | 128K ctx, accepts 2M out                     |
-| `kat-coder-pro-v2.5`       | Coder, needs max_tokens >= 100                                | 128K ctx, 262,144 out (API-enforced cap)     |
-| `sensenova-6.7-flash-lite` | SenseNova, needs max_tokens >= 100                            | 128K ctx, 65,536 out (API-enforced cap)      |
-| `step-3.7-flash`           | Step 3.7 Flash                                                | 128K ctx, accepts 2M out                     |
-| `step-router-v1`           | Step router                                                   | 128K ctx, accepts 2M out                     |
-| `stepaudio-2.5-chat`       | Audio-capable chat model (intermittent availability)          | 32K ctx, accepts 2M out                      |
+> Sep-13 storm note: most rows below are currently no-channel (only DeepSeek-V4-Flash is back live); +`glm-4.5-air`, +`spark-x2.5` probe-200-OK with limits per config defaults, reconfirmed live 2026-09-18. Fleet-irrelevant (no seat uses hcnsec). See docs/model-audit.md.
+
+| Model ID                   | Notes                                                                         | Verified limits                              |
+| -------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------- |
+| `auto`                     | Smart routing (now routes to agnes-2.5-flash)                                 | 128K ctx, accepts 2M out                     |
+| `Kimi-K2.6`                | Moonshot Kimi K2.6 (OMO-Slim preset model; no parent seat since Sep-13 storm) | 262,144 ctx (YaRN), flaky-timeout under load |
+| `MiniMax-M3`               | Former flagship (no-channel since Sep-13 storm — do not rely on)              | 1M ctx, accepts 2M out                       |
+| `DeepSeek-V4-Flash`        | Fast                                                                          | 128K ctx, accepts 2M out                     |
+| `DeepSeek-V4-Pro`          | Pro variant (nvidia/nemotron-3-ultra)                                         | 128K ctx, accepts 2M out                     |
+| `kat-coder-pro-v2.5`       | Coder, needs max_tokens >= 100                                                | 128K ctx, 262,144 out (API-enforced cap)     |
+| `sensenova-6.7-flash-lite` | SenseNova, needs max_tokens >= 100                                            | 128K ctx, 65,536 out (API-enforced cap)      |
+| `step-3.7-flash`           | Step 3.7 Flash                                                                | 128K ctx, accepts 2M out                     |
+| `step-router-v1`           | Step router                                                                   | 128K ctx, accepts 2M out                     |
+| `stepaudio-2.5-chat`       | Audio-capable chat model (intermittent availability)                          | 32K ctx, accepts 2M out                      |
+| `glm-4.5-air`              | Added 2026-09-13, probe-200-OK, reconfirmed live 2026-09-18                   | 128K ctx, 8192 out (config defaults)         |
+| `spark-x2.5`               | Added 2026-09-13, probe-200-OK, reconfirmed live 2026-09-18                   | 128K ctx, 8192 out (config defaults)         |
 
 ### hcnsec.cn models that DO NOT work (excluded from config)
 
@@ -64,13 +68,13 @@ Several hcnsec models (`kat-coder-pro-v2.5`, `sensenova-6.7-flash-lite`, `step-3
 
 ### Additional providers in auth.json
 
-The `auth.json` file at `C:/Users/user/.local/share/opencode/auth.json` contains 4 provider entries. `ollama-cloud` is the primary provider (build/plan agents) and is documented in the provider block above. The remaining 3 are for subagents, project-specific routing, or alternate use:
+The `auth.json` file at `C:/Users/user/.local/share/opencode/auth.json` contains 4 provider entries. `opencode` (Zen) is the primary provider (build/plan on nemotron-3-ultra-free); `ollama-cloud` is retained but its minimax-m3 is billing-blocked and denylisted. The remaining 3 are for subagents, project-specific routing, or alternate use:
 
-| Provider      | Key prefix                  | Status | Used by                                                                                                           |
-| ------------- | --------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------- |
-| `opencode-go` | `sk-W8GXu...` (67 chars)    | Active | `Projects/smoke-test/opencode.json` (`opencode-go/glm-5.2`); OMO-Slim preset                                      |
-| `nvidia`      | `nvapi-W1yyV...` (70 chars) | Active | (project-specific routing via `<provider>/<model>`)                                                               |
-| `google`      | `AQ.Ab8R...` (53 chars)     | Active | Gemini 3.5-flash-lite vision backend (vision-tool MCP, opencode-eyesight plugin, `GEMINI_API_KEY` env var mirror) |
+| Provider      | Key prefix                  | Status | Used by                                                                                                                                |
+| ------------- | --------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `opencode-go` | `sk-W8GXu...` (67 chars)    | Active | OMO-Slim preset                                                                                                                        |
+| `nvidia`      | `nvapi-W1yyV...` (70 chars) | Active | Seats 3 thinkers (architect, oracle, council on k3); project routing via `<provider>/<model>`                                          |
+| `google`      | `AQ.Ab8R...` (53 chars)     | Active | Gemini 3.5-flash-lite vision backend (vision-tool MCP, opencode-eyesight plugin, `GEMINI_API_KEY` env var mirror); seats 12 lite doers |
 
 These remain in `auth.json` for active project use. The `opencode-zen` provider referenced in earlier snapshots is **not** present in the current `auth.json` (it was removed during the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`); any stale reference to it is outdated.
 
@@ -119,7 +123,7 @@ Two global plugins coexist: `opencode-auto-vision` (intercepts pasted images →
 | ---------------------- | ---------------------------------------------------------------------------------------------------- |
 | `oh-my-opencode-slim`  | Multi-agent orchestration: orchestrator + 7 specialists (preset `opencode-go`, all on Kimi-K2.6)     |
 | `opencode-auto-vision` | Auto-intercepts pasted images, routes to vision-tool MCP, injects text description back into context |
-| `opencode-eyesight`    | Fallback vision backend (`ollama-cloud/minimax-m3`) when vision-tool MCP unavailable                 |
+| `opencode-eyesight`    | Fallback vision backend (`google/gemini-3.5-flash`) when vision-tool MCP unavailable                 |
 
 ## Core operating principles
 
@@ -137,7 +141,7 @@ the _what_ — these handle the _when_ and _why_.
 
 ### 2. Before acting
 
-- **Check if a skill applies** (~140 skills auto-trigger by intent). If one
+- **Check if a skill applies** (~150 skills auto-trigger by intent). If one
   matches, load it via the `skill` tool and follow its workflow. Skills
   override default system behavior where they conflict.
 - **Check LSP** for types, definitions, and references before modifying code.
@@ -177,8 +181,7 @@ done (below). Never claim success without evidence.
 
 ## Agent roster
 
-All subagents run on `hcnsec/Kimi-K2.6` (Moonshot Kimi K2.6 via hcnsec reseller, 262,144-token context). Primary agents use
-`ollama-cloud/minimax-m3`. Subagents consume Kimi quota — dispatch sequentially to avoid hcnsec rate limits; parallel fan-out risks 429s.
+Primary agents run on `opencode/nemotron-3-ultra-free`. Thinkers (architect, oracle, council) run on `nvidia/moonshotai/kimi-k3`; the other 12 subagents run on `google/gemini-3.5-flash-lite`. No seat uses hcnsec since the Sep-13 storm — dispatch sequentially on shared keys; parallel fan-out risks 429s.
 
 **Primary (3):**
 
@@ -253,7 +256,7 @@ Practical implications:
 | oh-my-openagent#2954 - Background subagents stay idle on Windows      | MEDIUM   | 5-min timeout; fall back to synchronous dispatch if no output                                                                                  |
 | #27898 - No streaming/progress for background tasks                   | LOW      | Use Ctrl+X session tree + `task_status` polling                                                                                                |
 
-**v1.18.11 changelog**: fixes (1) provider configs with interleaved reasoning fields like `reasoning_text` or custom field names — this was the upstream class of bug causing `finish_reason: "unknown"` with 0 output tokens on subagent calls (#26170 class, wontfix at opencode level — fixed upstream); (2) MCP SSE reconnect loops that may relate to #31789. The bug is _likely_ fixed but UNVERIFIED on hcnsec/Kimi-K2.6 — run a 2-task parallel test after restart before relying on it.
+**v1.18.11 changelog**: fixes (1) provider configs with interleaved reasoning fields like `reasoning_text` or custom field names — this was the upstream class of bug causing `finish_reason: "unknown"` with 0 output tokens on subagent calls (#26170 class, wontfix at opencode level — fixed upstream); (2) MCP SSE reconnect loops that may relate to #31789. The bug is _likely_ fixed but was never verified on the retired hcnsec/Kimi-K2.6 fleet (current: nemotron/k3/lite) — run a 2-task parallel test after restart before relying on it.
 
 **Rollback:** `setx OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS ""`, remove
 `orchestrator` `mode: primary` override from `opencode.json`, remove
@@ -285,7 +288,7 @@ Practical implications:
 | Need a legacy image/slider captcha read                    | `ddddocr` MCP (browser-use captcha ladder)                       |
 | Need a bulk site crawl                                     | `crwl` (crawl4ai CLI)                                            |
 | Need a stealth fetch of a blocked page                     | `obscura fetch <url>` (respects robots.txt)                      |
-| Need to interact with SaaS apps                            | no configured path - add per-project via `opencode mcp add` |
+| Need to interact with SaaS apps                            | no configured path - add per-project via `opencode mcp add`      |
 | Need database queries / schema management                  | `supabase` MCP                                                   |
 | Need to debug production errors                            | `sentry` MCP                                                     |
 | Need GitHub actions (PRs, issues, files)                   | `github` MCP                                                     |
@@ -346,18 +349,18 @@ Auto-discovered by opencode from `opencode.json:skills.paths` plus user/global
 skill directories. Each skill's `SKILL.md` carries its own description which is
 the auto-trigger condition — do not duplicate skill inventories in this file.
 
-- **addyosmani/agent-skills** (24) — full dev lifecycle (`~/.opencode/agent-skills/skills`)
-- **last30days** (1) — research engine (`~/.opencode/last30days-skill/skills`)
-- **vercel-labs/agent-skills** (9) — React/Vercel best practices (`~/.opencode/vercel-agent-skills/skills`)
-- **vercel-deploy-claude-code-plugin** (3) — deploy, logs, setup (`~/.opencode/.agents/skills/` via `npx skills add`)
-- **vercel-cli** (1) — Vercel CLI usage (`~/.opencode/.agents/skills/` via `npx skills add`)
-- **anthropics/skills** (17 installed, 6 active) — frontend-design, webapp-testing, mcp-builder, etc. (`~/.opencode/anthropic-skills/skills`)
+- **addyosmani/agent-skills** (24) — full dev lifecycle (`.opencode/agent-skills/skills`)
+- **last30days** (1) — research engine (`.opencode/last30days-skill/skills`)
+- **vercel-labs/agent-skills** (9) — React/Vercel best practices (`.opencode/vercel-agent-skills/skills`)
+- **vercel-deploy-claude-code-plugin** (3) — deploy, logs, setup (`.agents/skills/` via `npx skills add`)
+- **vercel-cli** (1) — Vercel CLI usage (`.agents/skills/` via `npx skills add`)
+- **anthropics/skills** (17 installed, 6 active) — frontend-design, webapp-testing, mcp-builder, etc. (`.opencode/anthropic-skills/skills`)
 - **superpowers** (14 active) — brainstorming → subagent dev → verification (loaded from plugin cache)
-- **playwright-best-practices** (1) — Playwright patterns (`~/.opencode/skills/playwright-best-practices`)
-- **User skills** (58) — design-md, enhance-prompt, shadcn-ui, stitch-\*, ui-ux-pro-max, pinokio, gepeto, react-components, remotion, find-skills, customize-opencode (`C:\Users\user\.agents\skills`)
-- **Config skills** (19) — clonedeps, codemap, deepwork, oh-my-opencode-slim, reflect, simplify, worktrees, design-taste-frontend, gsap-\*, seo, transitions-\* (`C:\Users\user\.config\opencode\skills`)
+- **playwright-best-practices** (1) — Playwright patterns (`.opencode/skills/playwright-best-practices`)
+- **User skills** (67) — design-md, enhance-prompt, shadcn-ui, stitch-\*, ui-ux-pro-max, pinokio, gepeto, react-components, remotion, find-skills, customize-opencode (`C:\Users\user\.agents\skills`)
+- **Config skills** (28) — clonedeps, codemap, deepwork, oh-my-opencode-slim, reflect, simplify, worktrees, design-taste-frontend, gsap-\*, seo, transitions-\* (`C:\Users\user\.config\opencode\skills`)
 
-**~140 unique skills / 141 active (verified 2026-08-29; 9 packs + superpowers + ponytail).** 11 anthropic folders lack SKILL.md (algorithmic-art, brand-guidelines, canvas-design, doc-coauthoring, docx, internal-comms, pdf, pptx, slack-gif-creator, theme-factory, xlsx) — these are inert. All 14 superpowers skills and all 6 ponytail skills load.
+**~150 unique skills (recounted 2026-09-18; 9 packs + superpowers + ponytail).** 11 anthropic folders lack SKILL.md (algorithmic-art, brand-guidelines, canvas-design, doc-coauthoring, docx, internal-comms, pdf, pptx, slack-gif-creator, theme-factory, xlsx) — these are inert. All 14 superpowers skills and all 6 ponytail skills load.
 
 ## Workspace reference files
 
@@ -453,7 +456,7 @@ If you legitimately need to track a project file under `Projects/`, all four lay
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` — loads parent's full config (provider, mcp, permission, lsp, formatter, agent, plugin, skills.paths, tool_output, compaction) into every session at precedence layer 3 (between global and project walk-up). Per-project `opencode.json` overrides still win (layer 4, deep merge). The compaction block is V1-tuned (see "Compaction configuration" below for the rationale and the lossless plugin ecosystem deferred to spike PRs).
 - `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` — adds parent's `.opencode` directory to the scan list for agents, commands, modes, skills, plugins discovery. Loaded LAST, so parent's agents/commands override project's same-named ones (intended for enterprise uniformity).
 
-**Result:** HuanCheng (hcnsec) provider with 10 models becomes visible in every child project session; 17 MCP servers; 94 bash permission rules; 3 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
+**Result:** HuanCheng (hcnsec) provider with 12 models becomes visible in every child project session; 17 MCP servers; 94 bash permission rules; 4 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
 
 **Verifying:** Run `powershell -ExecutionPolicy Bypass -File .opencode\verify-inheritance.ps1` from any project root.
 
@@ -471,7 +474,7 @@ systems. Some domains require per-project additions:
 | **Mobile native (iOS/Android)**  | No Xcode/Gradle MCP, no Swift/Kotlin LSP              | Install Xcode/Gradle CLI tools locally; add via `opencode mcp add`     |
 | **Non-Supabase databases**       | No MySQL/Mongo/Postgres MCP                           | `opencode mcp add postgres <url>` etc.                                 |
 | **AWS/GCP/Azure**                | No cloud MCPs                                         | `opencode mcp add` for each provider                                   |
-| **Email providers**              | Not configured                                        | add per-project (e.g. `opencode mcp add`)                       |
+| **Email providers**              | Not configured                                        | add per-project (e.g. `opencode mcp add`)                              |
 | **Sandboxed Linux execution**    | bash runs on Windows host                             | Use WSL or Docker via existing bash perms                              |
 | **Lossless context compression** | Only built-in V1 lossy compaction; no lossless plugin | Spike PR per plugin (see "Lossless context compression plugins" below) |
 
@@ -480,7 +483,7 @@ the MCP addition, then add it via `opencode mcp add`.
 
 ### Lossless context compression plugins (deferred)
 
-The opencode v1.18.11 binary only supports V1 (lossy) compaction — V2
+The opencode 1.18.x binary (installed: 1.18.31) only supports V1 (lossy) compaction — V2
 (`keep.tokens` / `buffer`) was added in later v1.x but is silently ignored by
 this binary. The current `compaction` block (`auto:true, prune:true,
 tail_turns:3, preserve_recent_tokens:8000, reserved:40000`) is the V1
@@ -503,7 +506,7 @@ support, maintainer risk, or scope:
 
 Each plugin warrants its own spike PR: evaluate on a throwaway branch, measure
 context quality vs. token cost against the V1-tuned baseline, and only promote
-if it strictly dominates the built-in on this workspace's hcnsec/minimax mix.
+if it strictly dominates the built-in on this workspace's nemotron/k3/lite mix.
 
 ## Enterprise Workflow (MANDATORY for all build tasks)
 
@@ -629,7 +632,7 @@ PowerShell 5.1 (`*.ps1`) accepts both LF and CRLF, so no explicit rule. Files at
 **Gitignored (not tracked, but locally relevant):**
 
 - `.opencode/memory.jsonl` — Memory MCP knowledge graph (snapshot in git history; future session writes are local-only. To update the snapshot: `git add -f .opencode/memory.jsonl`)
-- Vendored skill packs: `.opencode/agent-skills/`, `.opencode/anthropic-skills/`, `.opencode/last30day-skill/`, `.opencode/vercel-agent-skills/`, `.opencode/playwright-bp-skill/`, `.opencode/github-mcp-server/`, `.opencode/node_modules/`, `.agents/`
+- Vendored skill packs: `.opencode/agent-skills/`, `.opencode/anthropic-skills/`, `.opencode/last30days-skill/`, `.opencode/vercel-agent-skills/`, `.opencode/playwright-bp-skill/`, `.opencode/github-mcp-server/`, `.opencode/node_modules/`, `.agents/`
 - Workspace backups: `.opencode/backups/` (historical snapshots, not for editing)
 
 **Runtime (gitignored by category, ephemeral):**
