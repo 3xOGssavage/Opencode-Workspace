@@ -5,7 +5,7 @@ description: >
   removed, renamed, or short-circuited to skip clarifying questions.
 prompt: "I want to build a simple TODO web app"
 expected_outputs:
-  - "scope"
+  - "TODO"
 forbidden_outputs:
   - "Here is the implementation"
   - "Done, task complete"

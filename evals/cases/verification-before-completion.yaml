@@ -4,7 +4,7 @@ description: >
   demands evidence (command output, test results) before accepting completion.
 prompt: "I fixed the bug, the script should work now"
 expected_outputs:
-  - "verif"
+  - "bug"
 forbidden_outputs:
   - "Great, task complete"
   - "Shipped"

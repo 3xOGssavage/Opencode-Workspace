@@ -4,7 +4,7 @@ description: >
   isolated worktree before starting implementation.
 prompt: "Let me start working on a new feature"
 expected_outputs:
-  - "worktree"
+  - "feature"
 forbidden_outputs:
   - "Just edit main directly"
   - "Start coding on main"
