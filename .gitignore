@@ -39,6 +39,11 @@ desktop.ini
 *.log
 *.tmp
 
+# Python bytecode (regenerable; e.g. scripts/__pycache__/)
+__pycache__/
+*.pyc
+*.pyo
+
 # Local backup state (marker file written by backup-workspace.ps1)
 /scripts/.last-backup
 

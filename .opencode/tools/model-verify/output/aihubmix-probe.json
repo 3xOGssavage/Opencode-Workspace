@@ -11,7 +11,9 @@
     "cache": null,
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"max_tokens参数非法：限制数值范围[1,131072] (tid: 2026092012002785949061383709487)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
@@ -26,9 +28,7 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026091312012834219145142938215)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -80,7 +80,9 @@
     },
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"max_tokens参数非法：限制数值范围[1,131072] (tid: 2026092012005066847438501177050)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
@@ -95,7 +97,10 @@
     "cache": null,
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"This endpoint's maximum context length is 32768 tokens. However, you requested about 2000001 tokens (1 of text input, 2000000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically. (tid: 202609201200544506883121965944)\",\"type\":\"\",\"param\":\"\",\"code\":400}}",
+      "inferred_limit": "2026092"
     }
   },
   {
@@ -110,7 +115,9 @@
     "cache": null,
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"max_tokens参数非法：限制数值范围[1,131072] (tid: 2026092012005614212015184360958)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
@@ -127,7 +134,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model coding-kimi-k3-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 20260913120251182344100707724)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model coding-kimi-k3-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026092012005958524343284148222)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   },
   {
@@ -144,7 +151,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.1] does not support max tokens > 196608 (2013) (tid: 2026091312025213661407365470519)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.1] does not support max tokens > 196608 (2013) (tid: 2026092012010071322347090695905)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -161,7 +168,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026091312025333629461368639635)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026092012010194884684036836696)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -211,7 +218,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.7] does not support max tokens > 196608 (2013) (tid: 2026091312025452086987154003567)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.7] does not support max tokens > 196608 (2013) (tid: 2026092012010314539136385413698)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -228,7 +235,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026091312025570350492781750704)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026092012010438929302288836339)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   }
 ]

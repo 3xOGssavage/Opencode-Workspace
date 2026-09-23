@@ -13,7 +13,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"max_tokens 不能超过 65536 (request id: 20260913120006932619377cO0Q1CMM)\",\"type\":\"AgnesAI_error\",\"param\":\"\",\"code\":\"invalid_request\"}}",
+      "error": "{\"error\":{\"message\":\"max_tokens exceeds the limit of 65536 (request id: 20260920120004441148160JHeNpOId)\",\"type\":\"AgnesAI_error\",\"param\":\"\",\"code\":\"invalid_request\"}}",
       "inferred_limit": "65536"
     }
   },
@@ -31,7 +31,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Kimi-K2.6 under group auto (distributor) (request id: 202609131200089746204388268d9d61NJbXddy)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Kimi-K2.6 under group auto (distributor) (request id: 202609201200062401262118268d9d6Qg7XKHqZ)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -44,11 +44,11 @@
       }
     },
     "cache": null,
-    "live": false,
+    "live": true,
     "probe": {
-      "status": 503,
+      "status": 500,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model MiniMax-M3 under group auto (distributor) (request id: 202609131200102194419468268d9d6cFikTR56)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"分组 auto 下模型 MiniMax-M3 的可用渠道不存在（retry） (request id: 202609201200075914963148268d9d6QBhw4h4k)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
     }
   },
   {
@@ -63,7 +63,9 @@
     "cache": null,
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Unsupported model: DeepSeek-V4-Flash\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -78,7 +80,9 @@
     "cache": null,
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 404,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"openai_error\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
     }
   },
   {
@@ -95,7 +99,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model kat-coder-pro-v2.5 under group auto (distributor) (request id: 202609131200537958517208268d9d6oH0mpt9E)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model kat-coder-pro-v2.5 under group auto (distributor) (request id: 202609201200132455359688268d9d6OpWpF55T)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -112,7 +116,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model sensenova-6.7-flash-lite under group auto (distributor) (request id: 202609131200559700643618268d9d6coZqlvw8)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model sensenova-6.7-flash-lite under group auto (distributor) (request id: 202609201200145968925578268d9d69yjbaac2)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -131,39 +135,14 @@
       "ok": true,
       "usage": {
         "prompt_tokens": 13,
-        "completion_tokens": 403,
-        "total_tokens": 416,
-        "usage_semantic": "openai",
-        "usage_source": "anthropic",
-        "billing_usage": {
-          "source": "claude_messages",
-          "semantic": "anthropic",
-          "claude_usage": {
-            "input_tokens": 13,
-            "cache_creation_input_tokens": 0,
-            "cache_read_input_tokens": 0,
-            "output_tokens": 403,
-            "claude_cache_creation_5_m_tokens": 0,
-            "claude_cache_creation_1_h_tokens": 0
-          }
-        },
+        "completion_tokens": 205,
+        "total_tokens": 218,
         "prompt_tokens_details": {
-          "cached_tokens": 0,
-          "text_tokens": 0,
-          "audio_tokens": 0,
-          "image_tokens": 0
+          "cached_tokens": 0
         },
         "completion_tokens_details": {
-          "text_tokens": 0,
-          "audio_tokens": 0,
-          "image_tokens": 0,
           "reasoning_tokens": 0
-        },
-        "input_tokens": 13,
-        "output_tokens": 0,
-        "input_tokens_details": null,
-        "claude_cache_creation_5_m_tokens": 0,
-        "claude_cache_creation_1_h_tokens": 0
+        }
       },
       "model_returned": "step-3.7-flash"
     }
@@ -183,40 +162,16 @@
       "status": 200,
       "ok": true,
       "usage": {
-        "prompt_tokens": 488,
-        "completion_tokens": 34,
-        "total_tokens": 522,
-        "usage_semantic": "openai",
-        "usage_source": "anthropic",
-        "billing_usage": {
-          "source": "claude_messages",
-          "semantic": "anthropic",
-          "claude_usage": {
-            "input_tokens": 104,
-            "cache_creation_input_tokens": 0,
-            "cache_read_input_tokens": 384,
-            "output_tokens": 34,
-            "claude_cache_creation_5_m_tokens": 0,
-            "claude_cache_creation_1_h_tokens": 0
-          }
-        },
+        "cached_tokens": 384,
+        "prompt_tokens": 478,
+        "completion_tokens": 56,
+        "total_tokens": 534,
         "prompt_tokens_details": {
-          "cached_tokens": 384,
-          "text_tokens": 0,
-          "audio_tokens": 0,
-          "image_tokens": 0
+          "cached_tokens": 384
         },
         "completion_tokens_details": {
-          "text_tokens": 0,
-          "audio_tokens": 0,
-          "image_tokens": 0,
           "reasoning_tokens": 0
-        },
-        "input_tokens": 488,
-        "output_tokens": 0,
-        "input_tokens_details": null,
-        "claude_cache_creation_5_m_tokens": 0,
-        "claude_cache_creation_1_h_tokens": 0
+        }
       },
       "model_returned": "step-router-v1"
     }
@@ -231,11 +186,68 @@
       }
     },
     "cache": null,
-    "live": false,
+    "live": true,
     "probe": {
-      "status": 503,
+      "status": 200,
+      "ok": true,
+      "usage": {
+        "prompt_tokens": 9,
+        "completion_tokens": 0,
+        "total_tokens": 9,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        },
+        "completion_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 0
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "input_tokens_details": null,
+        "claude_cache_creation_5_m_tokens": 0,
+        "claude_cache_creation_1_h_tokens": 0
+      },
+      "model_returned": "stepaudio-2.5-chat"
+    }
+  },
+  {
+    "id": "glm-4.5-air",
+    "configured": {
+      "name": "glm 4.5 air",
+      "limit": {
+        "context": 128000,
+        "output": 8192
+      }
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 200,
+      "ok": true,
+      "usage": null,
+      "model_returned": null
+    }
+  },
+  {
+    "id": "spark-x2.5",
+    "configured": {
+      "name": "spark x2.5",
+      "limit": {
+        "context": 128000,
+        "output": 8192
+      }
+    },
+    "cache": null,
+    "live": true,
+    "probe": {
+      "status": 403,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model stepaudio-2.5-chat under group auto (distributor) (request id: 202609131201055115454808268d9d6odLmx82B)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"no valid authorization: the account lacks an active order, has insufficient quota, or the order is invalid\",\"type\":\"permission_error\",\"param\":\"\",\"code\":11200}}"
     }
   }
 ]
