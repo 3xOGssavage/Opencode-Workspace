@@ -7,19 +7,31 @@
       "owned_by": "OpenAI"
     },
     {
+      "id": "qwen3.8-omni-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "step-5-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "StepFun"
+    },
+    {
       "id": "gpt-6-astra",
       "object": "model",
       "created": 1626777600,
       "owned_by": "OpenAI"
     },
     {
-      "id": "gemini-3.8-flash",
+      "id": "glm-5.3-flashx",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Google"
+      "owned_by": "Z.AI"
     },
     {
-      "id": "gemini-3.8-flash-free",
+      "id": "gemini-3.8-flash",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Google"
@@ -91,22 +103,10 @@
       "owned_by": "Meta"
     },
     {
-      "id": "hy3-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Hunyuan"
-    },
-    {
       "id": "qwen3.8-flash",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Qwen"
-    },
-    {
-      "id": "minimax-m2.7-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Minimax"
     },
     {
       "id": "gemini-3.7-flash",
@@ -121,28 +121,28 @@
       "owned_by": "Agnes"
     },
     {
-      "id": "ox-alpha",
+      "id": "agents-a1-free",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Z.AI"
-    },
-    {
-      "id": "dots-3-note-preview-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Dots Studio"
-    },
-    {
-      "id": "gemini-3.7-flash-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Google"
+      "owned_by": "intern-ai"
     },
     {
       "id": "glm-5.2",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Z.AI"
+    },
+    {
+      "id": "intern-s2-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "intern-ai"
+    },
+    {
+      "id": "union-alpha-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Stealth"
     },
     {
       "id": "deepseek-v4-flash-0731",
@@ -163,22 +163,46 @@
       "owned_by": "DeepSeek"
     },
     {
+      "id": "dots-3-note-preview-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Dots Studio"
+    },
+    {
       "id": "grok-4.6",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Grok"
     },
     {
-      "id": "mai-thinking-1",
+      "id": "hy3-free",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Microsoft"
+      "owned_by": "Hunyuan"
+    },
+    {
+      "id": "minimax-m2.7-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Minimax"
+    },
+    {
+      "id": "ox-alpha",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
     },
     {
       "id": "deepseek-v4-flash-0731-fast",
       "object": "model",
       "created": 1626777600,
       "owned_by": "DeepSeek"
+    },
+    {
+      "id": "mai-thinking-1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Microsoft"
     },
     {
       "id": "gpt-5.6-sol-disc",
@@ -308,18 +332,6 @@
     },
     {
       "id": "gemini-3.5-flash-lite",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Google"
-    },
-    {
-      "id": "gemini-3.5-flash-lite-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Google"
-    },
-    {
-      "id": "gemini-3.6-flash-free",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Google"
@@ -577,12 +589,6 @@
       "owned_by": "DeepSeek"
     },
     {
-      "id": "gemma-4-31b-it-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Google"
-    },
-    {
       "id": "command-a-plus-05-2026",
       "object": "model",
       "created": 1626777600,
@@ -665,12 +671,6 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "Anthropic"
-    },
-    {
-      "id": "gemma-4-26b-a4b-it-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Google"
     },
     {
       "id": "grok-4-20-non-reasoning",
@@ -1057,12 +1057,6 @@
       "owned_by": "Cohere"
     },
     {
-      "id": "gemini-3-flash-preview-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Google"
-    },
-    {
       "id": "cc-minimax-m3",
       "object": "model",
       "created": 1626777600,
@@ -1331,12 +1325,6 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "OpenAI"
-    },
-    {
-      "id": "DeepSeek-V3.1-Terminus",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "DeepSeek"
     },
     {
       "id": "DeepSeek-V3.1-Think",

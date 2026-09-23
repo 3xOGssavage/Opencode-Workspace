@@ -50,12 +50,6 @@
       "owned_by": "deepseek-ai"
     },
     {
-      "id": "deepseek-ai/deepseek-v4-pro-0813",
-      "object": "model",
-      "created": 735790403,
-      "owned_by": "deepseek-ai"
-    },
-    {
       "id": "google/codegemma-1.1-7b",
       "object": "model",
       "created": 735790403,
@@ -480,6 +474,12 @@
       "object": "model",
       "created": 735790403,
       "owned_by": "writer"
+    },
+    {
+      "id": "z-ai/glm-5.3",
+      "object": "model",
+      "created": 735790403,
+      "owned_by": "z-ai"
     },
     {
       "id": "z-ai/glm-5.3-flash",

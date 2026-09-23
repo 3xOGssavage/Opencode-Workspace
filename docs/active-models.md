@@ -12,14 +12,12 @@ This document tracks the **health and availability** of model providers configur
 - âž– Not configured â€” provider declared but no credentials in auth.json
 
 ## Snapshot
-
-| Provider       | API Base                                           | Status  | Latency | Models Verified | Last Checked     |
-| -------------- | -------------------------------------------------- | ------- | ------- | --------------- | ---------------- |
-| `ollama-cloud` | `https://ollama.com/v1`                            | Healthy | 750ms   | 20              | 2026-09-18 04:03 |
-| `hcnsec`       | `https://api.hcnsec.cn/v1`                         | Slow    | 3185ms  | 29              | 2026-09-18 04:03 |
-| `google`       | `https://generativelanguage.googleapis.com/v1beta` | Healthy | 868ms   | 50              | 2026-09-18 04:03 |
-| `opencode-go`  | `https://opencode.ai/zen/v1`                       | Healthy | 1180ms  | 71              | 2026-09-18 04:03 |
-
+| Provider           | API Base                          | Status | Latency | Models Verified | Last Checked       |
+| ------------------ | --------------------------------- | ------ | ------- | --------------- | ------------------ |
+| `ollama-cloud` | `https://ollama.com/v1` | Healthy | 673ms | 20 | 2026-09-20 17:00 |
+| `hcnsec` | `https://api.hcnsec.cn/v1` | Healthy | 2128ms | 30 | 2026-09-20 17:00 |
+| `google` | `https://generativelanguage.googleapis.com/v1beta` | Healthy | 529ms | 50 | 2026-09-20 17:00 |
+| `opencode-go` | `https://opencode.ai/zen/v1` | Healthy | 1128ms | 74 | 2026-09-20 17:00 |
 ## Models per Provider
 
 ### `ollama-cloud` (retained; minimax-m3 billing-blocked, denylisted)
