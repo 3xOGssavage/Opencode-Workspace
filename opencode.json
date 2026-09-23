@@ -123,6 +123,18 @@
       "wget *": "allow"
     },
     "webfetch": "allow",
+    "vercel_create_flag": "deny",
+    "vercel_update_flag": "deny",
+    "vercel_update_flag_segment": "deny",
+    "vercel_create_sandboxes_v2": "deny",
+    "vercel_create_sandboxes_v3": "deny",
+    "vercel_create_sandboxes_v4": "deny",
+    "vercel_update_sandbox": "deny",
+    "vercel_put_firewall_config": "deny",
+    "vercel_update_project": "deny",
+    "vercel_update_session_network_policy": "deny",
+    "vercel_create_connector": "deny",
+    "vercel_update_firewall_config": "deny",
     "external_directory": {
       "F:\\CD\\**": "allow",
       "C:\\Users\\user\\AppData\\Local\\Temp\\opencode\\**": "allow",
