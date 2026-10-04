@@ -7,9 +7,9 @@
       "owned_by": "openai",
       "supported_endpoint_types": [
         "openai",
-        "anthropic",
         "gemini",
-        "image-generation"
+        "image-generation",
+        "anthropic"
       ]
     },
     {
@@ -40,15 +40,6 @@
       "supported_endpoint_types": [
         "openai",
         "anthropic"
-      ]
-    },
-    {
-      "id": "glm-4.5-air",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "zhipu",
-      "supported_endpoint_types": [
-        "openai"
       ]
     },
     {
@@ -92,7 +83,7 @@
       ]
     },
     {
-      "id": "mimo-v2.5",
+      "id": "longcat-2.0",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -101,7 +92,7 @@
       ]
     },
     {
-      "id": "mimo-v2.5-pro",
+      "id": "MiMo-V2.6-Flash",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -129,23 +120,12 @@
       ]
     },
     {
-      "id": "Qwen3.6-35B-A3B",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "claude",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
       "id": "qwen3.7-plus",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
       "supported_endpoint_types": [
-        "openai",
-        "anthropic"
+        "openai"
       ]
     },
     {
@@ -195,26 +175,6 @@
       ]
     },
     {
-      "id": "spark-x2.5",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "claude",
-      "supported_endpoint_types": [
-        "anthropic",
-        "openai"
-      ]
-    },
-    {
-      "id": "step-3.7-flash",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
       "id": "step-5-preview",
       "object": "model",
       "created": 1626777600,
@@ -231,15 +191,6 @@
       "supported_endpoint_types": [
         "openai",
         "image-generation"
-      ]
-    },
-    {
-      "id": "step-router-v1",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai"
       ]
     },
     {

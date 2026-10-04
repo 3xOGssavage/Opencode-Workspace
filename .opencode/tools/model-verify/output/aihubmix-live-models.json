@@ -7,6 +7,48 @@
       "owned_by": "OpenAI"
     },
     {
+      "id": "claude-opus-5-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "gpt-6-luna",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-6-sol",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "grok-4.7",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Grok"
+    },
+    {
+      "id": "mimo-v2.6-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "mimo-v2.6-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
+      "id": "mimo-v2.6-pro-ultraspeed",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
       "id": "qwen3.8-omni-flash",
       "object": "model",
       "created": 1626777600,
@@ -55,16 +97,22 @@
       "owned_by": "Z.AI"
     },
     {
-      "id": "glm-5.3",
+      "id": "xiaomi-mimo-v2.6-pro-free",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Z.AI"
+      "owned_by": "Xiaomi"
     },
     {
       "id": "qwen-3.8-27b",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Qwen"
+    },
+    {
+      "id": "glm-5.3",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Z.AI"
     },
     {
       "id": "mercury-2.5-preview",
@@ -107,6 +155,12 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "Qwen"
+    },
+    {
+      "id": "xiaomi-mimo-v2.6-flash-free",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
     },
     {
       "id": "gemini-3.7-flash",
@@ -187,10 +241,10 @@
       "owned_by": "Minimax"
     },
     {
-      "id": "ox-alpha",
+      "id": "coding-xiaomi-mimo-v2.6-flash",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Z.AI"
+      "owned_by": "Xiaomi"
     },
     {
       "id": "deepseek-v4-flash-0731-fast",
@@ -413,12 +467,6 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "Google"
-    },
-    {
-      "id": "gpt-oss-20b-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Openai"
     },
     {
       "id": "kimi-k2.7-code",
@@ -739,6 +787,12 @@
       "owned_by": "Xiaomi"
     },
     {
+      "id": "coding-xiaomi-mimo-v2.6-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Xiaomi"
+    },
+    {
       "id": "doubao-seed-2-0-lite-260428",
       "object": "model",
       "created": 1626777600,
@@ -787,22 +841,10 @@
       "owned_by": "OpenAI"
     },
     {
-      "id": "gpt-5.5-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "OpenAI"
-    },
-    {
       "id": "qwen3.5-plus",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Qwen"
-    },
-    {
-      "id": "gpt-image-2-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "OpenAI"
     },
     {
       "id": "qwen3.5-122b-a10b",
@@ -949,12 +991,6 @@
       "owned_by": "Minimax"
     },
     {
-      "id": "glm-5",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Z.AI"
-    },
-    {
       "id": "glm-5v-turbo",
       "object": "model",
       "created": 1626777600,
@@ -1069,30 +1105,6 @@
       "owned_by": "Minimax"
     },
     {
-      "id": "gpt-4.1-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "OpenAI"
-    },
-    {
-      "id": "gpt-4.1-mini-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "OpenAI"
-    },
-    {
-      "id": "gpt-4.1-nano-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "OpenAI"
-    },
-    {
-      "id": "gpt-4o-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "OpenAI"
-    },
-    {
       "id": "coding-glm-5",
       "object": "model",
       "created": 1626777600,
@@ -1139,6 +1151,12 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "OpenAI"
+    },
+    {
+      "id": "doubao-seed-2-1-pro-260628",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "ByteDance"
     },
     {
       "id": "gpt-5.2",
@@ -1945,12 +1963,6 @@
       "owned_by": "OpenAI"
     },
     {
-      "id": "claude-3-7-sonnet",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Anthropic"
-    },
-    {
       "id": "ernie-4.5",
       "object": "model",
       "created": 1626777600,
@@ -2083,30 +2095,6 @@
       "owned_by": "Qwen"
     },
     {
-      "id": "minimax-m2",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Minimax"
-    },
-    {
-      "id": "kat-dev",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Qwen"
-    },
-    {
-      "id": "nvidia-nemotron-3-super-120b-a12b",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Nvidia"
-    },
-    {
-      "id": "qwen2.5-vl-72b-instruct",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Qwen"
-    },
-    {
       "id": "Qwen/Qwen2.5-VL-32B-Instruct",
       "object": "model",
       "created": 1626777600,
@@ -2135,6 +2123,24 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "Baidu"
+    },
+    {
+      "id": "kat-dev",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "nvidia-nemotron-3-super-120b-a12b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Nvidia"
+    },
+    {
+      "id": "qwen2.5-vl-72b-instruct",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
     },
     {
       "id": "gpt-4o-zh",
@@ -2389,6 +2395,12 @@
       "owned_by": "OpenAI"
     },
     {
+      "id": "gpt-5.6-sol-pro",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Openai"
+    },
+    {
       "id": "gpt-oss-20b",
       "object": "model",
       "created": 1626777600,
@@ -2405,6 +2417,30 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "Grok"
+    },
+    {
+      "id": "l3.1-euryale-70b",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Sao10k"
+    },
+    {
+      "id": "laguna-s-2.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Poolside"
+    },
+    {
+      "id": "laguna-xs-2.1",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Poolside"
+    },
+    {
+      "id": "ling-3.0-flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Inclusionai"
     },
     {
       "id": "llama-3.3-70b-instruct",
@@ -2425,6 +2461,12 @@
       "owned_by": "Llama"
     },
     {
+      "id": "mercury-2.5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Inception"
+    },
+    {
       "id": "qwen-turbo",
       "object": "model",
       "created": 1626777600,
@@ -2432,6 +2474,18 @@
     },
     {
       "id": "qwen-turbo-2024-11-01",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3-235b-a22b-2507",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Qwen"
+    },
+    {
+      "id": "qwen3.8-27b",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Qwen"
