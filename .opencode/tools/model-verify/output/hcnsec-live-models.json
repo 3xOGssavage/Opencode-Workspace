@@ -7,9 +7,9 @@
       "owned_by": "openai",
       "supported_endpoint_types": [
         "openai",
+        "anthropic",
         "gemini",
-        "image-generation",
-        "anthropic"
+        "image-generation"
       ]
     },
     {
@@ -63,16 +63,6 @@
       ]
     },
     {
-      "id": "hy4",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
       "id": "kimi-k3",
       "object": "model",
       "created": 1626777600,
@@ -83,7 +73,7 @@
       ]
     },
     {
-      "id": "longcat-2.0",
+      "id": "longcat-2.5",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -104,23 +94,24 @@
       "id": "MiniMax-M3",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "openai",
+      "owned_by": "claude",
       "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
-      "id": "Qwen3-Embedding-8B",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
+        "anthropic",
         "openai"
       ]
     },
     {
-      "id": "qwen3.7-plus",
+      "id": "MiniMax-M3.1-Flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "claude",
+      "supported_endpoint_types": [
+        "anthropic",
+        "openai"
+      ]
+    },
+    {
+      "id": "Qwen3-Embedding-8B",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -147,16 +138,6 @@
       ]
     },
     {
-      "id": "qwen3.8-max",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
       "id": "sensenova-6.8-flash-lite",
       "object": "model",
       "created": 1626777600,
@@ -167,6 +148,15 @@
     },
     {
       "id": "sensenova-u1.5-lite",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "space-bunny-free",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",

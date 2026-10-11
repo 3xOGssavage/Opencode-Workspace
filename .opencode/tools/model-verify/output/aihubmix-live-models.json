@@ -7,10 +7,10 @@
       "owned_by": "OpenAI"
     },
     {
-      "id": "claude-opus-5-5",
+      "id": "gpt-6.1-sol",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Anthropic"
+      "owned_by": "OpenAI"
     },
     {
       "id": "gpt-6-luna",
@@ -23,6 +23,18 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "OpenAI"
+    },
+    {
+      "id": "claude-opus-5-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
+    },
+    {
+      "id": "claude-sonnet-5-5",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Anthropic"
     },
     {
       "id": "grok-4.7",
@@ -1328,12 +1340,6 @@
     },
     {
       "id": "deepseek-v3.2",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "DeepSeek"
-    },
-    {
-      "id": "deepseek-v3.2-think",
       "object": "model",
       "created": 1626777600,
       "owned_by": "DeepSeek"

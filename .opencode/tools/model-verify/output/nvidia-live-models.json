@@ -206,12 +206,6 @@
       "owned_by": "mistralai"
     },
     {
-      "id": "mistralai/mistral-nemotron",
-      "object": "model",
-      "created": 735790403,
-      "owned_by": "mistralai"
-    },
-    {
       "id": "mistralai/mixtral-8x22b-v0.1",
       "object": "model",
       "created": 735790403,
