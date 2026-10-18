@@ -13,16 +13,16 @@
       "owned_by": "OpenAI"
     },
     {
-      "id": "gpt-6-luna",
+      "id": "gemini-nano-banana-2.1",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "OpenAI"
+      "owned_by": "Google"
     },
     {
-      "id": "gpt-6-sol",
+      "id": "claude-haiku-5-5",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "OpenAI"
+      "owned_by": "Anthropic"
     },
     {
       "id": "claude-opus-5-5",
@@ -35,6 +35,24 @@
       "object": "model",
       "created": 1626777600,
       "owned_by": "Anthropic"
+    },
+    {
+      "id": "gpt-6-luna",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "gpt-6-sol",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "OpenAI"
+    },
+    {
+      "id": "mistral-large-4-0",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "Mistral"
     },
     {
       "id": "grok-4.7",
@@ -808,13 +826,13 @@
       "id": "doubao-seed-2-0-lite-260428",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Doubao"
+      "owned_by": "ByteDance"
     },
     {
       "id": "doubao-seed-2-0-mini-260428",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Doubao"
+      "owned_by": "ByteDance"
     },
     {
       "id": "gemini-3.1-flash-image-preview",
@@ -928,7 +946,7 @@
       "id": "doubao-seed-2-0-pro",
       "object": "model",
       "created": 1626777600,
-      "owned_by": "Doubao"
+      "owned_by": "ByteDance"
     },
     {
       "id": "gpt-5.4-high",
@@ -1040,12 +1058,6 @@
     },
     {
       "id": "doubao-seed-2-0-lite-260215",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "Doubao"
-    },
-    {
-      "id": "doubao-seed-2-0-mini",
       "object": "model",
       "created": 1626777600,
       "owned_by": "Doubao"

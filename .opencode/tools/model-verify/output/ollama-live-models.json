@@ -2,45 +2,9 @@
   "object": "list",
   "data": [
     {
-      "id": "nemotron-3-ultra",
-      "object": "model",
-      "created": 1780531200,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "glm-5.3",
-      "object": "model",
-      "created": 1787929200,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "gpt-oss:120b",
-      "object": "model",
-      "created": 1754352000,
-      "owned_by": "ollama"
-    },
-    {
       "id": "minimax-m2.7",
       "object": "model",
       "created": 1773792000,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "kimi-k2.6",
-      "object": "model",
-      "created": 1776643200,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "glm-5.3-flash",
-      "object": "model",
-      "created": 1787752800,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "deepseek-v4.1-flash",
-      "object": "model",
-      "created": 1789009200,
       "owned_by": "ollama"
     },
     {
@@ -50,27 +14,27 @@
       "owned_by": "ollama"
     },
     {
-      "id": "deepseek-v4-pro:0813",
+      "id": "glm-5.3-flash",
       "object": "model",
-      "created": 1786633200,
+      "created": 1787752800,
       "owned_by": "ollama"
     },
     {
-      "id": "nemotron-3-super",
+      "id": "kimi-k2.6",
       "object": "model",
-      "created": 1773187200,
+      "created": 1776643200,
       "owned_by": "ollama"
     },
     {
-      "id": "kimi-k3",
+      "id": "mistral-large-4",
       "object": "model",
-      "created": 1785164400,
+      "created": 1791291600,
       "owned_by": "ollama"
     },
     {
-      "id": "nemotron-3-nano:30b",
+      "id": "gemma4:31b",
       "object": "model",
-      "created": 1765756800,
+      "created": 1775149200,
       "owned_by": "ollama"
     },
     {
@@ -80,9 +44,51 @@
       "owned_by": "ollama"
     },
     {
+      "id": "deepseek-v4-pro:0813",
+      "object": "model",
+      "created": 1786633200,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "nemotron-3-nano:30b",
+      "object": "model",
+      "created": 1765756800,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "nemotron-3-ultra",
+      "object": "model",
+      "created": 1780531200,
+      "owned_by": "ollama"
+    },
+    {
       "id": "gpt-oss:20b",
       "object": "model",
       "created": 1754352000,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "nemotron-3-super",
+      "object": "model",
+      "created": 1773187200,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "deepseek-v4.1-flash",
+      "object": "model",
+      "created": 1789009200,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "gpt-oss:120b",
+      "object": "model",
+      "created": 1754352000,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "glm-5.3",
+      "object": "model",
+      "created": 1787929200,
       "owned_by": "ollama"
     },
     {
@@ -98,9 +104,9 @@
       "owned_by": "ollama"
     },
     {
-      "id": "gemma4:31b",
+      "id": "kimi-k3",
       "object": "model",
-      "created": 1775149200,
+      "created": 1785164400,
       "owned_by": "ollama"
     }
   ]

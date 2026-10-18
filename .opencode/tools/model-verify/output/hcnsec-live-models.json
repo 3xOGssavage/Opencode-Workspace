@@ -39,7 +39,11 @@
       "owned_by": "openai",
       "supported_endpoint_types": [
         "openai",
-        "anthropic"
+        "anthropic",
+        "openai-response",
+        "openai-response-compact",
+        "gemini",
+        "openai-alpha-search"
       ]
     },
     {
@@ -78,7 +82,8 @@
       "created": 1626777600,
       "owned_by": "openai",
       "supported_endpoint_types": [
-        "openai"
+        "openai",
+        "anthropic"
       ]
     },
     {
@@ -87,26 +92,6 @@
       "created": 1626777600,
       "owned_by": "openai",
       "supported_endpoint_types": [
-        "openai"
-      ]
-    },
-    {
-      "id": "MiniMax-M3",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "claude",
-      "supported_endpoint_types": [
-        "anthropic",
-        "openai"
-      ]
-    },
-    {
-      "id": "MiniMax-M3.1-Flash",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "claude",
-      "supported_endpoint_types": [
-        "anthropic",
         "openai"
       ]
     },
@@ -138,39 +123,13 @@
       ]
     },
     {
-      "id": "sensenova-6.8-flash-lite",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai"
-      ]
-    },
-    {
-      "id": "sensenova-u1.5-lite",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai"
-      ]
-    },
-    {
-      "id": "space-bunny-free",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai"
-      ]
-    },
-    {
       "id": "step-5-preview",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
       "supported_endpoint_types": [
-        "openai"
+        "openai",
+        "anthropic"
       ]
     },
     {

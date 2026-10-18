@@ -14,10 +14,10 @@ This document tracks the **health and availability** of model providers configur
 ## Snapshot
 | Provider           | API Base                          | Status | Latency | Models Verified | Last Checked       |
 | ------------------ | --------------------------------- | ------ | ------- | --------------- | ------------------ |
-| `ollama-cloud` | `https://ollama.com/v1` | Healthy | 648ms | 17 | 2026-10-04 17:00 |
-| `hcnsec` | `https://api.hcnsec.cn/v1` | Slow | 3577ms | 23 | 2026-10-04 17:00 |
-| `google` | `https://generativelanguage.googleapis.com/v1beta` | Healthy | 908ms | 50 | 2026-10-04 17:00 |
-| `opencode-go` | `https://opencode.ai/zen/v1` | Healthy | 1172ms | 86 | 2026-10-04 17:00 |
+| `ollama-cloud` | `https://ollama.com/v1` | Healthy | 746ms | 22 | 2026-10-18 17:00 |
+| `hcnsec` | `https://api.hcnsec.cn/v1` | Healthy | 2804ms | 14 | 2026-10-18 17:00 |
+| `google` | `https://generativelanguage.googleapis.com/v1beta` | Healthy | 797ms | 50 | 2026-10-18 17:00 |
+| `opencode-go` | `https://opencode.ai/zen/v1` | Healthy | 1314ms | 85 | 2026-10-18 17:00 |
 ## Models per Provider
 
 ### `ollama-cloud` (retained; minimax-m3 billing-blocked, denylisted)
