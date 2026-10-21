@@ -218,12 +218,6 @@
       "owned_by": "moonshotai"
     },
     {
-      "id": "moonshotai/kimi-k3",
-      "object": "model",
-      "created": 735790403,
-      "owned_by": "moonshotai"
-    },
-    {
       "id": "nv-mistralai/mistral-nemo-12b-instruct",
       "object": "model",
       "created": 735790403,
@@ -356,6 +350,12 @@
       "owned_by": "nvidia"
     },
     {
+      "id": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+      "object": "model",
+      "created": 735790403,
+      "owned_by": "nvidia"
+    },
+    {
       "id": "nvidia/nemotron-4-340b-instruct",
       "object": "model",
       "created": 735790403,
@@ -438,6 +438,12 @@
       "object": "model",
       "created": 735790403,
       "owned_by": "snowflake"
+    },
+    {
+      "id": "stepfun-ai/step-5-preview",
+      "object": "model",
+      "created": 735790403,
+      "owned_by": "stepfun-ai"
     },
     {
       "id": "writer/palmyra-creative-122b",

@@ -11,9 +11,7 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026101112005795271915648107343)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -28,9 +26,7 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026101112011573809328426284417)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -82,9 +78,7 @@
     },
     "live": true,
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026101112013088365454748260231)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -96,12 +90,52 @@
       },
       "name": "Coding GLM 5.2 (free) [PAID 2026-09-09]"
     },
-    "cache": null,
+    "cache": {
+      "id": "coding-glm-5.2-free",
+      "name": "GLM-5.2 (Coding, free)",
+      "description": "Open flagship GLM for long-horizon coding agents and million-token context work",
+      "family": "glm",
+      "attachment": false,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "high",
+            "max"
+          ]
+        }
+      ],
+      "tool_call": true,
+      "interleaved": {
+        "field": "reasoning_content"
+      },
+      "structured_output": true,
+      "temperature": true,
+      "release_date": "2026-06-13",
+      "last_updated": "2026-06-13",
+      "modalities": {
+        "input": [
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "open_weights": true,
+      "limit": {
+        "context": 1000000,
+        "output": 131072
+      },
+      "cost": {
+        "input": 0,
+        "output": 0
+      },
+      "canonical_model_id": "zhipuai/glm-5.2"
+    },
     "live": true,
     "probe": {
-      "status": 404,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: z-ai/glm-5.2 (tid: 2026101112014789376207828041398)\",\"type\":\"\",\"param\":\"\",\"code\":404}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -116,9 +150,7 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026101112020262985632388097999)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -133,9 +165,9 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 400,
+      "status": 403,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model coding-kimi-k3-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101112021884314861574284056)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"You've reached your concurrent request limit. Please wait for your ongoing requests to finish and try again. (tid: 2026101812023359952910505015081)\",\"type\":\"permission_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -152,7 +184,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.1] does not support max tokens > 196608 (2013) (tid: 2026101112021997820224789279865)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.1] does not support max tokens > 196608 (2013) (tid: 2026101812023556973200527187365)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -169,7 +201,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026101112022117638262564816166)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026101812023692293830968607025)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -219,7 +251,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.7] does not support max tokens > 196608 (2013) (tid: 2026101112022235199231779148280)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.7] does not support max tokens > 196608 (2013) (tid: 202610181202389956058880459134)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -236,7 +268,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026101112022351195852626451865)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026101812023941420558325973231)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   }
 ]

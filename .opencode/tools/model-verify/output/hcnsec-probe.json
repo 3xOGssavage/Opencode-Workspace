@@ -11,10 +11,7 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"max_tokens exceeds the limit of 65536 (request id: 2026101112000731512082dfJoLIkU)\",\"type\":\"AgnesAI_error\",\"param\":\"\",\"code\":\"invalid_request\"}}",
-      "inferred_limit": "65536"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -31,7 +28,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Kimi-K2.6 under group auto (distributor) (request id: 202610111200108546552828268d9d6Tn6UcCL7)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model Kimi-K2.6 under group auto (distributor) (request id: 202610181200255225865458268d9d68TJSDZN3)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -48,7 +45,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model MiniMax-M3 under group auto (distributor) (request id: 202610111200128694947158268d9d6yyx4KXJ8)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model MiniMax-M3 under group auto (distributor) (request id: 202610181200267909892358268d9d6aYir0wSk)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -63,9 +60,10 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 500,
+      "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 DeepSeek-V4-Flash 的可用渠道不存在（retry） (request id: 202610111200155102843668268d9d6YGIPsTDA)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
+      "error": "{\"error\":{\"message\":\"Requested token count exceeds the model's maximum context length of 1048576 tokens. You requested a total of 2000005 tokens: 5 tokens from the input messages and 2000000 tokens for the completion. Please reduce the number of tokens in the input messages or the completion to fit within the limit.\",\"type\":\"BadRequestError\",\"param\":\"\",\"code\":\"client_error\"}}",
+      "inferred_limit": "1048576"
     }
   },
   {
@@ -80,7 +78,10 @@
     "cache": null,
     "live": true,
     "probe": {
-      "error": "The operation was aborted due to timeout"
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Requested token count exceeds the model's maximum context length of 1048576 tokens. You requested a total of 2000005 tokens: 5 tokens from the input messages and 2000000 tokens for the completion. Please reduce the number of tokens in the input messages or the completion to fit within the limit.\",\"type\":\"BadRequestError\",\"param\":\"\",\"code\":\"client_error\"}}",
+      "inferred_limit": "1048576"
     }
   },
   {
@@ -97,7 +98,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model kat-coder-pro-v2.5 under group auto (distributor) (request id: 202610111200427228987048268d9d6J7Kxotyt)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model kat-coder-pro-v2.5 under group auto (distributor) (request id: 202610181200352834874318268d9d69IpdSxt9)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -114,7 +115,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model sensenova-6.7-flash-lite under group auto (distributor) (request id: 202610111200450605401838268d9d6Y9UiU1mk)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model sensenova-6.7-flash-lite under group auto (distributor) (request id: 202610181200375197099708268d9d6e7I6gyka)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -131,7 +132,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model step-3.7-flash under group auto (distributor) (request id: 202610111200469192377438268d9d6sbyGVces)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model step-3.7-flash under group auto (distributor) (request id: 202610181200410956280218268d9d6tD9rNSTg)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -148,7 +149,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model step-router-v1 under group auto (distributor) (request id: 202610111200482425112548268d9d6Q4o17RNb)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model step-router-v1 under group auto (distributor) (request id: 202610181200436984767778268d9d6n7B6xagM)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -161,11 +162,11 @@
       }
     },
     "cache": null,
-    "live": true,
+    "live": false,
     "probe": {
-      "status": 500,
+      "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 stepaudio-2.5-chat 的可用渠道不存在（retry） (request id: 202610111200501355637178268d9d69O2XzR0Q)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model stepaudio-2.5-chat under group auto (distributor) (request id: 202610181200450530624968268d9d696iN0K7E)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -182,7 +183,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model glm-4.5-air under group auto (distributor) (request id: 202610111200540227980588268d9d6NZLBpqUt)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model glm-4.5-air under group auto (distributor) (request id: 202610181200463121630868268d9d6JMEzl8Xl)\",\"type\":\"new_api_error\"}}"
     }
   },
   {
@@ -199,7 +200,7 @@
     "probe": {
       "status": 503,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model spark-x2.5 under group auto (distributor) (request id: 202610111200559145041138268d9d6nfROBDiz)\",\"type\":\"new_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_not_found\",\"message\":\"No available channel for model spark-x2.5 under group auto (distributor) (request id: 202610181200476427499998268d9d6a7c4cKvi)\",\"type\":\"new_api_error\"}}"
     }
   }
 ]

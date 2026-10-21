@@ -3,9 +3,7 @@
     "id": "DeepSeek-V4.1-Flash",
     "provider": "hcnsec",
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"Requested token count exceeds the model's maximum context length of 1048576 tokens. You requested a total of 2000005 tokens: 5 tokens from the input messages and 2000000 tokens for the completion. Please reduce the number of tokens in the input messages or the completion to fit within the limit.\",\"type\":\"BadRequestError\",\"param\":\"\",\"code\":\"client_error\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -21,23 +19,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"Validation: Max tokens must not exceed 1048576, got 2000000\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
-    }
-  },
-  {
-    "id": "kimi-k3",
-    "provider": "hcnsec",
-    "probe": {
-      "error": "The operation was aborted due to timeout"
-    }
-  },
-  {
-    "id": "longcat-2.5",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"Upstream request failed: [invalid_parameter] 参数校验失败: \\n/max_tokens: 2000000 is not less or equal to 262144\\n\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"max_tokens=2000000 cannot be greater than max_model_len=max_total_tokens=262144. Please request fewer output tokens. (parameter=max_tokens, value=2000000)\",\"type\":\"BadRequestError\",\"param\":\"max_tokens\",\"code\":400}}"
     }
   },
   {
@@ -47,6 +29,15 @@
       "status": 400,
       "ok": false,
       "error": "{\"error\":{\"message\":\"Requested token count exceeds the model's maximum context length of 1048576 tokens. You requested a total of 2000008 tokens: 8 tokens from the input messages and 2000000 tokens for the completion. Please reduce the number of tokens in the input messages or the completion to fit within the limit.\",\"type\":\"BadRequestError\",\"param\":\"\",\"code\":\"client_error\"}}"
+    }
+  },
+  {
+    "id": "MiniCPM-V-4.7-35B-A3B",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The requested max_tokens (2000000) exceeds the maximum output tokens allowed for model MiniCPM-V-4.7-35B-A3B (32768)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -77,59 +68,30 @@
     }
   },
   {
+    "id": "sensenova-6.8-flash-lite",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"field MaxTokens invalid, should be in [1, 65536]\",\"type\":\"invalid_request_error\",\"param\":\"max_tokens\",\"code\":\"3\"}}"
+    }
+  },
+  {
+    "id": "sensenova-u1.5-lite",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 404,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"model is not found\",\"type\":\"not_found_error\",\"param\":\"\",\"code\":\"5\"}}"
+    }
+  },
+  {
     "id": "step-5-preview",
     "provider": "hcnsec",
     "probe": {
-      "status": 200,
-      "ok": true,
-      "usage": {
-        "prompt_tokens": 12,
-        "completion_tokens": 84,
-        "total_tokens": 96,
-        "prompt_tokens_details": {
-          "cached_tokens": 0
-        },
-        "completion_tokens_details": {
-          "reasoning_tokens": 0
-        }
-      },
-      "model_returned": "step-5-preview"
-    }
-  },
-  {
-    "id": "step-image-edit-2",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 404,
+      "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"The model \\\"step-image-edit-2\\\" does not exist or you do not have access to it.\",\"type\":\"model_invalid\",\"param\":\"\",\"code\":null}}"
-    }
-  },
-  {
-    "id": "stepaudio-2.5-asr",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 404,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The model \\\"stepaudio-2.5-asr\\\" does not exist or you do not have access to it.\",\"type\":\"model_invalid\",\"param\":\"\",\"code\":null}}"
-    }
-  },
-  {
-    "id": "stepaudio-2.5-realtime",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 404,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The model \\\"stepaudio-2.5-realtime\\\" does not exist or you do not have access to it.\",\"type\":\"model_invalid\",\"param\":\"\",\"code\":null}}"
-    }
-  },
-  {
-    "id": "stepaudio-2.5-tts",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 404,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The model \\\"stepaudio-2.5-tts\\\" does not exist or you do not have access to it.\",\"type\":\"model_invalid\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"Validation: Max tokens must not exceed 1048576, got 2000000\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
     }
   },
   {
@@ -138,7 +100,16 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"Param Incorrect (tid: 2026101112045392605219795768821)\",\"type\":\"\",\"param\":\"max_tokens is too large: 2000000. This model supports at most 131072 completion tokens, whereas you provided 2000000.\",\"code\":\"400\"}}"
+      "error": "{\"error\":{\"message\":\"Param Incorrect (tid: 2026101812045971349668968345367)\",\"type\":\"\",\"param\":\"max_tokens is too large: 2000000. This model supports at most 131072 completion tokens, whereas you provided 2000000.\",\"code\":\"400\"}}"
+    }
+  },
+  {
+    "id": "coding-glm-5.3-flash-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"max_tokens参数非法：限制数值范围[1,131072] (tid: 2026101812050232218600526410744)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
@@ -147,7 +118,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026101112045639241546187972333)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026101812052270565447188709837)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
     }
   },
   {
@@ -156,7 +127,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"Param Incorrect (tid: 2026101112050845139770246585519)\",\"type\":\"\",\"param\":\"max_tokens is too large: 2000000. This model supports at most 131072 completion tokens, whereas you provided 2000000.\",\"code\":\"400\"}}"
+      "error": "{\"error\":{\"message\":\"Param Incorrect (tid: 2026101812054481114830035946843)\",\"type\":\"\",\"param\":\"max_tokens is too large: 2000000. This model supports at most 131072 completion tokens, whereas you provided 2000000.\",\"code\":\"400\"}}"
     }
   },
   {
@@ -165,7 +136,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026101112051052164595244334699)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
+      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026101812054688345233401040224)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
     }
   },
   {
@@ -174,7 +145,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model union-alpha-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101112051348778337868640228)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model union-alpha-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101812054986208564404732737)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   },
   {
@@ -183,7 +154,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026101112051529938819184942550)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
+      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026101812055167014496047073291)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
     }
   },
   {
@@ -192,7 +163,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model hy3-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101112051736045016088027932)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model hy3-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101812055469741715158474890)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   },
   {
@@ -201,7 +172,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model minimax-m2.7-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101112051918704443465474124)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model minimax-m2.7-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101812055651471941739175398)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   }
 ]

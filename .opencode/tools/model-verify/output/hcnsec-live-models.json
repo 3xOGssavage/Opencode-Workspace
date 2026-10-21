@@ -67,27 +67,16 @@
       ]
     },
     {
-      "id": "kimi-k3",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
-      "id": "longcat-2.5",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
       "id": "MiMo-V2.6-Flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "MiniCPM-V-4.7-35B-A3B",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -123,54 +112,25 @@
       ]
     },
     {
+      "id": "sensenova-6.8-flash-lite",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "sensenova-u1.5-lite",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
       "id": "step-5-preview",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
-      "id": "step-image-edit-2",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "image-generation"
-      ]
-    },
-    {
-      "id": "stepaudio-2.5-asr",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai"
-      ]
-    },
-    {
-      "id": "stepaudio-2.5-chat",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai"
-      ]
-    },
-    {
-      "id": "stepaudio-2.5-realtime",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai"
-      ]
-    },
-    {
-      "id": "stepaudio-2.5-tts",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
