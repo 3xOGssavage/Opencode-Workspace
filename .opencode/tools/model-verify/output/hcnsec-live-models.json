@@ -85,6 +85,16 @@
       ]
     },
     {
+      "id": "MiniMax-M3.1-Flash",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai",
+        "anthropic"
+      ]
+    },
+    {
       "id": "Qwen3-Embedding-8B",
       "object": "model",
       "created": 1626777600,
@@ -131,6 +141,42 @@
     },
     {
       "id": "step-5-preview",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "stepaudio-2.5-asr",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "stepaudio-2.5-chat",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "stepaudio-2.5-realtime",
+      "object": "model",
+      "created": 1626777600,
+      "owned_by": "openai",
+      "supported_endpoint_types": [
+        "openai"
+      ]
+    },
+    {
+      "id": "stepaudio-2.5-tts",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",

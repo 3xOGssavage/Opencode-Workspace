@@ -2,9 +2,7 @@
   "$schema": "https://opencode.ai/config.json",
   "username": "dev",
   "default_agent": "build",
-  "instructions": [
-    "AGENTS.md"
-  ],
+  "instructions": ["AGENTS.md"],
   "share": "disabled",
   "autoupdate": "notify",
   "snapshot": true,
@@ -797,35 +795,17 @@
   },
   "lsp": {
     "typescript-language-server": {
-      "command": [
-        "typescript-language-server",
-        "--stdio"
-      ],
-      "extensions": [
-        ".ts",
-        ".tsx",
-        ".js",
-        ".jsx"
-      ]
+      "command": ["typescript-language-server", "--stdio"],
+      "extensions": [".ts", ".tsx", ".js", ".jsx"]
     },
     "pyright": {
-      "command": [
-        "pyright-langserver",
-        "--stdio"
-      ],
-      "extensions": [
-        ".py",
-        ".pyi"
-      ]
+      "command": ["pyright-langserver", "--stdio"],
+      "extensions": [".py", ".pyi"]
     }
   },
   "formatter": {
     "prettier": {
-      "command": [
-        "prettier",
-        "--write",
-        "$FILE"
-      ],
+      "command": ["prettier", "--write", "$FILE"],
       "extensions": [
         ".js",
         ".jsx",
@@ -843,29 +823,12 @@
   "mcp": {
     "context7": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@upstash/context7-mcp"
-      ],
-      "enabled": true
-    },
-    "sequential-thinking": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ],
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
       "enabled": true
     },
     "playwright": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@playwright/mcp"
-      ],
+      "command": ["npx", "-y", "@playwright/mcp"],
       "enabled": true,
       "env": {
         "BROWSER": "chromium"
@@ -873,9 +836,7 @@
     },
     "memory": {
       "type": "local",
-      "command": [
-        "F:\\CD\\Opencode\\.opencode\\memory-mcp-wrapper.bat"
-      ],
+      "command": ["F:\\CD\\Opencode\\.opencode\\memory-mcp-wrapper.bat"],
       "enabled": true
     },
     "tavily": {
@@ -885,19 +846,9 @@
         "F:\\CD\\Opencode\\.opencode\\tools\\tavily-rotator\\launcher.mjs"
       ],
       "enabled": true,
-      "timeout": 30000
-    },
-    "fetch": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "--with",
-        "mcp<2",
-        "mcp-server-fetch"
-      ],
-      "enabled": true,
+      "timeout": 120000,
       "env": {
-        "PYTHONIOENCODING": "utf-8"
+        "TAVILY_DEFAULT_DEPTH": "advanced"
       }
     },
     "filesystem": {
@@ -912,11 +863,7 @@
     },
     "chrome-devtools": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "chrome-devtools-mcp@latest"
-      ],
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
       "enabled": true
     },
     "sentry": {
@@ -926,7 +873,7 @@
     },
     "supabase": {
       "type": "remote",
-      "url": "https://mcp.supabase.com/mcp?project_ref=iovbjaljwxwxchumnyoc&read_only=true&features=database,docs",
+      "url": "https://mcp.supabase.com/mcp?features=database,docs,debugging,development,functions,storage&read_only=true",
       "headers": {
         "Authorization": "Bearer {env:SUPABASE_ACCESS_TOKEN}"
       },
@@ -934,11 +881,21 @@
     },
     "supabase-admin": {
       "type": "remote",
-      "url": "https://mcp.supabase.com/mcp?project_ref=iovbjaljwxwxchumnyoc&features=database,docs",
+      "url": "https://mcp.supabase.com/mcp?features=database,docs,debugging,development,functions,storage",
       "headers": {
         "Authorization": "Bearer {env:SUPABASE_ACCESS_TOKEN}"
       },
       "enabled": true
+    },
+    "cloudflare-api": {
+      "type": "remote",
+      "url": "https://mcp.cloudflare.com/mcp",
+      "enabled": true,
+      "timeout": 120000,
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:CLOUDFLARE_API_TOKEN}"
+      }
     },
     "grep": {
       "type": "remote",
@@ -951,7 +908,7 @@
         "F:\\CD\\Opencode\\.opencode\\github-mcp-server\\github-mcp-server.exe",
         "stdio",
         "--toolsets",
-        "repos,issues,pull_requests,actions,code_security,discussions,orgs,users,gists"
+        "all"
       ],
       "enabled": true,
       "env": {
@@ -975,19 +932,6 @@
         "GEMINI_API_KEY": "{env:GEMINI_API_KEY}"
       }
     },
-    "graft": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@nanonets/graft",
-        "mcp"
-      ],
-      "enabled": true,
-      "env": {
-        "DO_NOT_TRACK": "1"
-      }
-    },
     "ddddocr": {
       "type": "local",
       "command": [
@@ -998,6 +942,23 @@
       "timeout": 60000,
       "env": {
         "PYTHONIOENCODING": "utf-8"
+      }
+    },
+    "trailcode": {
+      "type": "local",
+      "command": ["npx", "-y", "@nanonets/graft@0.15.0", "mcp"],
+      "enabled": true,
+      "env": {
+        "DO_NOT_TRACK": "1"
+      }
+    },
+    "n8n": {
+      "type": "remote",
+      "url": "https://neodevstudio-n8n.hf.space/mcp-server/http",
+      "enabled": true,
+      "timeout": 120000,
+      "headers": {
+        "Authorization": "Bearer {env:N8N_API_KEY}"
       }
     }
   },

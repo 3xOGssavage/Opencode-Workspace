@@ -42,7 +42,7 @@
       "id": "coding-glm-5.1-free",
       "name": "Coding GLM 5.1 (free)",
       "description": "Flagship GLM model for hybrid reasoning, coding, and agentic engineering",
-      "family": "glm-free",
+      "family": "glm",
       "attachment": false,
       "reasoning": true,
       "reasoning_options": [
@@ -56,8 +56,8 @@
       },
       "structured_output": true,
       "temperature": true,
-      "release_date": "2026-04-11",
-      "last_updated": "2026-04-11",
+      "release_date": "2026-04-07",
+      "last_updated": "2026-04-07",
       "modalities": {
         "input": [
           "text"
@@ -69,12 +69,13 @@
       "open_weights": true,
       "limit": {
         "context": 200000,
-        "output": 128000
+        "output": 131072
       },
       "cost": {
         "input": 0,
         "output": 0
-      }
+      },
+      "canonical_model_id": "zhipuai/glm-5.1"
     },
     "live": true,
     "probe": {
@@ -165,9 +166,9 @@
     "cache": null,
     "live": true,
     "probe": {
-      "status": 403,
+      "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"You've reached your concurrent request limit. Please wait for your ongoing requests to finish and try again. (tid: 2026101812023359952910505015081)\",\"type\":\"permission_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"The requested resource was not found (tid: 2026102512021996990526660014407)\",\"type\":\"resource_not_found_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -184,7 +185,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.1] does not support max tokens > 196608 (2013) (tid: 2026101812023556973200527187365)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.1] does not support max tokens > 196608 (2013) (tid: 2026102512022224407231872910171)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -201,7 +202,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026101812023692293830968607025)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026102512022354257533713338506)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -217,7 +218,7 @@
       "id": "coding-minimax-m2.7-free",
       "name": "Coding MiniMax M2.7 (Free)",
       "description": "MiniMax model for chat, coding, office work, and agentic tasks",
-      "family": "minimax-free",
+      "family": "minimax",
       "attachment": false,
       "reasoning": true,
       "reasoning_options": [],
@@ -245,13 +246,14 @@
       "cost": {
         "input": 0,
         "output": 0
-      }
+      },
+      "canonical_model_id": "minimax/MiniMax-M2.7"
     },
     "live": true,
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.7] does not support max tokens > 196608 (2013) (tid: 202610181202389956058880459134)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.7] does not support max tokens > 196608 (2013) (tid: 2026102512022475968960170701871)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -268,7 +270,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026101812023941420558325973231)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M2.5] does not support max tokens > 196608 (2013) (tid: 2026102512022597188941562808547)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   }
 ]

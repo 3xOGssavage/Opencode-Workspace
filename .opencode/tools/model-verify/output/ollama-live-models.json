@@ -2,75 +2,9 @@
   "object": "list",
   "data": [
     {
-      "id": "glm-5.2",
-      "object": "model",
-      "created": 1781622000,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "kimi-k3",
-      "object": "model",
-      "created": 1785164400,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "deepseek-v4.1-flash",
-      "object": "model",
-      "created": 1789009200,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "gpt-oss:120b",
-      "object": "model",
-      "created": 1754352000,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "minimax-m2.7",
-      "object": "model",
-      "created": 1773792000,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "mistral-large-3:675b",
-      "object": "model",
-      "created": 1764633600,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "deepseek-v4.1-flash:1017",
-      "object": "model",
-      "created": 1789084980,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "gpt-oss:20b",
-      "object": "model",
-      "created": 1754352000,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "glm-5.3-flash",
-      "object": "model",
-      "created": 1787752800,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "minimax-m3",
-      "object": "model",
-      "created": 1780272000,
-      "owned_by": "ollama"
-    },
-    {
       "id": "glm-5.3",
       "object": "model",
       "created": 1787929200,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "kimi-k2.6",
-      "object": "model",
-      "created": 1776643200,
       "owned_by": "ollama"
     },
     {
@@ -80,15 +14,9 @@
       "owned_by": "ollama"
     },
     {
-      "id": "deepseek-v4-pro:0813",
+      "id": "kimi-k3",
       "object": "model",
-      "created": 1786633200,
-      "owned_by": "ollama"
-    },
-    {
-      "id": "nemotron-3-ultra",
-      "object": "model",
-      "created": 1780531200,
+      "created": 1785164400,
       "owned_by": "ollama"
     },
     {
@@ -98,9 +26,39 @@
       "owned_by": "ollama"
     },
     {
-      "id": "mistral-large-4",
+      "id": "gpt-oss:20b",
       "object": "model",
-      "created": 1791291600,
+      "created": 1754352000,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "deepseek-v4.1-flash:1017",
+      "object": "model",
+      "created": 1792231200,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "glm-5.3-flash",
+      "object": "model",
+      "created": 1787752800,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "deepseek-v4.1-flash",
+      "object": "model",
+      "created": 1789009200,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "beam",
+      "object": "model",
+      "created": 1792155600,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "gpt-oss:120b",
+      "object": "model",
+      "created": 1754352000,
       "owned_by": "ollama"
     },
     {
@@ -116,21 +74,69 @@
       "owned_by": "ollama"
     },
     {
+      "id": "muse-spark-open",
+      "object": "model",
+      "created": 1792054800,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "glm-5.2",
+      "object": "model",
+      "created": 1781622000,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "deepseek-v4-pro:0813",
+      "object": "model",
+      "created": 1786633200,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "minimax-m2.7",
+      "object": "model",
+      "created": 1773792000,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "minimax-m3.1-flash",
+      "object": "model",
+      "created": 1792425600,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "mistral-large-3:675b",
+      "object": "model",
+      "created": 1764633600,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "minimax-m3",
+      "object": "model",
+      "created": 1780272000,
+      "owned_by": "ollama"
+    },
+    {
+      "id": "mistral-large-4",
+      "object": "model",
+      "created": 1791291600,
+      "owned_by": "ollama"
+    },
+    {
       "id": "gemma4:31b",
       "object": "model",
       "created": 1775149200,
       "owned_by": "ollama"
     },
     {
-      "id": "beam",
+      "id": "nemotron-3-ultra",
       "object": "model",
-      "created": 1792155600,
+      "created": 1780531200,
       "owned_by": "ollama"
     },
     {
-      "id": "muse-spark-open",
+      "id": "kimi-k2.6",
       "object": "model",
-      "created": 1792054800,
+      "created": 1776643200,
       "owned_by": "ollama"
     }
   ],
@@ -690,6 +696,29 @@
       },
       "context_window": 512000,
       "max_context_window": 512000,
+      "experimental_supported_tools": [],
+      "input_modalities": [
+        "text",
+        "image"
+      ]
+    },
+    {
+      "slug": "minimax-m3.1-flash",
+      "display_name": "minimax-m3.1-flash",
+      "supported_reasoning_levels": [],
+      "shell_type": "unified_exec",
+      "visibility": "list",
+      "supported_in_api": true,
+      "priority": 0,
+      "base_instructions": "You are a coding assistant. Help the user complete software tasks using the available tools. Follow the user's instructions and the repository's guidance.",
+      "supports_reasoning_summary_parameter": false,
+      "support_verbosity": false,
+      "truncation_policy": {
+        "mode": "tokens",
+        "limit": 10000
+      },
+      "context_window": 1000000,
+      "max_context_window": 1000000,
       "experimental_supported_tools": [],
       "input_modalities": [
         "text",

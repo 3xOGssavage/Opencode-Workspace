@@ -41,6 +41,15 @@
     }
   },
   {
+    "id": "MiniMax-M3.1-Flash",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Validation: Max tokens must not exceed 1048576, got 2000000\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
+    }
+  },
+  {
     "id": "Qwen3-Embedding-8B",
     "provider": "hcnsec",
     "probe": {
@@ -95,57 +104,80 @@
     }
   },
   {
-    "id": "xiaomi-mimo-v2.6-pro-free",
+    "id": "stepaudio-2.5-asr",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 404,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The model \\\"stepaudio-2.5-asr\\\" does not exist or you do not have access to it.\",\"type\":\"model_invalid\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "stepaudio-2.5-realtime",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 404,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The model \\\"stepaudio-2.5-realtime\\\" does not exist or you do not have access to it.\",\"type\":\"model_invalid\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "stepaudio-2.5-tts",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 404,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The model \\\"stepaudio-2.5-tts\\\" does not exist or you do not have access to it.\",\"type\":\"model_invalid\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "qwen3.8-flash-free",
     "provider": "aihubmix",
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"Param Incorrect (tid: 2026101812045971349668968345367)\",\"type\":\"\",\"param\":\"max_tokens is too large: 2000000. This model supports at most 131072 completion tokens, whereas you provided 2000000.\",\"code\":\"400\"}}"
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model qwen3.8-flash-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026102512050716303893605091144)\",\"type\":\"Aihubmix_api_error\"}}"
+    }
+  },
+  {
+    "id": "qwen3.8-max-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model qwen3.8-max-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 202610251205091107401575396610)\",\"type\":\"Aihubmix_api_error\"}}"
+    }
+  },
+  {
+    "id": "xiaomi-mimo-v2.6-pro-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 429,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Model xiaomi-mimo-v2.6-pro-free rate limited by provider – contact support to request higher concurrency or try again later. (tid: 2026102512051086334476113014308)\",\"type\":\"limitation\",\"param\":\"\",\"code\":\"429\"}}"
     }
   },
   {
     "id": "coding-glm-5.3-flash-free",
     "provider": "aihubmix",
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"max_tokens参数非法：限制数值范围[1,131072] (tid: 2026101812050232218600526410744)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
     "id": "coding-glm-5.3-free",
     "provider": "aihubmix",
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026101812052270565447188709837)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
     "id": "xiaomi-mimo-v2.6-flash-free",
     "provider": "aihubmix",
     "probe": {
-      "status": 400,
+      "status": 429,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"Param Incorrect (tid: 2026101812054481114830035946843)\",\"type\":\"\",\"param\":\"max_tokens is too large: 2000000. This model supports at most 131072 completion tokens, whereas you provided 2000000.\",\"code\":\"400\"}}"
-    }
-  },
-  {
-    "id": "agents-a1-free",
-    "provider": "aihubmix",
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026101812054688345233401040224)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
-    }
-  },
-  {
-    "id": "union-alpha-free",
-    "provider": "aihubmix",
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model union-alpha-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101812054986208564404732737)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"Model xiaomi-mimo-v2.6-flash-free rate limited by provider – contact support to request higher concurrency or try again later. (tid: 2026102512060667126865663501112)\",\"type\":\"limitation\",\"param\":\"\",\"code\":\"429\"}}"
     }
   },
   {
@@ -154,25 +186,16 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026101812055167014496047073291)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
+      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026102512060938338798051495446)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
     }
   },
   {
-    "id": "hy3-free",
+    "id": "agents-a1-free",
     "provider": "aihubmix",
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model hy3-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101812055469741715158474890)\",\"type\":\"Aihubmix_api_error\"}}"
-    }
-  },
-  {
-    "id": "minimax-m2.7-free",
-    "provider": "aihubmix",
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model minimax-m2.7-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026101812055651471941739175398)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026102512061343523988606943508)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
     }
   }
 ]

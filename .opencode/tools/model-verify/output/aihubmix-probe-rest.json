@@ -4,7 +4,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M3] does not support max tokens > 524288 (2013) (tid: 2026101812024999464226371004817)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"invalid params, model[MiniMax-M3] does not support max tokens > 524288 (2013) (tid: 2026102512023548494162203249285)\",\"type\":\"bad_request_error\",\"param\":\"\",\"code\":null}}"
     }
   },
   {
@@ -12,7 +12,7 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"This endpoint's maximum context length is 512000 tokens. However, you requested about 2000001 tokens (1 of text input, 2000000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically. (tid: 2026101812025245295374499392357)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
+      "error": "{\"error\":{\"message\":\"This endpoint's maximum context length is 512000 tokens. However, you requested about 512001 tokens (1 of text input, 512000 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically. (tid: 202610251202388810625695820882)\",\"type\":\"\",\"param\":\"\",\"code\":400}}"
     }
   },
   {
@@ -20,7 +20,7 @@
     "probe": {
       "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemini-3.5-flash-lite-free has been retired and is no longer available. (tid: 2026101812025544424576707073485)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemini-3.5-flash-lite-free has been retired and is no longer available. (tid: 202610251202415791134750664651)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   },
   {
@@ -28,7 +28,7 @@
     "probe": {
       "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemini-3.6-flash-free has been retired and is no longer available. (tid: 2026101812025776324365683293348)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemini-3.6-flash-free has been retired and is no longer available. (tid: 2026102512024338641497896254103)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   },
   {
@@ -36,7 +36,7 @@
     "probe": {
       "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemini-3.7-flash-free has been retired and is no longer available. (tid: 202610181203008357703132252201)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemini-3.7-flash-free has been retired and is no longer available. (tid: 2026102512024570998918419291674)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   },
   {
@@ -44,32 +44,29 @@
     "probe": {
       "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemini-3-flash-preview-free has been retired and is no longer available. (tid: 2026101812030239637241316425776)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemini-3-flash-preview-free has been retired and is no longer available. (tid: 202610251202483565970311333855)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   },
   {
     "id": "gemma-4-26b-a4b-it-free",
     "probe": {
-      "status": 404,
+      "status": 429,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemma-4-26b-a4b-it-free has been retired and is no longer available. (tid: 2026101812030470724623658360615)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"For unknown errors, please submit a request at https://console.aihubmix.com/support?category=billing or email feedback@aihubmix.com (tid: 2026102512025035862466164020509)\",\"type\":\"\",\"param\":\"\",\"code\":429}}"
     }
   },
   {
     "id": "gemma-4-31b-it-free",
     "probe": {
-      "status": 404,
+      "status": 429,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gemma-4-31b-it-free has been retired and is no longer available. (tid: 202610181203071925850863182074)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"For unknown errors, please submit a request at https://console.aihubmix.com/support?category=billing or email feedback@aihubmix.com (tid: 2026102512025290685977667232034)\",\"type\":\"\",\"param\":\"\",\"code\":429}}"
     }
   },
   {
     "id": "glm-4.7-flash-free",
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"The max_tokens parameter is illegal.：限制数值范围[1,131072] (tid: 2026101812030932960337218559608)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}",
-      "inferred_limit": "131072"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -77,7 +74,7 @@
     "probe": {
       "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gpt-4.1-free has been retired and is no longer available. (tid: 2026101812032845793271359021962)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gpt-4.1-free has been retired and is no longer available. (tid: 2026102512031748320672880485512)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   },
   {
@@ -85,7 +82,7 @@
     "probe": {
       "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gpt-4.1-mini-free has been retired and is no longer available. (tid: 2026101812033076627472981162004)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gpt-4.1-mini-free has been retired and is no longer available. (tid: 2026102512031980385814943220957)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   },
   {
@@ -93,7 +90,7 @@
     "probe": {
       "status": 404,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gpt-4.1-nano-free has been retired and is no longer available. (tid: 202610181203337943389119340480)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"code\":\"model_retired\",\"message\":\"The model gpt-4.1-nano-free has been retired and is no longer available. (tid: 2026102512032213496281688501410)\",\"type\":\"Aihubmix_api_error\"}}"
     }
   }
 ]
