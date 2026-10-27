@@ -39,16 +39,11 @@
       "owned_by": "openai",
       "supported_endpoint_types": [
         "openai",
-        "anthropic"
-      ]
-    },
-    {
-      "id": "glm-4.5-air",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "zhipu",
-      "supported_endpoint_types": [
-        "openai"
+        "anthropic",
+        "openai-response",
+        "openai-response-compact",
+        "gemini",
+        "openai-alpha-search"
       ]
     },
     {
@@ -72,27 +67,7 @@
       ]
     },
     {
-      "id": "hy4",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
-      "id": "kimi-k3",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
-      "id": "mimo-v2.5",
+      "id": "MiMo-V2.6-Flash",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -101,7 +76,7 @@
       ]
     },
     {
-      "id": "mimo-v2.5-pro",
+      "id": "MiniCPM-V-4.7-35B-A3B",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -110,7 +85,7 @@
       ]
     },
     {
-      "id": "MiniMax-M3",
+      "id": "MiniMax-M3.1-Flash",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",
@@ -126,26 +101,6 @@
       "owned_by": "openai",
       "supported_endpoint_types": [
         "openai"
-      ]
-    },
-    {
-      "id": "Qwen3.6-35B-A3B",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "claude",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
-      "id": "qwen3.7-plus",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
       ]
     },
     {
@@ -167,16 +122,6 @@
       ]
     },
     {
-      "id": "qwen3.8-max",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
       "id": "sensenova-6.8-flash-lite",
       "object": "model",
       "created": 1626777600,
@@ -195,46 +140,7 @@
       ]
     },
     {
-      "id": "spark-x2.5",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "claude",
-      "supported_endpoint_types": [
-        "anthropic",
-        "openai"
-      ]
-    },
-    {
-      "id": "step-3.7-flash",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "anthropic"
-      ]
-    },
-    {
       "id": "step-5-preview",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai"
-      ]
-    },
-    {
-      "id": "step-image-edit-2",
-      "object": "model",
-      "created": 1626777600,
-      "owned_by": "openai",
-      "supported_endpoint_types": [
-        "openai",
-        "image-generation"
-      ]
-    },
-    {
-      "id": "step-router-v1",
       "object": "model",
       "created": 1626777600,
       "owned_by": "openai",

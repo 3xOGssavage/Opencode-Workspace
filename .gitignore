@@ -103,3 +103,12 @@ secrets.local.json
 /smoke-*/
 /check_*.py
 
+
+# graft's local repository settings — not committed.
+/.graft/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+
+# Local-only service credential — never committed (gitleaks incident 2026-10-28).
+.opencode/service.json
