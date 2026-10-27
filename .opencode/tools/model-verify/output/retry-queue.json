@@ -3,9 +3,7 @@
     "id": "DeepSeek-V4.1-Flash",
     "provider": "hcnsec",
     "probe": {
-      "status": 500,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 DeepSeek-V4.1-Flash 的可用渠道不存在（retry） (request id: 202609201201573653753848268d9d63UtIq0iI)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
@@ -21,41 +19,34 @@
     "probe": {
       "status": 400,
       "ok": false,
+      "error": "{\"error\":{\"message\":\"max_tokens=2000000 cannot be greater than max_model_len=max_total_tokens=262144. Please request fewer output tokens. (parameter=max_tokens, value=2000000)\",\"type\":\"BadRequestError\",\"param\":\"max_tokens\",\"code\":400}}"
+    }
+  },
+  {
+    "id": "MiMo-V2.6-Flash",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Requested token count exceeds the model's maximum context length of 1048576 tokens. You requested a total of 2000008 tokens: 8 tokens from the input messages and 2000000 tokens for the completion. Please reduce the number of tokens in the input messages or the completion to fit within the limit.\",\"type\":\"BadRequestError\",\"param\":\"\",\"code\":\"client_error\"}}"
+    }
+  },
+  {
+    "id": "MiniCPM-V-4.7-35B-A3B",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"The requested max_tokens (2000000) exceeds the maximum output tokens allowed for model MiniCPM-V-4.7-35B-A3B (32768)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":null}}"
+    }
+  },
+  {
+    "id": "MiniMax-M3.1-Flash",
+    "provider": "hcnsec",
+    "probe": {
+      "status": 400,
+      "ok": false,
       "error": "{\"error\":{\"message\":\"Validation: Max tokens must not exceed 1048576, got 2000000\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
-    }
-  },
-  {
-    "id": "hy4",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 500,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 hy4 的可用渠道不存在（retry） (request id: 202609201202545432610768268d9d6Ej5n7VPr)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
-    }
-  },
-  {
-    "id": "kimi-k3",
-    "provider": "hcnsec",
-    "probe": {
-      "error": "The operation was aborted due to timeout"
-    }
-  },
-  {
-    "id": "mimo-v2.5",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 500,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 mimo-v2.5 的可用渠道不存在（retry） (request id: 202609201203230290467578268d9d6e6Qxad6q)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
-    }
-  },
-  {
-    "id": "mimo-v2.5-pro",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 500,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 mimo-v2.5-pro 的可用渠道不存在（retry） (request id: 202609201203264418965708268d9d6j74DR5mB)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
     }
   },
   {
@@ -68,48 +59,21 @@
     }
   },
   {
-    "id": "Qwen3.6-35B-A3B",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 403,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"no valid authorization: the account lacks an active order, has insufficient quota, or the order is invalid\",\"type\":\"permission_error\",\"param\":\"\",\"code\":11200}}"
-    }
-  },
-  {
-    "id": "qwen3.7-plus",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 500,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 qwen3.7-plus 的可用渠道不存在（retry） (request id: 202609201203335275599088268d9d62TjLIs8M)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
-    }
-  },
-  {
     "id": "Qwen3.8-27B",
     "provider": "hcnsec",
     "probe": {
-      "status": 500,
+      "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 Qwen3.8-27B 的可用渠道不存在（retry） (request id: 202609201203364978584078268d9d6jkhIsFLu)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
+      "error": "{\"error\":{\"message\":\"Requested token count exceeds the model's maximum context length of 262144 tokens. You requested a total of 2000053 tokens: 53 tokens from the input messages and 2000000 tokens for the completion. Please reduce the number of tokens in the input messages or the completion to fit within the limit.\",\"type\":\"BadRequestError\",\"param\":\"\",\"code\":\"client_error\"}}"
     }
   },
   {
     "id": "Qwen3.8-Flash-Next",
     "provider": "hcnsec",
     "probe": {
-      "status": 500,
+      "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 Qwen3.8-Flash-Next 的可用渠道不存在（retry） (request id: 202609201203429874431148268d9d6DvLb0xkW)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
-    }
-  },
-  {
-    "id": "qwen3.8-max",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 500,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"分组 auto 下模型 qwen3.8-max 的可用渠道不存在（retry） (request id: 202609201203480034169158268d9d6WaxPgD7d)\",\"type\":\"new_api_error\",\"param\":\"\",\"code\":\"get_channel_failed\"}}"
+      "error": "{\"error\":{\"message\":\"Requested token count exceeds the model's maximum context length of 262144 tokens. You requested a total of 2000053 tokens: 53 tokens from the input messages and 2000000 tokens for the completion. Please reduce the number of tokens in the input messages or the completion to fit within the limit.\",\"type\":\"BadRequestError\",\"param\":\"\",\"code\":\"client_error\"}}"
     }
   },
   {
@@ -134,29 +98,9 @@
     "id": "step-5-preview",
     "provider": "hcnsec",
     "probe": {
-      "status": 200,
-      "ok": true,
-      "usage": {
-        "prompt_tokens": 12,
-        "completion_tokens": 105,
-        "total_tokens": 117,
-        "prompt_tokens_details": {
-          "cached_tokens": 0
-        },
-        "completion_tokens_details": {
-          "reasoning_tokens": 0
-        }
-      },
-      "model_returned": "step-5-preview"
-    }
-  },
-  {
-    "id": "step-image-edit-2",
-    "provider": "hcnsec",
-    "probe": {
-      "status": 404,
+      "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"The model \\\"step-image-edit-2\\\" does not exist or you do not have access to it.\",\"type\":\"model_invalid\",\"param\":\"\",\"code\":null}}"
+      "error": "{\"error\":{\"message\":\"Validation: Max tokens must not exceed 1048576, got 2000000\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
     }
   },
   {
@@ -187,30 +131,53 @@
     }
   },
   {
+    "id": "qwen3.8-flash-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model qwen3.8-flash-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026102512050716303893605091144)\",\"type\":\"Aihubmix_api_error\"}}"
+    }
+  },
+  {
+    "id": "qwen3.8-max-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 400,
+      "ok": false,
+      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model qwen3.8-max-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 202610251205091107401575396610)\",\"type\":\"Aihubmix_api_error\"}}"
+    }
+  },
+  {
+    "id": "xiaomi-mimo-v2.6-pro-free",
+    "provider": "aihubmix",
+    "probe": {
+      "status": 429,
+      "ok": false,
+      "error": "{\"error\":{\"message\":\"Model xiaomi-mimo-v2.6-pro-free rate limited by provider – contact support to request higher concurrency or try again later. (tid: 2026102512051086334476113014308)\",\"type\":\"limitation\",\"param\":\"\",\"code\":\"429\"}}"
+    }
+  },
+  {
+    "id": "coding-glm-5.3-flash-free",
+    "provider": "aihubmix",
+    "probe": {
+      "error": "The operation was aborted due to timeout"
+    }
+  },
+  {
     "id": "coding-glm-5.3-free",
     "provider": "aihubmix",
     "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"message\":\"max_tokens参数非法：限制数值范围[1,131072] (tid: 2026092012042466398941839284061)\",\"type\":\"\",\"param\":\"\",\"code\":\"1210\"}}"
+      "error": "The operation was aborted due to timeout"
     }
   },
   {
-    "id": "agents-a1-free",
+    "id": "xiaomi-mimo-v2.6-flash-free",
     "provider": "aihubmix",
     "probe": {
-      "status": 400,
+      "status": 429,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026092012042754083072697554467)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
-    }
-  },
-  {
-    "id": "union-alpha-free",
-    "provider": "aihubmix",
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model union-alpha-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026092012043091073093136661471)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"Model xiaomi-mimo-v2.6-flash-free rate limited by provider – contact support to request higher concurrency or try again later. (tid: 2026102512060667126865663501112)\",\"type\":\"limitation\",\"param\":\"\",\"code\":\"429\"}}"
     }
   },
   {
@@ -219,25 +186,16 @@
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026092012043273088091772268934)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
+      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026102512060938338798051495446)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
     }
   },
   {
-    "id": "hy3-free",
+    "id": "agents-a1-free",
     "provider": "aihubmix",
     "probe": {
       "status": 400,
       "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model hy3-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026092012043485486363573342510)\",\"type\":\"Aihubmix_api_error\"}}"
-    }
-  },
-  {
-    "id": "minimax-m2.7-free",
-    "provider": "aihubmix",
-    "probe": {
-      "status": 400,
-      "ok": false,
-      "error": "{\"error\":{\"code\":\"no_available_channel\",\"message\":\"The model minimax-m2.7-free cannot be served at the moment. Check the model ID at https://aihubmix.com/models, try again later, or contact support with the request ID. (tid: 2026092012043668285680548474214)\",\"type\":\"Aihubmix_api_error\"}}"
+      "error": "{\"error\":{\"message\":\"max output tokens exceed the model's context limit (tid: 2026102512061343523988606943508)\",\"type\":\"invalid_request_error\",\"param\":\"\",\"code\":\"invalid_request_error\"}}"
     }
   }
 ]

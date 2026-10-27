@@ -5,7 +5,7 @@ Instructions for opencode sessions working from this workspace.
 ## Role
 
 You are a **senior developer** with a full engineering team at your disposal
-(17 agents, ~150 skills (recounted 2026-09-18), 17 MCP servers, LSP, persistent memory, 7 plugins).
+(17 agents, ~150 skills (recounted 2026-09-18), 15 MCP servers, LSP, persistent memory, 7 plugins).
 Operate autonomously — use the right tool without being told. Plan non-trivial
 tasks. Research when unsure. Verify before claiming success.
 
@@ -78,26 +78,25 @@ The `auth.json` file at `C:/Users/user/.local/share/opencode/auth.json` contains
 
 These remain in `auth.json` for active project use. The `opencode-zen` provider referenced in earlier snapshots is **not** present in the current `auth.json` (it was removed during the 2026-07-27 subagent migration to `hcnsec/Kimi-K2.6`); any stale reference to it is outdated.
 
-## MCP servers (17, auto-start)
+## MCP servers (15, auto-start)
 
 | MCP                   | Type                | Purpose                                                                                                                                                                                                                                                                     |
 | --------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `context7`            | local               | Up-to-date library/framework docs                                                                                                                                                                                                                                           |
-| `sequential-thinking` | local               | Reflective multi-step reasoning                                                                                                                                                                                                                                             |
 | `playwright`          | local               | Browser automation, E2E testing                                                                                                                                                                                                                                             |
 | `chrome-devtools`     | local               | Live DevTools, network, performance traces                                                                                                                                                                                                                                  |
 | `memory`              | local               | Persistent knowledge graph (`.opencode/memory.jsonl` — survives restarts; launched via wrapper `.opencode/memory-mcp-wrapper.bat` which sets `MEMORY_FILE_PATH` from system env if not already set)                                                                         |
-| `tavily`              | local               | Web search, crawl, deep research — vendored smart-router (`.opencode/tools/tavily-rotator/launcher.mjs`): 1 key → official `tavily-mcp`, ≥2 keys (`TAVILY_API_KEY_1..N`) → multi-key rotator with auto-failover on 401/429/432, `/usage` health tool, default depth `basic` |
-| `fetch`               | local               | Generic HTTP fetch (uvx --with mcp<2 mcp-server-fetch — pins mcp SDK v1.x to fix McpError rename)                                                                                                                                                                           |
+| `tavily`              | local               | Web search, crawl, deep research — vendored smart-router (`.opencode/tools/tavily-rotator/launcher.mjs`): 1 key → official `tavily-mcp`, ≥2 keys (`TAVILY_API_KEY_1..N`) → multi-key rotator with auto-failover on 401/429/432, `/usage` health tool, default depth `advanced` |
 | `filesystem`          | local               | Read/write outside workspace (scoped to `F:\CD`)                                                                                                                                                                                                                            |
-| `supabase`            | remote (Bearer PAT) | **READ-ONLY** by default — `?read_only=true&project_ref=...`. Use for safe queries, table reads, schema inspection.                                                                                                                                                         |
-| `supabase-admin`      | remote (Bearer PAT) | **FULL WRITE ACCESS** — explicit, opt-in. Use for migrations, DDL, RLS changes. Agent MUST ask user before calling any mutating tool (see MasterPlan Decision #34 + docs/AGENT-POLICY.md).                                                                                  |
+| `supabase`            | remote (Bearer PAT) | **READ-ONLY** by default — `?read_only=true (broad scope; pass project_id per call)`. Use for safe queries, table reads, schema inspection.                                                                                                                                                         |
+| `supabase-admin`      | remote (Bearer PAT) | **FULL WRITE ACCESS** — explicit, opt-in, broad scope. Use for migrations, DDL, RLS changes. Agent MUST ask user before calling any mutating tool (see MasterPlan Decision #34 + docs/AGENT-POLICY.md).                                                                                  |
+| `cloudflare-api`      | remote (Bearer PAT) | Cloudflare account API: Workers, Pages, R2, DNS, zones, cache purge. Workspace entry overrides global; Bearer `{env:CLOUDFLARE_API_TOKEN}`, 120s timeout. |
 | `sentry`              | remote (OAuth)      | Production error monitoring                                                                                                                                                                                                                                                 |
 | `grep`                | remote              | Search 1M public GitHub repos                                                                                                                                                                                                                                               |
 | `github`              | local (binary)      | GitHub API: issues, PRs, repos, actions, code security                                                                                                                                                                                                                      |
 | `vercel`              | remote (OAuth)      | Deploy projects, logs, domains, env vars, agent runs                                                                                                                                                                                                                        |
 | `vision-tool`         | local (vendored)    | Vision analysis via Gemini 3.5-flash-lite (500 RPD free tier). AppData config sets `DEFAULT_MODEL`. See `docs/architecture/VISION-TOOL-MCP-DOCUMENTATION.md`. Pairs with `opencode-auto-vision` + `opencode-eyesight` plugins.                                              |
-| `graft`               | local               | Code-graph queries over prebuilt per-repo graphs — 5 tools: `graft_find_code`, `graft_find_all`, `graft_trace_calls`, `graft_file_api`, `graft_repo_map`. Graph via `graft build` per repo (neodev-portal prebuilt). Telemetry disabled (`DO_NOT_TRACK=1`).                 |
+| `trailcode`           | local               | Trail-Code (renamed from graft) code-graph queries over prebuilt per-repo graphs — 6 tools: check_freshness, file_api, find_all, find_code, repo_map, trace_calls. Pinned @nanonets/graft@0.15.0. Telemetry disabled (DO_NOT_TRACK=1). |
 | `ddddocr`             | local (vendored)    | Legacy image/slider captcha reader (browser-use captcha ladder).                                                                                                                                                                                                            |
 
 OAuth MCPs need `opencode mcp auth <name>` before first use.
@@ -167,7 +166,7 @@ the _what_ — these handle the _when_ and _why_.
   why and adjust your approach.
 - **MCP server unavailable** → fall back to built-in tools (bash, grep, read).
 - **LSP not responding** → use `read` + `grep` manually.
-- **OAuth MCP (sentry, supabase) disconnected** → tell the user to
+- **OAuth MCP (sentry, vercel) disconnected** → tell the user to
   run `opencode mcp auth <name>` and continue with what you can.
 - **Context degradation signs** (forgetting earlier instructions, repeating
   work) → run `/context` immediately.
@@ -283,7 +282,7 @@ Practical implications:
 | Need to check security issues                              | `security-auditor` agent                                         |
 | Need to audit web performance                              | `web-perf-auditor` agent                                         |
 | Need to research tools/approaches                          | `last30days` skill                                               |
-| Need code-graph queries (find code, trace calls, repo map) | `graft` MCP (graft_find_code, graft_trace_calls, graft_repo_map) |
+| Need code-graph queries (find code, trace calls, repo map) | `trailcode` MCP (find_code, trace_calls, repo_map) |
 | Need to read YouTube/RSS/V2EX/Bilibili                     | `agent-reach` skill                                              |
 | Need a legacy image/slider captcha read                    | `ddddocr` MCP (browser-use captcha ladder)                       |
 | Need a bulk site crawl                                     | `crwl` (crawl4ai CLI)                                            |
@@ -321,8 +320,7 @@ If any step fails, fix it before declaring done. Never claim success without evi
 | Tool                  | When to use                                           | How                          |
 | --------------------- | ----------------------------------------------------- | ---------------------------- |
 | `context7`            | Before writing code with any framework                | MCP tool                     |
-| `tavily` / `fetch`    | Need current info / research                          | MCP tool                     |
-| `sequential-thinking` | Complex multi-step problem                            | MCP tool                     |
+| `tavily`              | Need current info / research                          | MCP tool                     |
 | `playwright`          | Browser automation, UI testing                        | MCP tool                     |
 | `chrome-devtools`     | Debug web apps, inspect network/perf                  | MCP tool                     |
 | `memory`              | Important decision → save; session start → retrieve   | MCP tool                     |
@@ -333,7 +331,7 @@ If any step fails, fix it before declaring done. Never claim success without evi
 | `github`              | GitHub actions: PRs, issues, files, branches, actions | MCP tool (local binary, PAT) |
 | `vercel`              | Deploy projects, logs, domains, env vars, agent runs  | MCP tool (remote, OAuth)     |
 | `vision-tool`         | Analyze pasted images via Gemini vision backend       | MCP tool (local, vendored)   |
-| `graft`               | Code-graph queries before exploring unfamiliar repos  | MCP tool                     |
+| `trailcode`           | Code-graph queries before exploring unfamiliar repos  | MCP tool                     |
 | `ddddocr`             | Legacy image/slider captchas (browser-use ladder)     | MCP tool                     |
 | LSP                   | Before code changes (types, defs, refs)               | Built-in `lsp` tool          |
 | Prettier              | Auto-formats TS/JS/CSS/HTML/JSON/MD/YAML              | Built-in formatter           |
@@ -456,7 +454,7 @@ If you legitimately need to track a project file under `Projects/`, all four lay
 - `OPENCODE_CONFIG = F:\CD\Opencode\opencode.json` — loads parent's full config (provider, mcp, permission, lsp, formatter, agent, plugin, skills.paths, tool_output, compaction) into every session at precedence layer 3 (between global and project walk-up). Per-project `opencode.json` overrides still win (layer 4, deep merge). The compaction block is V1-tuned (see "Compaction configuration" below for the rationale and the lossless plugin ecosystem deferred to spike PRs).
 - `OPENCODE_CONFIG_DIR = F:\CD\Opencode\.opencode` — adds parent's `.opencode` directory to the scan list for agents, commands, modes, skills, plugins discovery. Loaded LAST, so parent's agents/commands override project's same-named ones (intended for enterprise uniformity).
 
-**Result:** HuanCheng (hcnsec) provider with 12 models becomes visible in every child project session; 17 MCP servers; 94 bash permission rules; 4 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
+**Result:** HuanCheng (hcnsec) provider with 12 models becomes visible in every child project session; 15 MCP servers; 94 bash permission rules; 4 edit deny rules; 2 LSP servers; parent agents (`/ship`, `/verify`, architect, reviewer, tester, code-reviewer, security-auditor, test-engineer, web-perf-auditor) all available everywhere.
 
 **Verifying:** Run `powershell -ExecutionPolicy Bypass -File .opencode\verify-inheritance.ps1` from any project root.
 
@@ -672,9 +670,10 @@ This applies to any tracked file you want to untrack while preserving on-disk st
   `Test-Path`, `Get-Content`) are preferred for reliability; `ls`, `cat`, `head`,
   `tail` also work via the bash permission allowlist.
 - Working directory is `F:\CD\Opencode`. External access allowed under `F:\CD\**`.
-- `TAVILY_API_KEY` is set as a User env var.
+- `TAVILY_API_KEY_1..N` are set as User env vars (multi-key rotator; legacy `TAVILY_API_KEY` also present).
 - `SENTRY_AUTH_TOKEN` is set as a User env var.
 - `GITHUB_PERSONAL_ACCESS_TOKEN` is set as a User env var.
+- `CLOUDFLARE_API_TOKEN` is set as a User env var — backs the `cloudflare-api` workspace MCP entry (Bearer header; 8-right token: Workers, Pages, R2, DNS, zones, account, user, cache purge).
 - `MEMORY_FILE_PATH` is set as a User env var (via `setx`) pointing to `.opencode\memory.jsonl` so the memory MCP server stores entities in the workspace.
 - `HCNSEC_API_KEY` (51 chars, `sk-...`) is set as a User env var — the hcnsec reseller key backing all `hcnsec/*` models in `/models`.
 - `GEMINI_API_KEY` (53 chars, `AQ.Ab8R...`) is set as a User env var — backs the `google` provider in `auth.json`, used by the `vision-tool` MCP (Gemini 3.5-flash-lite vision backend) and the `opencode-eyesight` fallback plugin.
@@ -683,9 +682,8 @@ This applies to any tracked file you want to untrack while preserving on-disk st
 - `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS` is set to `true` as a User env var (via `setx`) — gates the `background` parameter on the `task` tool, enabling parallel subagent dispatch via the orchestrator. Requires opencode restart to take effect.
 - `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, `ANTHROPIC_API_KEY`, `OPENCODE_API_KEY` are **not** set as User env vars. Either set them per-project or add via `setx` if you want OpenAI / OpenRouter / Anthropic / opencode-cloud providers visible globally.
 - Sentry: remote OAuth via `https://mcp.sentry.dev/mcp`.
-- Supabase: **CHANGED 2026-08-10** — `supabase` MCP is now `read_only=true` with Bearer PAT header (was write-enabled). New `supabase-admin` MCP added for explicit writes (also Bearer PAT). Both project-scoped via `project_ref=iovbjaljwxwxchumnyoc`. See MasterPlan Decision #34 in `Projects/neodev-portal/MasterPlan.md` for the safety boundary rules.
+- Supabase: **CHANGED 2026-08-10** — `supabase` MCP is now `read_only=true` with Bearer PAT header (was write-enabled). New `supabase-admin` MCP added for explicit writes (also Bearer PAT). Both broad-scope (no project_ref); pass `project_id` per call. See MasterPlan Decision #34 in `Projects/neodev-portal/MasterPlan.md` for the safety boundary rules.
 - **hcnsec rate limits**: hcnsec has no `rateLimits` config (opencode feature request #32423). opencode uses retry with exponential backoff only. Avoid parallel subagent fan-out on hcnsec models - sequential dispatch is safer.
-- **fetch MCP SSRF**: the `fetch` MCP (`uvx --with mcp<2 mcp-server-fetch`) accepts any URL with no allowlist. Never fetch `localhost`, `127.0.0.1`, `169.254.169.254` (AWS metadata), or internal network IPs. Risk: SSRF exploitation if user-supplied URLs flow to fetch MCP. **Removal trigger**: when `uvx mcp-server-fetch --version` reports a version published after 2026.7.10 (PyPI publish of modelcontextprotocol/servers#4560 fix), remove `--with "mcp<2"` from BOTH parent and child `fetch.command` arrays. See ADR-002.
 - **Cache maintenance**: the opencode cache at `C:/Users/user/.cache/opencode` may grow to 700+ MB. Periodically clean after opencode restart: `Remove-Item "$env:USERPROFILE/.cache/opencode" -Recurse -Force` (requires user confirmation since destructive bash is now `ask`).
 - **Multi-session memory**: the memory MCP (`@modelcontextprotocol/server-memory`) has no file locking. Running two opencode sessions simultaneously may corrupt `memory.jsonl`. Run one session at a time.
 - **auth.json security**: stores 4 provider API keys in plaintext. File ACL restricted to `SOHAM/user`, `SYSTEM`, `Administrators` only (as of 2026-07-19 audit). Do not commit auth.json to git.
@@ -722,10 +720,10 @@ For deep work on a specific folder, generate a codemap for that folder.
 
 ## New agent capabilities (2026-08-29 expansion)
 
-Added via PR (see docs/adrs/ADR-009): graft MCP, planning-with-files + humanizer skills, and four CLI tools (crwl, obscura, agent-reach, yt-dlp).
+Added via PR (see docs/adrs/ADR-009): trailcode MCP (renamed from graft), planning-with-files + humanizer skills, and four CLI tools (crwl, obscura, agent-reach, yt-dlp).
 
 - **Shell bridge**: when a skill asks to run .sh scripts (e.g. planning-with-files helpers), invoke via & F:\Git\bin\bash.exe <script> - opencode bash is PowerShell 5.1.
-- **graft MCP** (5 tools: graft_find_code, graft_find_all, graft_trace_calls, graft_file_api, graft_repo_map): query the prebuilt code-graph in Projects/neodev-portal (regenerate with graft build in any repo). Telemetry disabled. Other projects: run graft build there to enable.
+- **trailcode MCP** (6 tools: check_freshness, file_api, find_all, find_code, repo_map, trace_calls): query the prebuilt code-graph in Projects/neodev-portal (regenerate with trail build in any repo). Telemetry disabled. Other projects: run graft build there to enable.
 - **Reading platforms**: YouTube/RSS/V2EX/Bilibili/Web via agent-reach skill. Bulk crawl via crwl (crawl4ai). Lightweight stealth fetch via obscura fetch <url> (respects robots.txt).
 - **prose**: use the humanizer skill when writing user-facing docs/posts.
 - **DR**: skill registry in scripts/skills-snapshot.json; reinstall via scripts/install-user-skills.ps1. Rollback: revert the expansion PR.
